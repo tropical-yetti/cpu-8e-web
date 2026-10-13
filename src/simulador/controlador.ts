@@ -25,7 +25,6 @@ import {
   criarCpu,
   desmontar,
   editarMemoria,
-  hex2,
   passo,
   resetarCpu,
   textoDoItem,
@@ -102,7 +101,7 @@ const PREFIXOS: Record<ItemPainel, string> = {
 }
 
 /** Textos iniciais, como estão no formulário original (inclusive "ID:NOP"). */
-export function textosIniciais(): Record<ItemPainel, string> {
+function textosIniciais(): Record<ItemPainel, string> {
   return {
     ACC: 'ACC:00',
     PC: 'PC:00',
@@ -481,9 +480,4 @@ export class Controlador {
 /** Valor de um registrador em binário, como mostra o original ao clicar nele. */
 export function emBinario(valor: Byte): string {
   return valor.toString(2).padStart(8, '0')
-}
-
-/** Texto das células da memória em hexadecimal. */
-export function textoMemoria(cpu: Cpu, endereco: Byte): string {
-  return hex2(cpu.memoria[endereco]!)
 }

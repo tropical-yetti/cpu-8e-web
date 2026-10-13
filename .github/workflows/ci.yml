@@ -26,7 +26,7 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
-      - run: npm test
+      - run: npm run test:cobertura
       - name: Verificar licenças das dependências
         run: npm run licencas
       - run: npm run build
@@ -55,3 +55,12 @@ jobs:
       - run: npm run build
       - name: Lighthouse (desempenho, acessibilidade, boas práticas)
         run: npx --yes @lhci/cli@0.15.1 autorun
+      - name: Resumo das notas (aparece nas anotações da execução)
+        if: always()
+        run: |
+          node -e '
+            const m = require("./.lighthouseci/manifest.json").filter(r => r.isRepresentativeRun)
+            for (const r of m) {
+              const notas = Object.entries(r.summary).map(([k, v]) => `${k}=${Math.round(v * 100)}`).join(" ")
+              console.log(`::notice title=Lighthouse ${r.url.replace(/^.*cpu-8e-web/, "")}::${notas}`)
+            }'

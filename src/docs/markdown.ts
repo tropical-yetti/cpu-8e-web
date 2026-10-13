@@ -14,7 +14,7 @@ export type Bloco =
   | { tipo: 'componente'; nome: 'tabela-instrucoes' | 'diagrama' }
 
 /** "Ciclo de instrução" → "ciclo-de-instrucao" (usado como âncora dos títulos). */
-export function ancora(texto: string): string {
+function ancora(texto: string): string {
   return texto
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')

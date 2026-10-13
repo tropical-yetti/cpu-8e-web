@@ -9,7 +9,7 @@
 import { carregarPrograma, criarCpu, executar, hex2, type Cpu } from '../../src/core'
 
 /** Hash FNV-1a de 32 bits da memória (o mesmo do gerador em Pascal). */
-export function hashMemoria(memoria: Uint8Array): number {
+function hashMemoria(memoria: Uint8Array): number {
   let h = 2166136261
   for (const byte of memoria) {
     h ^= byte

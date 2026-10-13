@@ -27,5 +27,14 @@ export default defineConfig({
     include: ['tests/**/*.test.ts'],
     exclude: ['tests/e2e/**'],
     environment: 'node',
+    coverage: {
+      include: ['src/core/**', 'src/simulador/**', 'src/docs/*.ts'],
+      reporter: ['text', 'html'],
+      // Metas do plano: núcleo ≥ 95%, controlador ≥ 90%.
+      thresholds: {
+        'src/core/**': { lines: 95, branches: 90 },
+        'src/simulador/**': { lines: 90, branches: 85 },
+      },
+    },
   },
 })

@@ -82,13 +82,3 @@ export function resetarCpu(cpu: Cpu): void {
   cpu.opcode = 'HLT'
   cpu.controle = { s: 0, t: 0 }
 }
-
-/** Cópia independente do estado, útil para histórico e testes. */
-export function copiarCpu(cpu: Cpu): Cpu {
-  return {
-    ...cpu,
-    ula: { ...cpu.ula },
-    memoria: cpu.memoria.slice(),
-    controle: { ...cpu.controle },
-  }
-}

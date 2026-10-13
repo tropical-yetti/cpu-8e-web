@@ -17,7 +17,8 @@
     "gabaritos": "node --experimental-strip-types tools/referencia/gerar-gabaritos.ts",
     "test:e2e": "playwright test",
     "layout": "node --experimental-strip-types tools/layout/extrair-layout.ts",
-    "build:previa": "vite build --config vite.config.previa.ts"
+    "build:previa": "vite build --config vite.config.previa.ts",
+    "test:cobertura": "vitest run --coverage"
   },
   "dependencies": {
     "markdown-it": "^15.0.2",
@@ -34,8 +35,8 @@
     "@types/markdown-it": "^14.2.0",
     "@types/node": "^24.13.3",
     "@vitejs/plugin-vue": "^6.0.8",
+    "@vitest/coverage-v8": "^5.0.4",
     "@vue/eslint-config-typescript": "^14.9.0",
-    "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
@@ -44,7 +45,6 @@
     "license-checker-rseidelsohn": "^4.4.2",
     "prettier": "^3.9.10",
     "typescript": "~6.0.2",
-    "typescript-eslint": "^8.71.2",
     "vite": "^8.3.0",
     "vite-plugin-singlefile": "^2.3.3",
     "vitest": "^5.0.4",

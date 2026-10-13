@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ItemPainel, SegmentoBarramento } from '@/core'
+import type { ItemPainel } from '@/core'
 import dados from './layout-original.json'
 
 export type Forma =
@@ -88,8 +88,3 @@ export function itemDoTexto(nome: string): ItemPainel | undefined {
 
 /** Formas que acendem quando o clock muda de velocidade. */
 export const FORMAS_DO_CLOCK = new Set(['shClock1', 'shClock2'])
-
-/** Indica se uma forma é um segmento de barramento que pode acender. */
-export function ehSegmento(nome: string, ativos: readonly SegmentoBarramento[]): boolean {
-  return (ativos as readonly string[]).includes(nome)
-}

@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+name: Diferença em relação ao original
+description: O CPU-8E Web se comporta diferente do simulador CPU-8E original (v2.2.3).
+labels: ['fidelidade']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A versão 1.0 deve reproduzir o original exatamente, inclusive os defeitos listados em
+        "Diferenças do original" na documentação. Se o comportamento já está nessa lista, não é um erro.
+  - type: textarea
+    id: programa
+    attributes:
+      label: Programa
+      description: Os bytes do programa (como na tabela de memória) ou o arquivo .bin anexado.
+      placeholder: '00: 91 05  LOD 05'
+    validations:
+      required: true
+  - type: textarea
+    id: passos
+    attributes:
+      label: O que você fez
+      description: Modo de execução, clock e os botões apertados.
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que o original faz
+    validations:
+      required: true
+  - type: textarea
+    id: obtido
+    attributes:
+      label: O que o CPU-8E Web faz
+    validations:
+      required: true
+  - type: input
+    id: navegador
+    attributes:
+      label: Navegador e aparelho
+      placeholder: Chrome 140 no Android, Safari no iPhone...

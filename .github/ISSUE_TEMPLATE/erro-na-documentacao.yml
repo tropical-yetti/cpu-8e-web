@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+name: Erro na documentação
+description: Informação errada, confusa ou faltando na documentação do site.
+labels: ['documentação']
+body:
+  - type: input
+    id: pagina
+    attributes:
+      label: Página
+      placeholder: Ciclo de instrução
+    validations:
+      required: true
+  - type: dropdown
+    id: idioma
+    attributes:
+      label: Idioma
+      options:
+        - Português
+        - English
+        - Os dois
+    validations:
+      required: true
+  - type: textarea
+    id: problema
+    attributes:
+      label: O que está errado ou confuso
+    validations:
+      required: true
+  - type: textarea
+    id: sugestao
+    attributes:
+      label: Sugestão de texto
