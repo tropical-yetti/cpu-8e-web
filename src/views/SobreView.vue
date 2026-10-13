@@ -1,14 +1,18 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { URL_CODIGO_FONTE, URL_CODIGO_ORIGINAL, URL_LICENCA } from '@/config'
+import { AUTOR_ORIGINAL, URL_CODIGO_FONTE, URL_CODIGO_ORIGINAL, URL_LICENCA } from '@/config'
 
 const { t } = useI18n()
 const VERSAO = __VERSAO__
 
-/** Créditos da obra original, como em NOTICE.md. */
-const AUTORES_ORIGINAIS = [
-  { versao: '0.9 – 1.0b (2009)', nomes: 'Prof. Joel Guilherme da Silva Filho' },
+/** Créditos da obra original, como em NOTICE.md. Um autor com `url` vira link. */
+const AUTORES_ORIGINAIS: { versao: string; nomes: string; url?: string }[] = [
+  {
+    versao: '0.9 – 1.0b (2009)',
+    nomes: `Prof. ${AUTOR_ORIGINAL.nome}`,
+    url: AUTOR_ORIGINAL.lattes,
+  },
   { versao: '2.0 – 2.1 (2009)', nomes: 'Wanderlan Santos dos Anjos, Bárbara A. B. dos Anjos' },
   { versao: '2.2 (2010)', nomes: 'Anderson de Souza Freitas, Daniel Machado Vasconcelos' },
 ]
@@ -20,10 +24,16 @@ const AUTORES_ORIGINAIS = [
     <p>{{ t('sobre.historia') }}</p>
 
     <h2>{{ t('sobre.autoresOriginais') }}</h2>
-    <p>Copyright 2009/10 Joel Guilherme da Silva Filho — IESB, Brasília/DF</p>
+    <p>
+      Copyright 2009/10
+      <a :href="AUTOR_ORIGINAL.lattes" target="_blank" rel="noopener">{{ AUTOR_ORIGINAL.nome }}</a>
+      — IESB, Brasília/DF
+    </p>
     <ul>
       <li v-for="autor in AUTORES_ORIGINAIS" :key="autor.versao">
-        <strong>{{ autor.versao }}:</strong> {{ autor.nomes }}
+        <strong>{{ autor.versao }}:</strong>
+        <a v-if="autor.url" :href="autor.url" target="_blank" rel="noopener">{{ autor.nomes }}</a>
+        <template v-else>{{ autor.nomes }}</template>
       </li>
     </ul>
     <p>

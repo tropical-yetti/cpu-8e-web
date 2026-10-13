@@ -1,5 +1,5 @@
 {
-  "_aviso": "Gerado por tools/layout/extrair-layout.ts a partir de CPU8E_Panel.lfm (CPU-8E v2.2.3, Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores). GPL-3.0-or-later. Não edite à mão: rode npm run layout.",
+  "_aviso": "Gerado por tools/layout/extrair-layout.ts a partir de CPU8E_Panel.lfm (CPU-8E v2.2.3, Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores). GPL-3.0-or-later. Não edite à mão: rode npm run layout.",
   "largura": 688,
   "altura": 418,
   "topo": 36,

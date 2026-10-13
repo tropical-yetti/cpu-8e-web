@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
+import { I18nT, useI18n } from 'vue-i18n'
 import { IDIOMAS, trocarIdioma, type Idioma } from '@/i18n'
-import { URL_CODIGO_FONTE } from '@/config'
+import { AUTOR_ORIGINAL, URL_CODIGO_FONTE } from '@/config'
 
 const { t, locale } = useI18n()
 const VERSAO = __VERSAO__
@@ -41,7 +41,13 @@ function aoTrocarIdioma(evento: Event) {
 
   <!-- Avisos legais exigidos pela GPL-3.0 (seção 5d) -->
   <footer class="rodape">
-    <span>{{ t('rodape.copyright') }}</span>
+    <I18nT keypath="rodape.copyright" tag="span" scope="global">
+      <template #autor>
+        <a :href="AUTOR_ORIGINAL.lattes" target="_blank" rel="noopener">{{
+          AUTOR_ORIGINAL.nome
+        }}</a>
+      </template>
+    </I18nT>
     <span>{{ t('rodape.versao', { versao: VERSAO }) }}</span>
     <span>
       <RouterLink to="/sobre">{{ t('rodape.licenca') }}</RouterLink>

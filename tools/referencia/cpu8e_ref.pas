@@ -5,7 +5,7 @@ program cpu8e_ref;
   Este programa é DERIVADO do simulador original CPU-8E v2.2.3
   (arquivos CPU8E.pas e CPU8E_Control.pas):
 
-    Copyright 2009/10 Joel Guilherme da Silva Filho
+    Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322)
     Contribuições: Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos,
                    Anderson de Souza Freitas, Daniel Machado Vasconcelos
     Licença: GNU General Public License

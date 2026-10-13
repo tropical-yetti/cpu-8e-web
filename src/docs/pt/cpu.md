@@ -61,4 +61,4 @@ Cada instrução ocupa 1 ou 2 bytes. O primeiro é o código; os bits mais altos
 No simulador, o operando imediato aparece como `05` e o endereço direto como `[05]`. A lista completa está em [Conjunto de instruções](#/documentacao/instrucoes).
 
 [//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'
-[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores; veja NOTICE.md.'
+[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores; veja NOTICE.md.'

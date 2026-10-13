@@ -73,6 +73,24 @@ describe('licença', () => {
     )
   })
 
+  it('toda menção ao Prof. Joel leva ao currículo Lattes dele', () => {
+    const LATTES = 'lattes.cnpq.br/7746085908957322'
+    const arquivosComNome = [
+      ...TODOS.filter((arquivo) => !arquivo.startsWith('tests/')),
+      ...readdirSync(RAIZ).filter((nome) => nome.endsWith('.md')),
+      'src/locales/pt-BR.json',
+      'src/locales/en.json',
+      'src/painel/layout-original.json',
+    ]
+    const semLink = arquivosComNome.flatMap((arquivo) => {
+      const texto = readFileSync(join(RAIZ, arquivo), 'utf8')
+      return [...texto.matchAll(/Joel Guilherme da Silva Filho/g)]
+        .filter((m) => !texto.slice(m.index, m.index + m[0].length + 60).includes(LATTES))
+        .map((m) => `${arquivo}:${texto.slice(0, m.index).split('\n').length}`)
+    })
+    expect(semLink).toEqual([])
+  })
+
   it('o repositório traz LICENSE, NOTICE.md e CHANGELOG.md', () => {
     expect(readFileSync(join(RAIZ, 'LICENSE'), 'utf8')).toMatch(
       /GNU GENERAL PUBLIC LICENSE\s+Version 3/,

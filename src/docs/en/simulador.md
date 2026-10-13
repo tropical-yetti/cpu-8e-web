@@ -81,4 +81,4 @@ The **Symbol** column is updated after each edit and each load. It reads memory 
 Use the selector at the top right to switch between Portuguese and English. Your choice is remembered in this browser.
 
 [//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'
-[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores; veja NOTICE.md.'
+[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores; veja NOTICE.md.'

@@ -17,7 +17,7 @@
  * defeitos estão marcados com "FIEL AO ORIGINAL".
  *
  * Derivado de CPU8E_Control.pas, CPU-8E v2.2.3
- * Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores (veja NOTICE.md)
+ * Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
  * Modificado em 2026-10-13: reescrito em TypeScript; PulseClock, SetValue,
  * SetPhase e ShowMem passaram a emitir eventos em vez de desenhar na tela.
  * SPDX-License-Identifier: GPL-3.0-or-later

@@ -13,7 +13,7 @@
  *   ED = 0 com DW = 1: endereçamento imediato — o operando é o próprio VALOR.
  *
  * Derivado de CPU8E.pas e CPU8E_Control.pas (DecodeOpCode), CPU-8E v2.2.3
- * Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores (veja NOTICE.md)
+ * Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
  * Modificado em 2026-10-13: tabela reorganizada com descrições em pt e en.
  * SPDX-License-Identifier: GPL-3.0-or-later
  */

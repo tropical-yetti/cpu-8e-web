@@ -3,7 +3,7 @@
   (disassembly). A linha selecionada acompanha a execução.
 
   Derivado de CPU8E_Panel.pas (sgMemoria, ShowMem), CPU-8E v2.2.3
-  Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores (veja NOTICE.md)
+  Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
   Modificado em 2026-10-13: tabela refeita em HTML.
   SPDX-License-Identifier: GPL-3.0-or-later
 -->

@@ -3,7 +3,7 @@
   ajuda, modo de execução, fase atual e semáforo de status.
 
   Derivado de CPU8E_Panel.lfm/.pas (CPU-8E v2.2.3)
-  Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores (veja NOTICE.md)
+  Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
   Modificado em 2026-10-13: barra refeita em HTML; o botão Exit não existe
   no navegador e Help abre a documentação do site.
   SPDX-License-Identifier: GPL-3.0-or-later

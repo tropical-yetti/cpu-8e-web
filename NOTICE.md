@@ -8,7 +8,7 @@ Educação Superior de Brasília.
 
 ```
 CPU-8E Simulator
-Copyright 2009/10 Joel Guilherme da Silva Filho
+Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322)
 
 Simulador para uma CPU Educacional de 8-bits.
 Organização: IESB - Instituto de Educação Superior de Brasília
@@ -17,12 +17,12 @@ Local: Brasília/DF, Brasil
 
 Colaboradores da obra original:
 
-| Versão            | Contribuição                                               | Autores                                               |
-| ----------------- | ---------------------------------------------------------- | ----------------------------------------------------- |
-| 0.9 – 1.0b (2009) | Simulador original em Free Pascal, interface em modo texto | Prof. Joel Guilherme da Silva Filho                   |
-| 2.0 (2009)        | Interface gráfica multiplataforma em Lazarus               | Wanderlan Santos dos Anjos, Bárbara A. B. dos Anjos   |
-| 2.1 (2009)        | Disassembler, edição e gravação de programas               | Wanderlan Santos dos Anjos, Bárbara A. B. dos Anjos   |
-| 2.2 (2010)        | Shifts, rotates, chamada de sub-rotina, revisão geral      | Anderson de Souza Freitas, Daniel Machado Vasconcelos |
+| Versão            | Contribuição                                               | Autores                                                                       |
+| ----------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 0.9 – 1.0b (2009) | Simulador original em Free Pascal, interface em modo texto | [Prof. Joel Guilherme da Silva Filho](http://lattes.cnpq.br/7746085908957322) |
+| 2.0 (2009)        | Interface gráfica multiplataforma em Lazarus               | Wanderlan Santos dos Anjos, Bárbara A. B. dos Anjos                           |
+| 2.1 (2009)        | Disassembler, edição e gravação de programas               | Wanderlan Santos dos Anjos, Bárbara A. B. dos Anjos                           |
+| 2.2 (2010)        | Shifts, rotates, chamada de sub-rotina, revisão geral      | Anderson de Souza Freitas, Daniel Machado Vasconcelos                         |
 
 Código-fonte original: <https://github.com/wanderlan/cpu-8e>
 

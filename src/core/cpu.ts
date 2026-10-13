@@ -3,7 +3,7 @@
  *
  * Derivado de CPU8E.pas (registro CPU, CPU_Reset) e CPU8E_Oper.pas (ResetCPU),
  * CPU-8E v2.2.3
- * Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores (veja NOTICE.md)
+ * Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
  * Modificado em 2026-10-13: reescrito em TypeScript; o estado deixou de ser
  * uma variável global e passou a ser um objeto criado por `criarCpu`.
  * SPDX-License-Identifier: GPL-3.0-or-later

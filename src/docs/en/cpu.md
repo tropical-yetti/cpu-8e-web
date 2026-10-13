@@ -61,4 +61,4 @@ Each instruction takes 1 or 2 bytes. The first one is the code; its high bits sa
 In the simulator, an immediate operand appears as `05` and a direct address as `[05]`. The full list is in [Instruction set](#/documentacao/instrucoes).
 
 [//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'
-[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores; veja NOTICE.md.'
+[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores; veja NOTICE.md.'

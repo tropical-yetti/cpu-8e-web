@@ -16,7 +16,7 @@ as rotinas de desenho por gravação de eventos. A aritmética, os tipos e o
 modo do compilador (`{$mode delphi}`, como no projeto Lazarus original)
 foram mantidos.
 
-Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores (veja
+Copyright 2009/10 [Joel Guilherme da Silva Filho](http://lattes.cnpq.br/7746085908957322) e colaboradores (veja
 `NOTICE.md`). Modificado em 2026-10-13. GPL-3.0-or-later.
 
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->

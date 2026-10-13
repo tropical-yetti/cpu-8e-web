@@ -31,7 +31,7 @@
     "modificacoes": "This is a modified work: the simulator was rewritten in TypeScript and Vue 3. The dated list of modifications is in the CHANGELOG.md file of the source code."
   },
   "rodape": {
-    "copyright": "© 2009–2010 Joel Guilherme da Silva Filho and contributors (CPU-8E) · © 2026 CPU-8E Web contributors",
+    "copyright": "© 2009–2010 {autor} and contributors (CPU-8E) · © 2026 CPU-8E Web contributors",
     "licenca": "GPL-3.0-or-later license, no warranty",
     "codigoFonte": "Source code",
     "versao": "Version {versao}"

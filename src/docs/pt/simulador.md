@@ -81,4 +81,4 @@ A coluna **Símbolo** é atualizada depois de cada edição e de cada carregamen
 Use o seletor no canto superior direito para trocar entre português e inglês. A escolha fica guardada neste navegador.
 
 [//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'
-[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores; veja NOTICE.md.'
+[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores; veja NOTICE.md.'

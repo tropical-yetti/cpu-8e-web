@@ -72,10 +72,17 @@ test('troca o idioma para inglês e lembra a escolha', async ({ page }) => {
 
 test('mostra os avisos de licença', async ({ page }) => {
   await page.goto('./')
-  await expect(page.getByRole('contentinfo')).toContainText('Joel Guilherme da Silva Filho')
+  await expect(
+    page.getByRole('contentinfo').getByRole('link', { name: 'Joel Guilherme da Silva Filho' }),
+  ).toHaveAttribute('href', 'http://lattes.cnpq.br/7746085908957322')
   await page.getByRole('link', { name: /Licença GPL-3.0-or-later/ }).click()
   await expect(page.getByRole('heading', { name: 'Licença' })).toBeVisible()
   await expect(page.getByText(/SEM NENHUMA GARANTIA/)).toBeVisible()
+  for (const nome of ['Joel Guilherme da Silva Filho', 'Prof. Joel Guilherme da Silva Filho']) {
+    await expect(
+      page.getByRole('main').getByRole('link', { name: nome, exact: true }),
+    ).toHaveAttribute('href', 'http://lattes.cnpq.br/7746085908957322')
+  }
 })
 
 test('a página não rola para os lados nem numa tela de 320 px', async ({ page }) => {

@@ -67,3 +67,6 @@ fidelidade total ao original e documentação em português e inglês.
   Lighthouse e cobertura de testes no CI.
 - Versão visível no rodapé e na página Sobre; ícone do simulador original como
   favicon.
+- Toda menção ao Prof. Joel Guilherme da Silva Filho, no site e no
+  repositório, leva ao [currículo Lattes](http://lattes.cnpq.br/7746085908957322)
+  dele. Um teste garante que nenhuma menção nova fique sem o link.

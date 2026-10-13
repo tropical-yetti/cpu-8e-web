@@ -6,7 +6,7 @@
  *
  * Uso:  npm run layout
  *
- * CPU8E_Panel.lfm: Copyright 2009/10 Joel Guilherme da Silva Filho e
+ * CPU8E_Panel.lfm: Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e
  * colaboradores (veja NOTICE.md). SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -177,7 +177,7 @@ const memoria = elementos.find((o) => o.nome === 'sgMemoria')!
 const layout = {
   _aviso:
     'Gerado por tools/layout/extrair-layout.ts a partir de CPU8E_Panel.lfm (CPU-8E v2.2.3, ' +
-    'Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores). GPL-3.0-or-later. ' +
+    'Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores). GPL-3.0-or-later. ' +
     'Não edite à mão: rode npm run layout.',
   largura: numero(memoria.props, 'Left'),
   altura: numero(formulario.props, 'ClientHeight'),
