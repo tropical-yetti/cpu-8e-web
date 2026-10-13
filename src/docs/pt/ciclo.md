@@ -63,3 +63,5 @@ Busca (4) + operando direto (3) + execução (4) = **11 pulsos**. Já `LOD 05`, 
 - **Execução contínua**: só para no `HLT`, num código inválido ou quando você aperta **Pausar** ou **Parar**.
 
 Em qualquer modo, o tempo entre dois pulsos é definido pelo **Clock** (veja [Usando o simulador](#/documentacao/simulador#clock)).
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

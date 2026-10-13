@@ -63,3 +63,5 @@ Fetch (4) + direct operand (3) + execute (4) = **11 pulses**. `LOD 05`, which is
 - **Full Run**: stops only at `HLT`, at an invalid code, or when you press **Pause** or **Halt**.
 
 In every mode, the time between two pulses is set by the **Clock** (see [Using the simulator](#/documentacao/simulador#clock)).
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

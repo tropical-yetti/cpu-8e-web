@@ -24,6 +24,7 @@ program cpu8e_ref;
 
   Este arquivo é distribuído sob a GPL-3.0-or-later, como o restante
   do projeto. Veja LICENSE e NOTICE.md na raiz do repositório.
+  SPDX-License-Identifier: GPL-3.0-or-later
 }
 
 {$mode delphi}

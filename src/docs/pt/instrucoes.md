@@ -62,3 +62,5 @@ A pilha começa em `FF` e cresce para baixo (`FF`, `FE`, `FD`…). Não há prot
 
 - `HLT` para a CPU. Para executar de novo, use **Reset**.
 - `NOP` não faz nada; ocupa 1 byte e um pulso de execução.
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

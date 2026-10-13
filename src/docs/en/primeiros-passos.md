@@ -38,3 +38,5 @@ Change the **Mode** to **Full Run** and pick clock **100** (the fastest). Press 
 - [The CPU-8E](#/documentacao/cpu) explains each part of the diagram.
 - [Instruction cycle](#/documentacao/ciclo) details what happens on each pulse.
 - [Writing programs](#/documentacao/programas) shows how to create your own programs.
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

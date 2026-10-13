@@ -18,3 +18,5 @@ foram mantidos.
 
 Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores (veja
 `NOTICE.md`). Modificado em 2026-10-13. GPL-3.0-or-later.
+
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->

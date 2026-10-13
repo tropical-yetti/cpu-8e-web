@@ -62,3 +62,5 @@ The stack starts at `FF` and grows downward (`FF`, `FE`, `FD`…). There is no p
 
 - `HLT` stops the CPU. To run again, use **Reset**.
 - `NOP` does nothing; it takes 1 byte and one execute pulse.
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

@@ -34,3 +34,5 @@ These behaviors come from the original simulator and were kept on purpose in ver
 | Initial decoder text            | Before the first Reset or load, the decoder shows `ID:NOP`, a label that came with the original form.                                                      |
 
 If you find any other difference from the original, it is a bug in this version; [report it in the project repository](https://github.com/tropical-yetti/cpu-8e-web).
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

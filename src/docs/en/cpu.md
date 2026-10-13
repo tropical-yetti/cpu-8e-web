@@ -59,3 +59,6 @@ Each instruction takes 1 or 2 bytes. The first one is the code; its high bits sa
 | 1          | 1          | **Direct**: the second byte is an address; the value is in memory (e.g. `LOD [05]` loads the contents of address 05). |
 
 In the simulator, an immediate operand appears as `05` and a direct address as `[05]`. The full list is in [Instruction set](#/documentacao/instrucoes).
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'
+[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores; veja NOTICE.md.'

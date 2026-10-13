@@ -46,9 +46,11 @@ The default is 50. In Single Step mode this time also passes after each press of
 
 ## Diagram {#diagrama}
 
-While running, each clock pulse paints red the text of the registers that received a value and the bus segments the data went through. Hover over (or press and hold) a part of the diagram to see a tip about it.
+While running, each clock pulse paints red the text of the registers that received a value and the bus segments the data went through. Hover over a part of the diagram, or tap it on a phone, to see a tip about it.
 
-**Binary value:** press and hold ACC, A, B, IR, MAR, MDR, PC, SP or the ALU output (ULA) to see its value in binary, such as `ACC=00000101`. It goes away when you release.
+**Binary value:** press and hold ACC, A, B, IR, MAR, MDR, PC, SP or the ALU output (ULA) to see its value in binary, such as `ACC=00000101`. It goes away when you release. With the keyboard, **Tab** to the register and press **Enter**.
+
+**Accessibility:** screen readers find a table with the state of every register and hear, at each stop, what changed on the last clock pulse (for example, "Fetch: MAR:00").
 
 ## Memory {#memoria}
 
@@ -77,3 +79,6 @@ The **Symbol** column is updated after each edit and each load. It reads memory 
 ## Language {#idioma}
 
 Use the selector at the top right to switch between Portuguese and English. Your choice is remembered in this browser.
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'
+[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores; veja NOTICE.md.'

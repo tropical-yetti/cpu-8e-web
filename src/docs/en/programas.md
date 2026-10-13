@@ -87,3 +87,5 @@ Watch the stack in Single Step mode: on `CAL`, the return address (`04` on the f
 - Keep data away from code (for example, from `20` on), so instructions and data do not get mixed up.
 - Before a conditional jump, run an operation that leaves the flags as you need them; `CMP` does that without changing ACC.
 - Use **Save** to store the program in a `.bin` file and **Load** to open it later.
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

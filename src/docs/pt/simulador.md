@@ -46,9 +46,11 @@ O padrão é 50. No modo passo a passo, esse tempo também passa depois de cada 
 
 ## Diagrama {#diagrama}
 
-Durante a execução, cada pulso de clock pinta de vermelho o texto dos registradores que receberam um valor e os trechos de barramento por onde o dado passou. Passe o mouse (ou mantenha o dedo) sobre uma parte do diagrama para ver uma dica sobre ela.
+Durante a execução, cada pulso de clock pinta de vermelho o texto dos registradores que receberam um valor e os trechos de barramento por onde o dado passou. Passe o mouse sobre uma parte do diagrama, ou toque nela no celular, para ver uma dica sobre ela.
 
-**Valor em binário:** mantenha pressionado o ACC, A, B, IR, MAR, MDR, PC, SP ou a saída da ULA para ver o valor em binário, como `ACC=00000101`. Ao soltar, a indicação some.
+**Valor em binário:** mantenha pressionado o ACC, A, B, IR, MAR, MDR, PC, SP ou a saída da ULA para ver o valor em binário, como `ACC=00000101`. Ao soltar, a indicação some. Pelo teclado, use **Tab** até o registrador e aperte **Enter**.
+
+**Acessibilidade:** leitores de tela encontram uma tabela com o estado de todos os registradores e ouvem, a cada parada, o que mudou no último pulso de clock (por exemplo, "Busca: MAR:00").
 
 ## Memória {#memoria}
 
@@ -77,3 +79,6 @@ A coluna **Símbolo** é atualizada depois de cada edição e de cada carregamen
 ## Idioma {#idioma}
 
 Use o seletor no canto superior direito para trocar entre português e inglês. A escolha fica guardada neste navegador.
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'
+[//]: # 'Partes derivadas de CPU8E_Sim.txt, CPU-8E v2.2, Copyright 2009/10 Joel Guilherme da Silva Filho e colaboradores; veja NOTICE.md.'

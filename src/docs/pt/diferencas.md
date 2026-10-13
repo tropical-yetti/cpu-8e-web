@@ -34,3 +34,5 @@ Estes comportamentos são do simulador original e foram mantidos de propósito n
 | Texto inicial do decodificador                | Antes do primeiro Reset ou carregamento, o decodificador mostra `ID:NOP`, texto que vinha no formulário original.                                                   |
 
 Se você encontrar outra diferença em relação ao original, ela é um erro desta versão; [avise no repositório do projeto](https://github.com/tropical-yetti/cpu-8e-web).
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

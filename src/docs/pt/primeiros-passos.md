@@ -38,3 +38,5 @@ Troque o **Modo** para **Execução contínua** e escolha o clock **100** (o mai
 - [A CPU-8E](#/documentacao/cpu) explica cada parte do diagrama.
 - [Ciclo de instrução](#/documentacao/ciclo) detalha o que acontece em cada pulso.
 - [Escrevendo programas](#/documentacao/programas) mostra como criar seus próprios programas.
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'

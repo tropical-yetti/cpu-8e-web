@@ -87,3 +87,5 @@ Observe a pilha no modo passo a passo: no `CAL`, o endereço de retorno (`04` na
 - Guarde os dados longe do código (por exemplo, a partir de `20`), para não confundir instruções com dados.
 - Antes de um desvio condicional, faça uma operação que deixe as flags como você precisa; `CMP` serve para isso sem mudar o ACC.
 - Use **Gravar** para salvar o programa num arquivo `.bin` e **Carregar** para abri-lo depois.
+
+[//]: # 'SPDX-License-Identifier: GPL-3.0-or-later'
