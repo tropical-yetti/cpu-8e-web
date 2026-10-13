@@ -1,0 +1,13 @@
+{"t":"mem","foco":0}
+{"t":"fase","fase":"busca"}
+{"t":"pulso","itens":[["MAR","00"]],"bus":["shPCOut1","shPCOut2","shBI1","shBI2","shBI3","shMARIn1","shMARIn2","shMAROut3","shMAROut4","shBE1","shBE2"],"est":{"acc":0,"pc":0,"mar":0,"mdr":0,"a":0,"b":0,"sp":255,"ula":0,"z":0,"n":0,"c":0,"ir":0,"s":0,"memHash":3869364677,"mem":""}}
+{"t":"valor","item":"PC","v":"01"}
+{"t":"pulso","itens":[["MDR","00"]],"bus":["shRD1","shRD2","shMDRIn3","shMDRIn4","shBD1","shBD2"],"est":{"acc":0,"pc":1,"mar":0,"mdr":0,"a":0,"b":0,"sp":255,"ula":0,"z":0,"n":0,"c":0,"ir":0,"s":0,"memHash":3869364677,"mem":""}}
+{"t":"pulso","itens":[["IR","00"]],"bus":["shMDROut1","shMDROut2","shBI1","shBI2","shBI3","shIRIn1","shIRIn2"],"est":{"acc":0,"pc":1,"mar":0,"mdr":0,"a":0,"b":0,"sp":255,"ula":0,"z":0,"n":0,"c":0,"ir":0,"s":0,"memHash":3869364677,"mem":""}}
+{"t":"valor","item":"DI","v":"HLT"}
+{"t":"pulso","itens":[["DI","HLT"]],"bus":["shIROut1","shIROut2","shIROut3","shIROut4","shIROut5","shIROut6","shIROut7","shIROut8","shIROut9","shIROut10","shIROut11","shIROut12","shIROut13","shIROut14","shIROut15","shIROut16","shUCIn1","shUCIn2","shUCIn3","shUCIn4","shUCIn5","shUCIn6"],"est":{"acc":0,"pc":1,"mar":0,"mdr":0,"a":0,"b":0,"sp":255,"ula":0,"z":0,"n":0,"c":0,"ir":0,"s":0,"memHash":3869364677,"mem":""}}
+{"t":"fase","fase":"execucao"}
+{"t":"pulso","itens":[],"bus":[],"est":{"acc":0,"pc":1,"mar":0,"mdr":0,"a":0,"b":0,"sp":255,"ula":0,"z":0,"n":0,"c":0,"ir":0,"s":3,"memHash":3869364677,"mem":""}}
+{"t":"mem","foco":1}
+{"t":"fimInstrucao"}
+{"t":"halt","est":{"acc":0,"pc":1,"mar":0,"mdr":0,"a":0,"b":0,"sp":255,"ula":0,"z":0,"n":0,"c":0,"ir":0,"s":3,"memHash":3869364677,"mem":"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}}
