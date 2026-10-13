@@ -309,7 +309,11 @@ export class Controlador {
       // repeat RunStep until Cmd = _Halt
       do {
         for (const evento of passo(this.cpu)) {
-          await this.tratarEvento(evento)
+          // Só espera quando há motivo (pausa, clock, mensagem). Na velocidade
+          // máxima, muitos eventos são tratados de uma vez e a tela é
+          // redesenhada uma vez por quadro, não a cada evento.
+          const espera = this.tratarEvento(evento)
+          if (espera) await espera
         }
       } while (this.cmd !== 'halt')
       this.painel.status = 'parada'
@@ -322,62 +326,75 @@ export class Controlador {
     }
   }
 
-  private async tratarEvento(evento: Evento): Promise<void> {
-    await this.mensagemFechada
+  /** Trata um evento; devolve uma promessa só quando é preciso esperar. */
+  private tratarEvento(evento: Evento): Promise<void> | void {
+    if (this.painel.mensagem) {
+      // Uma mensagem aberta congela a CPU, como as caixas de diálogo do original.
+      return this.mensagemFechada.then(() => this.tratarEvento(evento))
+    }
     switch (evento.tipo) {
       case 'fase':
         this.painel.fase = evento.fase
-        break
+        return
       case 'valor':
         this.painel.textos[evento.item] = `${PREFIXOS[evento.item]}:${evento.valor}`
-        break
+        return
       case 'foco':
         this.painel.foco = evento.endereco
         // A tabela de memória do original é redesenhada junto com a seleção.
         this.painel.versaoMemoria++
-        break
+        return
       case 'pulso':
-        await this.pulsarClock(evento)
-        break
+        return this.pulsarClock(evento)
       case 'fimInstrucao':
-        await this.pausa('ciclo')
-        break
+        return this.pausa('ciclo')
       case 'invalido':
         // O original mostrava "INVALID OpCode!" e esperava o OK.
         this.mostrarMensagem({ chave: 'invalido' })
-        await this.mensagemFechada
-        break
+        return this.mensagemFechada
       case 'halt':
         this.definirComando('halt')
-        break
+        return
     }
   }
 
   /** PulseClock: realça, espera (modo passo), dorme o tempo do clock e apaga o realce. */
-  private async pulsarClock(evento: Extract<Evento, { tipo: 'pulso' }>): Promise<void> {
+  private pulsarClock(evento: Extract<Evento, { tipo: 'pulso' }>): Promise<void> | void {
     for (const { item, valor } of evento.destaques) {
       this.painel.textos[item] = `${PREFIXOS[item]}:${valor}`
     }
     this.painel.realcados = evento.destaques.map((d) => d.item)
     this.painel.barramentos = [...evento.barramentos]
 
-    await this.pausa('passo')
-    await this.dormirClock()
-    await this.mensagemFechada
-
-    this.apagarRealces()
+    const pausa = this.pausa('passo')
+    const sono = pausa ? undefined : this.dormirClock()
+    if (!pausa && !sono) {
+      this.apagarRealces()
+      return
+    }
+    return (async () => {
+      await pausa
+      await (sono ?? this.dormirClock())
+      if (this.painel.mensagem) await this.mensagemFechada
+      this.apagarRealces()
+    })()
   }
 
   /**
    * Pause(Mode): espera se o modo atual pede uma parada aqui ou se o usuário
    * apertou Pausar. Parar, Reset e Carregar interrompem a execução.
    */
-  private async pausa(modo: Modo): Promise<void> {
+  private pausa(modo: Modo): Promise<void> | void {
     if (this.painel.modo !== modo && this.cmd !== 'pause' && this.cmd !== 'halt') return
     if (this.cmd !== 'halt') {
       this.cmd = 'pause'
       this.painel.status = 'pausa'
     }
+    return this.esperarComando()
+  }
+
+  /** O laço de espera do Pause original: sai quando o comando deixa de ser "pause". */
+  private async esperarComando(): Promise<void> {
     for (;;) {
       // O comando pode mudar enquanto esperamos, por isso é lido de novo a cada volta.
       const cmd = this.comandoAtual()
@@ -404,18 +421,16 @@ export class Controlador {
 
   private ultimoRespiro = 0
 
-  private async dormirClock(): Promise<void> {
+  /** Espera o tempo do clock; devolve nada quando não há o que esperar. */
+  private dormirClock(): Promise<void> | void {
     const ms = Controlador.milissegundosPorPulso(this.painel.clock)
-    if (ms > 0) {
-      await this.relogio.dormir(ms)
-      return
-    }
-    // Velocidade máxima: devolve o controle ao navegador de tempos em tempos
-    // para a página continuar respondendo.
+    if (ms > 0) return this.relogio.dormir(ms)
+    // Velocidade máxima: devolve o controle ao navegador uma vez por quadro
+    // (cerca de 16 ms) para a página continuar respondendo e ser redesenhada.
     const agora = Date.now()
     if (agora - this.ultimoRespiro > 16) {
       this.ultimoRespiro = agora
-      await this.relogio.dormir(0)
+      return this.relogio.dormir(0)
     }
   }
 

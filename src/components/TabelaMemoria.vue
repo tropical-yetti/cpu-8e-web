@@ -11,6 +11,7 @@
 import { nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AjudaContextual from '@/components/AjudaContextual.vue'
+import LinhaMemoria from '@/components/LinhaMemoria.vue'
 import { useSimuladorStore } from '@/stores/simulador'
 import { traduzirDica } from '@/painel/dicas'
 
@@ -19,14 +20,12 @@ const { t, locale } = useI18n()
 
 const rolagem = ref<HTMLElement | null>(null)
 const editando = ref<number | null>(null)
-const textoEdicao = ref('')
-const campo = ref<HTMLInputElement[] | HTMLInputElement | null>(null)
 
 /** Mantém a linha selecionada visível, mais ou menos no meio da tabela. */
 async function mostrarFoco(endereco: number) {
   await nextTick()
   const conteiner = rolagem.value
-  const linha = conteiner?.querySelector<HTMLElement>(`[data-endereco="${endereco}"]`)
+  const linha = conteiner?.querySelector<HTMLElement>(`tbody tr:nth-child(${endereco + 1})`)
   if (!conteiner || !linha) return
   const topo = linha.offsetTop - conteiner.clientHeight / 2 + linha.offsetHeight / 2
   conteiner.scrollTop = Math.max(0, topo)
@@ -37,31 +36,15 @@ watch(
   (endereco) => void mostrarFoco(endereco),
 )
 
-async function editar(endereco: number) {
-  editando.value = endereco
-  textoEdicao.value = simulador.memoria[endereco]?.valor ?? ''
-  await nextTick()
-  const elemento = Array.isArray(campo.value) ? campo.value[0] : campo.value
-  elemento?.focus()
-  elemento?.select()
-}
-
 /** Grava a célula; com Enter, segue para a linha de baixo (AutoAdvance do original). */
-function confirmar(avancar: boolean) {
-  const endereco = editando.value
-  if (endereco === null) return
-  simulador.editarMemoria(endereco, textoEdicao.value.trim())
-  editando.value = null
-  if (avancar && endereco < 255) void editar(endereco + 1)
+function confirmar(endereco: number, texto: string, avancar: boolean) {
+  if (editando.value !== endereco) return
+  simulador.editarMemoria(endereco, texto.trim())
+  editando.value = avancar && endereco < 255 ? endereco + 1 : null
 }
 
-function cancelar() {
-  editando.value = null
-}
-
-/** Ao sair do campo, grava — a menos que a edição já tenha passado para outra linha. */
-function aoSair(endereco: number) {
-  if (editando.value === endereco) confirmar(false)
+function cancelar(endereco: number) {
+  if (editando.value === endereco) editando.value = null
 }
 </script>
 
@@ -90,41 +73,20 @@ function aoSair(endereco: number) {
           </tr>
         </thead>
         <tbody>
-          <tr
+          <LinhaMemoria
             v-for="(linha, endereco) in simulador.memoria"
-            :key="linha.endereco"
+            :key="endereco"
             :data-endereco="endereco"
-            :class="{ foco: endereco === simulador.painel.foco, alternada: endereco % 2 === 1 }"
-          >
-            <th scope="row">{{ linha.endereco }}</th>
-            <td class="valor" @click="editar(endereco)">
-              <input
-                v-if="editando === endereco"
-                ref="campo"
-                v-model="textoEdicao"
-                class="campo"
-                maxlength="8"
-                autocomplete="off"
-                autocapitalize="characters"
-                spellcheck="false"
-                :aria-label="t('memoria.editar', { endereco: linha.endereco })"
-                @keydown.enter.prevent="confirmar(true)"
-                @keydown.escape.prevent="cancelar"
-                @blur="aoSair(endereco)"
-              />
-              <button
-                v-else
-                type="button"
-                class="botao-celula"
-                :aria-label="
-                  t('memoria.editarCelula', { valor: linha.valor, endereco: linha.endereco })
-                "
-              >
-                {{ linha.valor }}
-              </button>
-            </td>
-            <td class="simbolo">{{ linha.simbolo }}</td>
-          </tr>
+            :endereco="linha.endereco"
+            :valor="linha.valor"
+            :simbolo="linha.simbolo"
+            :foco="endereco === simulador.painel.foco"
+            :alternada="endereco % 2 === 1"
+            :editando="editando === endereco"
+            @editar="editando = endereco"
+            @confirmar="(texto, avancar) => confirmar(endereco, texto, avancar)"
+            @cancelar="cancelar(endereco)"
+          />
         </tbody>
       </table>
     </div>
@@ -132,6 +94,7 @@ function aoSair(endereco: number) {
 </template>
 
 <style scoped>
+/* As linhas são do componente LinhaMemoria: os estilos internos usam :deep(). */
 .tabela-memoria {
   display: flex;
   flex-direction: column;
@@ -142,7 +105,7 @@ function aoSair(endereco: number) {
   min-height: 0;
 }
 .cabecalho-tabela,
-tr {
+.rolagem :deep(tr) {
   display: grid;
   grid-template-columns: 57fr 57fr 67fr;
 }
@@ -168,36 +131,36 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-th,
-td {
+.rolagem :deep(th),
+.rolagem :deep(td) {
   text-align: center;
   padding: 0;
   height: 24px;
   line-height: 24px;
   border-bottom: 1px solid var(--borda-suave);
 }
-th {
+.rolagem :deep(th) {
   font-weight: 700;
   background: var(--fundo-cabecalho);
 }
-.alternada td {
+.rolagem :deep(.alternada td) {
   background: var(--fundo-alternado);
 }
-.foco td,
-.foco th {
+.rolagem :deep(.foco td),
+.rolagem :deep(.foco th) {
   background: var(--selecao);
   color: var(--texto-selecao);
 }
-.botao-celula {
+.rolagem :deep(.botao-celula) {
   all: unset;
   display: block;
   width: 100%;
   cursor: text;
 }
-.botao-celula:focus-visible {
+.rolagem :deep(.botao-celula:focus-visible) {
   outline: 2px solid var(--destaque);
 }
-.campo {
+.rolagem :deep(.campo) {
   width: 100%;
   height: 24px;
   text-align: center;
@@ -206,7 +169,7 @@ th {
   border: 1px solid var(--destaque);
   padding: 0;
 }
-.simbolo {
+.rolagem :deep(.simbolo) {
   font-family: 'Courier New', monospace;
   font-weight: 700;
 }
