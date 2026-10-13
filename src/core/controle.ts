@@ -351,6 +351,29 @@ function* deslocar(cpu: Cpu, operacao: 'SHL' | 'SHR' | 'SRA' | 'ROL' | 'ROR'): E
 // ---------------------------------------------------------------------------
 
 /**
+ * Um passo da unidade de controle (RunStep no original): executa a fase
+ * indicada por `cpu.controle.s` — busca, operando ou execução — e para.
+ * No estado 3 (parada), só emite `halt`.
+ */
+export function* passo(cpu: Cpu): Execucao {
+  switch (cpu.controle.s) {
+    case 0:
+      yield foco(cpu.pc)
+      yield* buscarInstrucao(cpu)
+      break
+    case 1:
+      yield* buscarOperando(cpu)
+      break
+    case 2:
+      yield* executarInstrucao(cpu)
+      break
+    case 3:
+      yield { tipo: 'halt' }
+      break
+  }
+}
+
+/**
  * Executa a CPU a partir do estado atual até parar (HALT ou código inválido).
  *
  * Cada chamada a `next()` avança até o próximo evento. Para pausar, basta
@@ -359,20 +382,8 @@ function* deslocar(cpu: Cpu, operacao: 'SHL' | 'SHR' | 'SRA' | 'ROL' | 'ROR'): E
  */
 export function* executar(cpu: Cpu): Execucao {
   for (;;) {
-    switch (cpu.controle.s) {
-      case 0:
-        yield foco(cpu.pc)
-        yield* buscarInstrucao(cpu)
-        break
-      case 1:
-        yield* buscarOperando(cpu)
-        break
-      case 2:
-        yield* executarInstrucao(cpu)
-        break
-      case 3:
-        yield { tipo: 'halt' }
-        return
-    }
+    const parada = cpu.controle.s === 3
+    yield* passo(cpu)
+    if (parada) return
   }
 }
