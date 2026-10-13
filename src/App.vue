@@ -5,6 +5,7 @@ import { IDIOMAS, trocarIdioma, type Idioma } from '@/i18n'
 import { URL_CODIGO_FONTE } from '@/config'
 
 const { t, locale } = useI18n()
+const VERSAO = __VERSAO__
 
 const NOMES_IDIOMAS: Record<Idioma, string> = { 'pt-BR': 'Português', en: 'English' }
 
@@ -41,6 +42,7 @@ function aoTrocarIdioma(evento: Event) {
   <!-- Avisos legais exigidos pela GPL-3.0 (seção 5d) -->
   <footer class="rodape">
     <span>{{ t('rodape.copyright') }}</span>
+    <span>{{ t('rodape.versao', { versao: VERSAO }) }}</span>
     <span>
       <RouterLink to="/sobre">{{ t('rodape.licenca') }}</RouterLink>
       ·

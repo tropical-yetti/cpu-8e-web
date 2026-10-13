@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { URL_CODIGO_FONTE, URL_CODIGO_ORIGINAL, URL_LICENCA } from '@/config'
 
 const { t } = useI18n()
+const VERSAO = __VERSAO__
 
 /** Créditos da obra original, como em NOTICE.md. */
 const AUTORES_ORIGINAIS = [
@@ -32,6 +33,7 @@ const AUTORES_ORIGINAIS = [
     </p>
 
     <h2>{{ t('sobre.derivada') }}</h2>
+    <p>{{ t('rodape.versao', { versao: VERSAO }) }}</p>
     <p>{{ t('sobre.modificacoes') }}</p>
     <p>
       <a :href="URL_CODIGO_FONTE" target="_blank" rel="noopener">{{ t('rodape.codigoFonte') }}</a>

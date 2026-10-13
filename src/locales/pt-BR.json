@@ -33,7 +33,8 @@
   "rodape": {
     "copyright": "© 2009–2010 Joel Guilherme da Silva Filho e colaboradores (CPU-8E) · © 2026 colaboradores do CPU-8E Web",
     "licenca": "Licença GPL-3.0-or-later, sem garantia",
-    "codigoFonte": "Código-fonte"
+    "codigoFonte": "Código-fonte",
+    "versao": "Versão {versao}"
   },
   "diagrama": {
     "descricao": "Diagrama da CPU-8E com registradores, ULA, barramentos e unidade de controle",

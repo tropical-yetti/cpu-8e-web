@@ -3,11 +3,20 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import { viteSingleFile } from 'vite-plugin-singlefile'
 
+const { version } = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+) as {
+  version: string
+}
+
 export default defineConfig({
+  // Versão do site, mostrada no rodapé e na página Sobre.
+  define: { __VERSAO__: JSON.stringify(version) },
   base: './',
   plugins: [
     vue(),

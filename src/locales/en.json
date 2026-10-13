@@ -33,7 +33,8 @@
   "rodape": {
     "copyright": "© 2009–2010 Joel Guilherme da Silva Filho and contributors (CPU-8E) · © 2026 CPU-8E Web contributors",
     "licenca": "GPL-3.0-or-later license, no warranty",
-    "codigoFonte": "Source code"
+    "codigoFonte": "Source code",
+    "versao": "Version {versao}"
   },
   "diagrama": {
     "descricao": "CPU-8E diagram with registers, ALU, buses and control unit",

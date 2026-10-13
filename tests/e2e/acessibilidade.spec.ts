@@ -66,6 +66,7 @@ test('dá para usar o simulador só com o teclado', async ({ page, isMobile, bro
   await page.keyboard.press('Enter')
   await expect(page.getByRole('button', { name: 'OK' })).toBeFocused()
   await page.keyboard.press('Enter')
+  await expect(page.getByRole('dialog')).toBeHidden()
 
   // Ctrl+G avança um pulso; o estado é anunciado para leitores de tela.
   await page.keyboard.press('Control+g')

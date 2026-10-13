@@ -6,7 +6,10 @@ evolução do próprio CPU-8E Web.
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
-## [Não lançado]
+## [1.0.0] — 2026-10-13
+
+Primeira versão: port funcional do CPU-8E v2.2.3 para o navegador, com
+fidelidade total ao original e documentação em português e inglês.
 
 ### 2026-10-13 — Início do port
 
@@ -50,3 +53,17 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 - Os programas de exemplo da documentação têm um botão para carregá-los no
   simulador e são executados pelos testes, que conferem o resultado anunciado.
 - Botões "?" no simulador levam à seção correspondente da documentação.
+
+### 2026-10-13 — Polimento para a versão 1.0
+
+- Acessibilidade: diagrama utilizável com teclado e leitor de tela (estado da
+  CPU em tabela, anúncio a cada parada, registradores focáveis), alvos de toque
+  maiores, rótulos legíveis no tema escuro e dicas ao tocar no diagrama.
+- No celular, o diagrama pode ser ampliado (com rolagem lateral) ou ajustado à
+  tela.
+- Execução na velocidade máxima mais leve: a tela é redesenhada uma vez por
+  quadro, e só as linhas da memória que mudaram.
+- Testes em Chromium, Firefox e WebKit, no computador, tablet e celular;
+  Lighthouse e cobertura de testes no CI.
+- Versão visível no rodapé e na página Sobre; ícone do simulador original como
+  favicon.
