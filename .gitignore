@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 tools/referencia/*.o
 coverage
+test-results
+playwright-report
+dist-previa
