@@ -10,6 +10,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import AjudaContextual from '@/components/AjudaContextual.vue'
 import BarraFerramentas from '@/components/BarraFerramentas.vue'
 import CaixaMensagem from '@/components/CaixaMensagem.vue'
 import DiagramaCpu from '@/components/DiagramaCpu.vue'
@@ -82,6 +83,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     <div class="area">
       <div class="painel-cpu">
         <DiagramaCpu />
+        <AjudaContextual class="ajuda-diagrama" pagina="cpu" :assunto="t('diagrama.descricao')" />
       </div>
       <TabelaMemoria class="memoria" />
     </div>
@@ -108,9 +110,15 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   border: 1px solid var(--borda);
 }
 .painel-cpu {
+  position: relative;
   background: var(--fundo-painel);
   color: var(--texto);
   overflow-x: auto;
+}
+.ajuda-diagrama {
+  position: absolute;
+  top: 6px;
+  right: 6px;
 }
 .memoria {
   border: none;

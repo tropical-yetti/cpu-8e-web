@@ -16,9 +16,6 @@
     "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Mantenha um registrador pressionado para ver o valor em binário; toque numa célula da memória para editá-la.",
     "dicaCelular": "No celular, deslize o diagrama para os lados ou gire o aparelho para vê-lo inteiro."
   },
-  "documentacao": {
-    "emConstrucao": "A documentação de uso será publicada aqui (Fase 3 do plano)."
-  },
   "sobre": {
     "titulo": "Sobre o CPU-8E Web",
     "historia": "O CPU-8E Web é uma versão para navegador do simulador CPU-8E, criado no IESB – Instituto de Educação Superior de Brasília para o ensino de arquitetura de computadores.",
@@ -95,5 +92,20 @@
     "originais": "Programas que acompanham o simulador original:",
     "erro": "Não foi possível carregar {nome}.",
     "cancelar": "Cancelar"
+  },
+  "docs": {
+    "menu": "Páginas da documentação",
+    "paginacao": "Página anterior e próxima",
+    "abrirNoSimulador": "Carregar no simulador",
+    "instrucao": "Instrução",
+    "efeito": "Efeito",
+    "descricao": "Descrição",
+    "flags": "Flags",
+    "modos": {
+      "implicito": "Implícito",
+      "imediato": "Imediato",
+      "direto": "Direto"
+    },
+    "ajuda": "Ajuda sobre {assunto}"
   }
 }

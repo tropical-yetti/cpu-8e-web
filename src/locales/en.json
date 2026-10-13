@@ -16,9 +16,6 @@
     "dicaUso": "To start, press Load and choose teste.bin. Then use Go: in single step mode, each press advances one clock pulse. Press and hold a register to see its value in binary; tap a memory cell to edit it.",
     "dicaCelular": "On a phone, swipe the diagram sideways or rotate the device to see all of it."
   },
-  "documentacao": {
-    "emConstrucao": "The user documentation will be published here (Phase 3 of the plan)."
-  },
   "sobre": {
     "titulo": "About CPU-8E Web",
     "historia": "CPU-8E Web is a browser version of the CPU-8E simulator, created at IESB (Instituto de Educação Superior de Brasília, Brazil) to teach computer architecture.",
@@ -95,5 +92,20 @@
     "originais": "Programs included with the original simulator:",
     "erro": "Could not load {nome}.",
     "cancelar": "Cancel"
+  },
+  "docs": {
+    "menu": "Documentation pages",
+    "paginacao": "Previous and next page",
+    "abrirNoSimulador": "Load in the simulator",
+    "instrucao": "Instruction",
+    "efeito": "Effect",
+    "descricao": "Description",
+    "flags": "Flags",
+    "modos": {
+      "implicito": "Implied",
+      "imediato": "Immediate",
+      "direto": "Direct"
+    },
+    "ajuda": "Help about {assunto}"
   }
 }

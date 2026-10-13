@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import AjudaContextual from '@/components/AjudaContextual.vue'
 import { useSimuladorStore } from '@/stores/simulador'
 import { traduzirDica } from '@/painel/dicas'
 
@@ -66,10 +67,13 @@ function aoSair(endereco: number) {
 
 <template>
   <div class="tabela-memoria" :title="traduzirDica('Memória principal com 256 bytes', locale)">
-    <div class="cabecalho-tabela" aria-hidden="true">
-      <span>{{ t('memoria.endereco') }}</span>
-      <span>{{ t('memoria.conteudo') }}</span>
-      <span>{{ t('memoria.simbolo') }}</span>
+    <div class="cabecalho-tabela">
+      <span aria-hidden="true">{{ t('memoria.endereco') }}</span>
+      <span aria-hidden="true">{{ t('memoria.conteudo') }}</span>
+      <span class="com-ajuda">
+        <span aria-hidden="true">{{ t('memoria.simbolo') }}</span>
+        <AjudaContextual pagina="simulador" secao="memoria" :assunto="t('memoria.titulo')" />
+      </span>
     </div>
     <div ref="rolagem" class="rolagem">
       <table>
@@ -146,6 +150,12 @@ tr {
   background: var(--fundo-cabecalho);
   border-bottom: 1px solid var(--borda);
   padding: 2px 0;
+}
+.com-ajuda {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 .rolagem {
   overflow-y: auto;
