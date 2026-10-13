@@ -1,0 +1,37 @@
+{
+  "app": {
+    "titulo": "CPU-8E Web",
+    "subtitulo": "Simulador educacional de uma CPU de 8 bits"
+  },
+  "nav": {
+    "simulador": "Simulador",
+    "documentacao": "Documentação",
+    "sobre": "Sobre"
+  },
+  "idioma": {
+    "rotulo": "Idioma"
+  },
+  "simulador": {
+    "emConstrucao": "O painel do simulador está em construção (Fase 2 do plano). O núcleo da CPU já está pronto e testado contra o simulador original."
+  },
+  "documentacao": {
+    "emConstrucao": "A documentação de uso será publicada aqui (Fase 3 do plano)."
+  },
+  "sobre": {
+    "titulo": "Sobre o CPU-8E Web",
+    "historia": "O CPU-8E Web é uma versão para navegador do simulador CPU-8E, criado no IESB – Instituto de Educação Superior de Brasília para o ensino de arquitetura de computadores.",
+    "autoresOriginais": "Simulador original",
+    "derivada": "Esta versão",
+    "licencaTitulo": "Licença",
+    "licenca": "Este programa é software livre: você pode redistribuí-lo e/ou modificá-lo sob os termos da Licença Pública Geral GNU, conforme publicada pela Free Software Foundation, versão 3 da licença ou (a seu critério) qualquer versão posterior.",
+    "garantia": "Este programa é distribuído na esperança de que seja útil, mas SEM NENHUMA GARANTIA; sem mesmo a garantia implícita de COMERCIALIZAÇÃO ou de ADEQUAÇÃO A UM PROPÓSITO ESPECÍFICO.",
+    "lerLicenca": "Ler o texto completo da licença (GPL-3.0)",
+    "codigoOriginal": "Código-fonte do simulador original",
+    "modificacoes": "Esta é uma obra modificada: o simulador foi reescrito em TypeScript e Vue 3. A lista datada de modificações está no arquivo CHANGELOG.md do código-fonte."
+  },
+  "rodape": {
+    "copyright": "© 2009–2010 Joel Guilherme da Silva Filho e colaboradores (CPU-8E) · © 2026 colaboradores do CPU-8E Web",
+    "licenca": "Licença GPL-3.0-or-later, sem garantia",
+    "codigoFonte": "Código-fonte"
+  }
+}

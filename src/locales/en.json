@@ -1,0 +1,37 @@
+{
+  "app": {
+    "titulo": "CPU-8E Web",
+    "subtitulo": "Educational simulator of an 8-bit CPU"
+  },
+  "nav": {
+    "simulador": "Simulator",
+    "documentacao": "Documentation",
+    "sobre": "About"
+  },
+  "idioma": {
+    "rotulo": "Language"
+  },
+  "simulador": {
+    "emConstrucao": "The simulator panel is under construction (Phase 2 of the plan). The CPU core is already done and tested against the original simulator."
+  },
+  "documentacao": {
+    "emConstrucao": "The user documentation will be published here (Phase 3 of the plan)."
+  },
+  "sobre": {
+    "titulo": "About CPU-8E Web",
+    "historia": "CPU-8E Web is a browser version of the CPU-8E simulator, created at IESB (Instituto de Educação Superior de Brasília, Brazil) to teach computer architecture.",
+    "autoresOriginais": "Original simulator",
+    "derivada": "This version",
+    "licencaTitulo": "License",
+    "licenca": "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.",
+    "garantia": "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "lerLicenca": "Read the full license text (GPL-3.0)",
+    "codigoOriginal": "Source code of the original simulator",
+    "modificacoes": "This is a modified work: the simulator was rewritten in TypeScript and Vue 3. The dated list of modifications is in the CHANGELOG.md file of the source code."
+  },
+  "rodape": {
+    "copyright": "© 2009–2010 Joel Guilherme da Silva Filho and contributors (CPU-8E) · © 2026 CPU-8E Web contributors",
+    "licenca": "GPL-3.0-or-later license, no warranty",
+    "codigoFonte": "Source code"
+  }
+}

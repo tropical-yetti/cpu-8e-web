@@ -1,0 +1,32 @@
+# Verificações em cada pull request e em cada push na main.
+# SPDX-License-Identifier: GPL-3.0-or-later
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # O Free Pascal é usado para comparar o núcleo com o simulador original.
+      - name: Instalar Free Pascal
+        run: sudo apt-get update && sudo apt-get install -y fp-compiler
+
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Verificar licenças das dependências
+        run: npm run licencas
+      - run: npm run build
