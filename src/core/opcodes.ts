@@ -32,53 +32,56 @@ export interface DefinicaoInstrucao {
   /** Código de cada modo de endereçamento aceito pela instrução. */
   codigos: Partial<Record<ModoEnderecamento, Byte>>
   /** Efeito em notação de transferência entre registradores. */
-  efeito: string
+  efeito: Texto
   descricao: Texto
   /** Se altera as flags Z, N e C. */
   alteraFlags: boolean
 }
 
-/** "op" = o operando: o valor imediato ou o conteúdo da memória no endereço dado. */
+/**
+ * "op" = o operando: o valor imediato ou o conteúdo da memória no endereço dado.
+ * "end" (en: "addr") = o endereço escrito na instrução.
+ */
 export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'HLT',
     codigos: { implicito: 0x00 },
-    efeito: '—',
+    efeito: { pt: '—', en: '—' },
     alteraFlags: false,
     descricao: { pt: 'Para a CPU.', en: 'Halts the CPU.' },
   },
   {
     mnemonico: 'NOP',
     codigos: { implicito: 0x01 },
-    efeito: '—',
+    efeito: { pt: '—', en: '—' },
     alteraFlags: false,
     descricao: { pt: 'Não faz nada.', en: 'Does nothing.' },
   },
   {
     mnemonico: 'NOT',
     codigos: { implicito: 0x02 },
-    efeito: 'ACC ← NOT ACC',
+    efeito: { pt: 'ACC ← NOT ACC', en: 'ACC ← NOT ACC' },
     alteraFlags: true,
     descricao: { pt: 'Inverte todos os bits do ACC.', en: 'Inverts every bit of ACC.' },
   },
   {
     mnemonico: 'RET',
     codigos: { implicito: 0x03 },
-    efeito: 'SP ← SP + 1; PC ← M[SP]',
+    efeito: { pt: 'SP ← SP + 1; PC ← M[SP]', en: 'SP ← SP + 1; PC ← M[SP]' },
     alteraFlags: false,
     descricao: { pt: 'Retorna de uma sub-rotina.', en: 'Returns from a subroutine.' },
   },
   {
     mnemonico: 'JMP',
     codigos: { direto: 0xc4 },
-    efeito: 'PC ← end',
+    efeito: { pt: 'PC ← end', en: 'PC ← addr' },
     alteraFlags: false,
     descricao: { pt: 'Desvia sempre para o endereço.', en: 'Always jumps to the address.' },
   },
   {
     mnemonico: 'JEQ',
     codigos: { direto: 0xc5 },
-    efeito: 'se Z = 1: PC ← end',
+    efeito: { pt: 'se Z = 1: PC ← end', en: 'if Z = 1: PC ← addr' },
     alteraFlags: false,
     descricao: {
       pt: 'Desvia se o último resultado foi zero.',
@@ -88,7 +91,7 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'JGT',
     codigos: { direto: 0xc6 },
-    efeito: 'se Z = 0 e N = 0: PC ← end',
+    efeito: { pt: 'se Z = 0 e N = 0: PC ← end', en: 'if Z = 0 and N = 0: PC ← addr' },
     alteraFlags: false,
     descricao: {
       pt: 'Desvia se o último resultado foi maior que zero.',
@@ -98,7 +101,7 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'JGE',
     codigos: { direto: 0xc7 },
-    efeito: 'se N = 0: PC ← end',
+    efeito: { pt: 'se N = 0: PC ← end', en: 'if N = 0: PC ← addr' },
     alteraFlags: false,
     descricao: {
       pt: 'Desvia se o último resultado foi maior ou igual a zero.',
@@ -108,14 +111,14 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'JCY',
     codigos: { direto: 0xc8 },
-    efeito: 'se C = 1: PC ← end',
+    efeito: { pt: 'se C = 1: PC ← end', en: 'if C = 1: PC ← addr' },
     alteraFlags: false,
     descricao: { pt: 'Desvia se houve "vai-um" (carry).', en: 'Jumps if there was a carry.' },
   },
   {
     mnemonico: 'CAL',
     codigos: { direto: 0xc9 },
-    efeito: 'M[SP] ← PC; SP ← SP − 1; PC ← end',
+    efeito: { pt: 'M[SP] ← PC; SP ← SP − 1; PC ← end', en: 'M[SP] ← PC; SP ← SP − 1; PC ← addr' },
     alteraFlags: false,
     descricao: {
       pt: 'Chama uma sub-rotina, guardando o endereço de retorno na pilha.',
@@ -125,7 +128,10 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'SHL',
     codigos: { imediato: 0x8a, direto: 0xca },
-    efeito: 'ACC ← ACC deslocado op vezes à esquerda',
+    efeito: {
+      pt: 'ACC ← ACC deslocado op vezes à esquerda',
+      en: 'ACC ← ACC shifted left op times',
+    },
     alteraFlags: true,
     descricao: {
       pt: 'Desloca o ACC para a esquerda; entra 0 à direita.',
@@ -135,7 +141,10 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'SHR',
     codigos: { imediato: 0x8b, direto: 0xcb },
-    efeito: 'ACC ← ACC deslocado op vezes à direita',
+    efeito: {
+      pt: 'ACC ← ACC deslocado op vezes à direita',
+      en: 'ACC ← ACC shifted right op times',
+    },
     alteraFlags: true,
     descricao: {
       pt: 'Desloca o ACC para a direita; entra 0 à esquerda.',
@@ -145,7 +154,10 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'SRA',
     codigos: { imediato: 0x8c, direto: 0xcc },
-    efeito: 'ACC ← ACC deslocado op vezes à direita (aritmético)',
+    efeito: {
+      pt: 'ACC ← ACC deslocado op vezes à direita (aritmético)',
+      en: 'ACC ← ACC shifted right op times (arithmetic)',
+    },
     alteraFlags: true,
     descricao: {
       pt: 'Desloca o ACC para a direita mantendo o bit de sinal.',
@@ -155,7 +167,7 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'ROL',
     codigos: { imediato: 0x8d, direto: 0xcd },
-    efeito: 'ACC ← ACC girado op vezes à esquerda',
+    efeito: { pt: 'ACC ← ACC girado op vezes à esquerda', en: 'ACC ← ACC rotated left op times' },
     alteraFlags: true,
     descricao: {
       pt: 'Gira o ACC para a esquerda; o bit 7 volta no bit 0.',
@@ -165,7 +177,7 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'ROR',
     codigos: { imediato: 0x8e, direto: 0xce },
-    efeito: 'ACC ← ACC girado op vezes à direita',
+    efeito: { pt: 'ACC ← ACC girado op vezes à direita', en: 'ACC ← ACC rotated right op times' },
     alteraFlags: true,
     descricao: {
       pt: 'Gira o ACC para a direita; o bit 0 volta no bit 7.',
@@ -175,21 +187,21 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'STO',
     codigos: { direto: 0xd0 },
-    efeito: 'M[end] ← ACC',
+    efeito: { pt: 'M[end] ← ACC', en: 'M[addr] ← ACC' },
     alteraFlags: false,
     descricao: { pt: 'Guarda o ACC na memória.', en: 'Stores ACC in memory.' },
   },
   {
     mnemonico: 'LOD',
     codigos: { imediato: 0x91, direto: 0xd1 },
-    efeito: 'ACC ← op',
+    efeito: { pt: 'ACC ← op', en: 'ACC ← op' },
     alteraFlags: true,
     descricao: { pt: 'Carrega um valor no ACC.', en: 'Loads a value into ACC.' },
   },
   {
     mnemonico: 'CMP',
     codigos: { imediato: 0x94, direto: 0xd4 },
-    efeito: 'flags ← ACC − op',
+    efeito: { pt: 'flags ← ACC − op', en: 'flags ← ACC − op' },
     alteraFlags: true,
     descricao: {
       pt: 'Compara o ACC com o operando (subtrai sem guardar o resultado).',
@@ -199,35 +211,35 @@ export const INSTRUCOES: readonly DefinicaoInstrucao[] = [
   {
     mnemonico: 'ADD',
     codigos: { imediato: 0x95, direto: 0xd5 },
-    efeito: 'ACC ← ACC + op',
+    efeito: { pt: 'ACC ← ACC + op', en: 'ACC ← ACC + op' },
     alteraFlags: true,
     descricao: { pt: 'Soma o operando ao ACC.', en: 'Adds the operand to ACC.' },
   },
   {
     mnemonico: 'SUB',
     codigos: { imediato: 0x96, direto: 0xd6 },
-    efeito: 'ACC ← ACC − op',
+    efeito: { pt: 'ACC ← ACC − op', en: 'ACC ← ACC − op' },
     alteraFlags: true,
     descricao: { pt: 'Subtrai o operando do ACC.', en: 'Subtracts the operand from ACC.' },
   },
   {
     mnemonico: 'AND',
     codigos: { imediato: 0x9a, direto: 0xda },
-    efeito: 'ACC ← ACC AND op',
+    efeito: { pt: 'ACC ← ACC AND op', en: 'ACC ← ACC AND op' },
     alteraFlags: true,
     descricao: { pt: 'E lógico bit a bit.', en: 'Bitwise logical AND.' },
   },
   {
     mnemonico: 'XOR',
     codigos: { imediato: 0x9b, direto: 0xdb },
-    efeito: 'ACC ← ACC XOR op',
+    efeito: { pt: 'ACC ← ACC XOR op', en: 'ACC ← ACC XOR op' },
     alteraFlags: true,
     descricao: { pt: 'OU exclusivo bit a bit.', en: 'Bitwise exclusive OR.' },
   },
   {
     mnemonico: 'ORL',
     codigos: { imediato: 0x9c, direto: 0xdc },
-    efeito: 'ACC ← ACC OR op',
+    efeito: { pt: 'ACC ← ACC OR op', en: 'ACC ← ACC OR op' },
     alteraFlags: true,
     descricao: { pt: 'OU lógico bit a bit.', en: 'Bitwise logical OR.' },
   },
