@@ -16,6 +16,20 @@ código precisa ser fácil de ler.
   nunca fixos nos componentes.
 - TypeScript estrito, sem `any`.
 
+## Documentação
+
+A documentação do site fica em `src/docs/pt/` e `src/docs/en/`, uma página
+Markdown por arquivo, com os mesmos nomes nos dois idiomas.
+
+- Títulos que recebem links levam uma âncora fixa, igual nos dois idiomas:
+  `## Modos {#modos}`.
+- Programas de exemplo vão em blocos ` ```cpu8e `, uma linha por instrução
+  (`00: D1 20   LOD [20]`), terminando com `; espera: ACC=0C M[22]=0C`
+  (`; expect:` em inglês). Os testes executam cada exemplo e conferem o
+  resultado.
+- `{{tabela-instrucoes}}` e `{{diagrama}}`, sozinhos numa linha, inserem a
+  tabela de instruções e o diagrama da CPU.
+
 ## Fidelidade ao original
 
 Até a v1.0, o comportamento da CPU deve ser idêntico ao do simulador
@@ -39,8 +53,10 @@ contribuição nos mesmos termos.
 - Mudanças de comportamento em relação ao original entram no
   `CHANGELOG.md`, com data.
 - Novas dependências precisam ter licença compatível com a GPL-3.0
-  (`npm run licencas` verifica isso no CI). MPL-2.0 é aceita: ela é
-  compatível com a GPL e, aqui, só aparece em ferramentas de build.
+  (`npm run licencas` verifica isso no CI). MPL-2.0 e PSF-2.0 também são
+  aceitas: as duas são compatíveis com a GPL. Aqui, a MPL-2.0 só aparece em
+  ferramentas de build, e a PSF-2.0 no `argparse`, usado apenas pela linha de
+  comando do markdown-it (não entra no site).
 
 ## Commits
 

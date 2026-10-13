@@ -9,8 +9,9 @@ colaboradores para o ensino de arquitetura de computadores. O painel mostra
 os registradores, a ULA, os barramentos e a memória de 256 bytes enquanto um
 programa é executado passo a passo.
 
-> **Estado atual:** o núcleo da CPU e o painel do simulador estão prontos e
-> testados. A documentação de uso no site (Fase 3) está em andamento.
+> **Estado atual:** o núcleo da CPU, o painel do simulador e a documentação
+> de uso (em português e inglês) estão prontos e testados. Falta o polimento
+> final antes da versão 1.0.
 
 ## Como rodar
 
@@ -46,8 +47,10 @@ src/components/    diagrama da CPU, tabela de memória, barra de ferramentas
 src/painel/        layout do painel extraído do formulário original
 src/views/         páginas do site
 src/locales/       textos da interface em português e inglês
+src/docs/          documentação de uso em Markdown (pt/ e en/)
 tests/core/        testes do núcleo
 tests/simulador/   testes do controlador
+tests/docs/        testes dos exemplos e links da documentação
 tests/e2e/         testes de ponta a ponta (Playwright)
 tests/fixtures/    programas de teste e gabaritos gerados pelo original
 tools/referencia/  núcleo original em Pascal, sem interface, para gerar gabaritos

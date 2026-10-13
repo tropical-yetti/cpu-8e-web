@@ -39,3 +39,14 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   - Apertar Executar durante uma execução contínua é ignorado; no original
     isso iniciava uma segunda execução dentro da primeira.
   - Interface também em inglês, com dicas traduzidas.
+
+### 2026-10-13 — Documentação no site
+
+- Documentação de uso em português e inglês, dentro do próprio site
+  (`src/docs/`): primeiros passos, a CPU, o ciclo de instrução, o conjunto de
+  instruções, o uso do simulador, como escrever programas e as diferenças em
+  relação ao original. Substitui o `CPU8E_Sim.txt` do original.
+- A tabela de instruções é gerada a partir de `src/core/opcodes.ts`.
+- Os programas de exemplo da documentação têm um botão para carregá-los no
+  simulador e são executados pelos testes, que conferem o resultado anunciado.
+- Botões "?" no simulador levam à seção correspondente da documentação.
