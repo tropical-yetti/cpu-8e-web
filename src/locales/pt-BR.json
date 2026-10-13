@@ -12,7 +12,9 @@
     "rotulo": "Idioma"
   },
   "simulador": {
-    "emConstrucao": "O painel do simulador está em construção (Fase 2 do plano). O núcleo da CPU já está pronto e testado contra o simulador original."
+    "programa": "Programa:",
+    "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Mantenha um registrador pressionado para ver o valor em binário; toque numa célula da memória para editá-la.",
+    "dicaCelular": "No celular, deslize o diagrama para os lados ou gire o aparelho para vê-lo inteiro."
   },
   "documentacao": {
     "emConstrucao": "A documentação de uso será publicada aqui (Fase 3 do plano)."
@@ -33,5 +35,65 @@
     "copyright": "© 2009–2010 Joel Guilherme da Silva Filho e colaboradores (CPU-8E) · © 2026 colaboradores do CPU-8E Web",
     "licenca": "Licença GPL-3.0-or-later, sem garantia",
     "codigoFonte": "Código-fonte"
+  },
+  "diagrama": {
+    "descricao": "Diagrama da CPU-8E com registradores, ULA, barramentos e unidade de controle",
+    "clock": "Velocidade do clock"
+  },
+  "memoria": {
+    "titulo": "Memória principal (256 bytes)",
+    "endereco": "Endereço",
+    "conteudo": "Memória",
+    "simbolo": "Símbolo",
+    "editar": "Editar o conteúdo do endereço {endereco}"
+  },
+  "barra": {
+    "rotulo": "Comandos do simulador",
+    "carregar": "Carregar",
+    "carregarDica": "Carregar um programa (Ctrl+L)",
+    "gravar": "Gravar",
+    "gravarDica": "Gravar o programa em um arquivo (Ctrl+S)",
+    "executar": "Executar",
+    "executarDica": "Executar / avançar (Ctrl+G)",
+    "pausar": "Pausar",
+    "pausarDica": "Pausar a execução (Ctrl+P)",
+    "parar": "Parar",
+    "pararDica": "Parar a execução; só o Reset permite executar de novo (Ctrl+H)",
+    "resetar": "Reset",
+    "resetarDica": "Reiniciar a CPU, mantendo a memória (Ctrl+R)",
+    "ajuda": "Ajuda",
+    "ajudaDica": "Abrir a documentação (F1)",
+    "modo": "Modo:",
+    "modoDica": "Modo de execução: passo a passo (a cada pulso de clock), instrução por instrução ou o programa inteiro",
+    "fase": "Fase:",
+    "status": "Status:"
+  },
+  "modos": {
+    "passo": "Passo a passo",
+    "ciclo": "Instrução por instrução",
+    "continuo": "Execução contínua"
+  },
+  "fases": {
+    "busca": "Busca",
+    "operando": "Operando",
+    "execucao": "Execução"
+  },
+  "status": {
+    "parada": "Parada (vermelho)",
+    "pausa": "Pausa (amarelo)",
+    "execucao": "Executando (verde)"
+  },
+  "mensagens": {
+    "lidos": "Foram lidos {bytes}({hex}h) bytes para a memória.",
+    "gravados": "Foram gravados {bytes}({hex}h) bytes para disco.",
+    "semPrograma": "Nenhum programa carregado em memória!",
+    "invalido": "INVALID OpCode!"
+  },
+  "carregar": {
+    "titulo": "Carregar programa",
+    "dispositivo": "Escolher arquivo do dispositivo…",
+    "originais": "Programas que acompanham o simulador original:",
+    "erro": "Não foi possível carregar {nome}.",
+    "cancelar": "Cancelar"
   }
 }

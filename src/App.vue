@@ -104,4 +104,15 @@ function aoTrocarIdioma(evento: Event) {
 .rodape a {
   color: inherit;
 }
+@media (max-width: 720px) {
+  .cabecalho {
+    gap: 8px 16px;
+  }
+  .marca {
+    flex-basis: 100%;
+  }
+  .conteudo {
+    padding: 12px 16px;
+  }
+}
 </style>

@@ -12,7 +12,9 @@
     "rotulo": "Language"
   },
   "simulador": {
-    "emConstrucao": "The simulator panel is under construction (Phase 2 of the plan). The CPU core is already done and tested against the original simulator."
+    "programa": "Program:",
+    "dicaUso": "To start, press Load and choose teste.bin. Then use Go: in single step mode, each press advances one clock pulse. Press and hold a register to see its value in binary; tap a memory cell to edit it.",
+    "dicaCelular": "On a phone, swipe the diagram sideways or rotate the device to see all of it."
   },
   "documentacao": {
     "emConstrucao": "The user documentation will be published here (Phase 3 of the plan)."
@@ -33,5 +35,65 @@
     "copyright": "© 2009–2010 Joel Guilherme da Silva Filho and contributors (CPU-8E) · © 2026 CPU-8E Web contributors",
     "licenca": "GPL-3.0-or-later license, no warranty",
     "codigoFonte": "Source code"
+  },
+  "diagrama": {
+    "descricao": "CPU-8E diagram with registers, ALU, buses and control unit",
+    "clock": "Clock speed"
+  },
+  "memoria": {
+    "titulo": "Main memory (256 bytes)",
+    "endereco": "Address",
+    "conteudo": "Memory",
+    "simbolo": "Symbol",
+    "editar": "Edit the contents of address {endereco}"
+  },
+  "barra": {
+    "rotulo": "Simulator commands",
+    "carregar": "Load",
+    "carregarDica": "Load a program (Ctrl+L)",
+    "gravar": "Save",
+    "gravarDica": "Save the program to a file (Ctrl+S)",
+    "executar": "Go",
+    "executarDica": "Run / advance (Ctrl+G)",
+    "pausar": "Pause",
+    "pausarDica": "Pause execution (Ctrl+P)",
+    "parar": "Halt",
+    "pararDica": "Halt execution; only Reset allows running again (Ctrl+H)",
+    "resetar": "Reset",
+    "resetarDica": "Restart the CPU, keeping the memory (Ctrl+R)",
+    "ajuda": "Help",
+    "ajudaDica": "Open the documentation (F1)",
+    "modo": "Mode:",
+    "modoDica": "Execution mode: single step (each clock pulse), single cycle (each instruction) or full run",
+    "fase": "Phase:",
+    "status": "Status:"
+  },
+  "modos": {
+    "passo": "Single Step",
+    "ciclo": "Single Cycle",
+    "continuo": "Full Run"
+  },
+  "fases": {
+    "busca": "Fetch",
+    "operando": "Operand",
+    "execucao": "Execute"
+  },
+  "status": {
+    "parada": "Halted (red)",
+    "pausa": "Paused (yellow)",
+    "execucao": "Running (green)"
+  },
+  "mensagens": {
+    "lidos": "{bytes} ({hex}h) bytes were read into memory.",
+    "gravados": "{bytes} ({hex}h) bytes were saved to disk.",
+    "semPrograma": "No program loaded in memory!",
+    "invalido": "INVALID OpCode!"
+  },
+  "carregar": {
+    "titulo": "Load program",
+    "dispositivo": "Choose a file from this device…",
+    "originais": "Programs included with the original simulator:",
+    "erro": "Could not load {nome}.",
+    "cancelar": "Cancel"
   }
 }

@@ -31,7 +31,7 @@ function montar(...trechos: [number, ...number[][]][]): Uint8Array {
 }
 
 function original(arquivo: string): Uint8Array {
-  const caminho = fileURLToPath(new URL(`../../public/programas/${arquivo}`, import.meta.url))
+  const caminho = fileURLToPath(new URL(`../../src/assets/programas/${arquivo}`, import.meta.url))
   return new Uint8Array(readFileSync(caminho))
 }
 
