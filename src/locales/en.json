@@ -14,7 +14,9 @@
   "simulador": {
     "programa": "Program:",
     "dicaUso": "To start, press Load and choose teste.bin. Then use Go: in single step mode, each press advances one clock pulse. Press and hold a register to see its value in binary; tap a memory cell to edit it.",
-    "dicaCelular": "On a phone, swipe the diagram sideways or rotate the device to see all of it."
+    "dicaCelular": "On a phone held upright, swipe the diagram sideways or rotate the device.",
+    "ajustar": "Fit to screen",
+    "ampliar": "Enlarge diagram"
   },
   "sobre": {
     "titulo": "About CPU-8E Web",

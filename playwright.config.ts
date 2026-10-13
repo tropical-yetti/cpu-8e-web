@@ -14,9 +14,18 @@ export default defineConfig({
       ? { executablePath: process.env.CHROMIUM_PATH, args: ['--no-sandbox'] }
       : {},
   },
+  // Com CHROMIUM_PATH (ambiente sem os navegadores do Playwright), só os projetos Chromium.
   projects: [
     { name: 'computador', use: { ...devices['Desktop Chrome'] } },
     { name: 'celular', use: { ...devices['Pixel 7'] } },
+    { name: 'tablet', use: { ...devices['Galaxy Tab S4'] } },
+    ...(process.env.CHROMIUM_PATH
+      ? []
+      : [
+          { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+          { name: 'safari', use: { ...devices['Desktop Safari'] } },
+          { name: 'iphone', use: { ...devices['iPhone 13'] } },
+        ]),
   ],
   webServer: {
     command: 'npm run build && npx vite preview --port 4173 --strictPort',

@@ -14,7 +14,9 @@
   "simulador": {
     "programa": "Programa:",
     "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Mantenha um registrador pressionado para ver o valor em binário; toque numa célula da memória para editá-la.",
-    "dicaCelular": "No celular, deslize o diagrama para os lados ou gire o aparelho para vê-lo inteiro."
+    "dicaCelular": "No celular em pé, deslize o diagrama para os lados ou gire o aparelho.",
+    "ajustar": "Ajustar à tela",
+    "ampliar": "Ampliar diagrama"
   },
   "sobre": {
     "titulo": "Sobre o CPU-8E Web",

@@ -51,8 +51,10 @@ for (const tema of ['light', 'dark'] as const) {
   })
 }
 
-test('dá para usar o simulador só com o teclado', async ({ page, isMobile }) => {
+test('dá para usar o simulador só com o teclado', async ({ page, isMobile, browserName }) => {
   test.skip(isMobile, 'teclado físico só no computador')
+  // O Safari só leva o foco a botões com Tab se o usuário ativar essa opção.
+  test.skip(browserName === 'webkit', 'Tab do Safari não passa por botões por padrão')
   await page.goto('./')
 
   // Ctrl+L abre a janela de carregar; Tab até teste.bin; Enter carrega.

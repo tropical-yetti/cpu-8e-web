@@ -77,3 +77,22 @@ test('mostra os avisos de licença', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Licença' })).toBeVisible()
   await expect(page.getByText(/SEM NENHUMA GARANTIA/)).toBeVisible()
 })
+
+test('a página não rola para os lados nem numa tela de 320 px', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 })
+  for (const rota of ['./', './#/documentacao/instrucoes', './#/sobre']) {
+    await page.goto(rota)
+    await page.waitForLoadState('networkidle')
+    const larguraDaPagina = await page.evaluate(() => document.documentElement.scrollWidth)
+    expect(larguraDaPagina, rota).toBeLessThanOrEqual(320)
+  }
+})
+
+test('no celular, o diagrama pode ser ajustado à tela', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('./')
+  const diagrama = page.locator('.diagrama-conteiner')
+  expect((await diagrama.boundingBox())!.width).toBeGreaterThanOrEqual(640)
+  await page.getByRole('button', { name: 'Ajustar à tela' }).click()
+  expect((await diagrama.boundingBox())!.width).toBeLessThan(400)
+})

@@ -7,7 +7,7 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import AjudaContextual from '@/components/AjudaContextual.vue'
@@ -70,6 +70,24 @@ function aoTeclar(evento: KeyboardEvent) {
   if (habilitado) void executar()
 }
 
+// No celular em pé: diagrama ampliado (com rolagem lateral) ou ajustado à tela.
+const CHAVE_AJUSTE = 'cpu8e.ajustarDiagrama'
+function lerAjuste(): boolean {
+  try {
+    return localStorage.getItem(CHAVE_AJUSTE) === '1'
+  } catch {
+    return false
+  }
+}
+const ajustarATela = ref(lerAjuste())
+watch(ajustarATela, (ajustar) => {
+  try {
+    localStorage.setItem(CHAVE_AJUSTE, ajustar ? '1' : '0')
+  } catch {
+    // Sem armazenamento, a escolha vale só para esta visita.
+  }
+})
+
 onMounted(() => window.addEventListener('keydown', aoTeclar))
 onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
 </script>
@@ -82,14 +100,24 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     </p>
     <BarraFerramentas @carregar="carregar" @gravar="gravar" @ajuda="ajuda" />
     <div class="area">
-      <div class="painel-cpu">
+      <div class="painel-cpu" :class="{ ampliado: !ajustarATela }">
         <DiagramaCpu />
         <AjudaContextual class="ajuda-diagrama" pagina="cpu" :assunto="t('diagrama.descricao')" />
       </div>
       <TabelaMemoria class="memoria" />
     </div>
     <p class="dica-uso">{{ t('simulador.dicaUso') }}</p>
-    <p class="dica-uso dica-celular">{{ t('simulador.dicaCelular') }}</p>
+    <p class="dica-uso dica-celular">
+      {{ t('simulador.dicaCelular') }}
+      <button
+        type="button"
+        class="botao-ajuste"
+        :aria-pressed="ajustarATela"
+        @click="ajustarATela = !ajustarATela"
+      >
+        {{ ajustarATela ? t('simulador.ampliar') : t('simulador.ajustar') }}
+      </button>
+    </p>
     <DialogoCarregar ref="dialogoCarregar" @escolhido="simulador.carregar" />
     <CaixaMensagem />
     <EstadoAcessivel />
@@ -138,12 +166,23 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
 .dica-celular {
   display: none;
 }
+.botao-ajuste {
+  margin-left: 4px;
+  min-height: 32px;
+  padding: 4px 10px;
+  font: inherit;
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  background: var(--fundo-barra);
+  color: var(--texto);
+  cursor: pointer;
+}
 @media (max-width: 720px) {
   .area {
     grid-template-columns: 1fr;
   }
   /* No celular em pé, o diagrama fica legível com rolagem lateral. */
-  .painel-cpu :deep(.diagrama) {
+  .painel-cpu.ampliado :deep(.diagrama-conteiner) {
     min-width: 640px;
   }
   .memoria {

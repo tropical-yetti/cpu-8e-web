@@ -46,7 +46,8 @@ md.core.ruler.push('ancoras', (estado) => {
 })
 
 // Tabelas largas rolam dentro de uma caixa própria, sem alargar a página.
-md.renderer.rules.table_open = () => '<div class="tabela-rolavel"><table>\n'
+// tabindex permite rolar a tabela pelo teclado.
+md.renderer.rules.table_open = () => '<div class="tabela-rolavel" tabindex="0"><table>\n'
 md.renderer.rules.table_close = () => '</table></div>\n'
 
 const COMPONENTES = {

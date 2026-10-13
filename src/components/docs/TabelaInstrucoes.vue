@@ -15,7 +15,7 @@ const MODOS: ModoEnderecamento[] = ['implicito', 'imediato', 'direto']
 </script>
 
 <template>
-  <div class="tabela-rolavel">
+  <div class="tabela-rolavel" tabindex="0">
     <table class="instrucoes">
       <thead>
         <tr>

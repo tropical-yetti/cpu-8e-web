@@ -26,7 +26,7 @@ async function abrirNoSimulador() {
 
 <template>
   <figure class="programa">
-    <pre><code>{{ codigo }}</code></pre>
+    <pre tabindex="0"><code>{{ codigo }}</code></pre>
     <figcaption>
       <button type="button" @click="abrirNoSimulador">{{ t('docs.abrirNoSimulador') }}</button>
     </figcaption>
