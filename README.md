@@ -9,8 +9,8 @@ colaboradores para o ensino de arquitetura de computadores. O painel mostra
 os registradores, a ULA, os barramentos e a memória de 256 bytes enquanto um
 programa é executado passo a passo.
 
-> **Estado atual:** o núcleo da CPU está pronto e é testado contra o código
-> Pascal original. O painel visual está em construção.
+> **Estado atual:** o núcleo da CPU e o painel do simulador estão prontos e
+> testados. A documentação de uso no site (Fase 3) está em andamento.
 
 ## Como rodar
 
@@ -25,24 +25,34 @@ npm run build      # versão de produção em dist/
 
 Outros comandos úteis:
 
-| Comando             | O que faz                                                          |
-| ------------------- | ------------------------------------------------------------------ |
-| `npm run lint`      | Verifica o estilo do código (ESLint)                               |
-| `npm run format`    | Formata o código (Prettier)                                        |
-| `npm run typecheck` | Verifica os tipos (TypeScript)                                     |
-| `npm run licencas`  | Confere se todas as dependências têm licença compatível com a GPL  |
-| `npm run gabaritos` | Regenera os gabaritos dos testes a partir do original (requer fpc) |
+| Comando                | O que faz                                                          |
+| ---------------------- | ------------------------------------------------------------------ |
+| `npm run lint`         | Verifica o estilo do código (ESLint)                               |
+| `npm run format`       | Formata o código (Prettier)                                        |
+| `npm run typecheck`    | Verifica os tipos (TypeScript)                                     |
+| `npm run licencas`     | Confere se todas as dependências têm licença compatível com a GPL  |
+| `npm run gabaritos`    | Regenera os gabaritos dos testes a partir do original (requer fpc) |
+| `npm run test:e2e`     | Testes de ponta a ponta num navegador (Playwright)                 |
+| `npm run layout`       | Regenera o desenho do painel a partir do formulário original       |
+| `npm run build:previa` | Gera o site inteiro em um único arquivo HTML, para prévias         |
 
 ## Como o projeto está organizado
 
 ```text
 src/core/          núcleo da CPU, em TypeScript puro (sem Vue)
+src/simulador/     controlador: botões, modos de execução, pausa e clock
+src/stores/        store Pinia que liga o controlador aos componentes
+src/components/    diagrama da CPU, tabela de memória, barra de ferramentas
+src/painel/        layout do painel extraído do formulário original
 src/views/         páginas do site
 src/locales/       textos da interface em português e inglês
 tests/core/        testes do núcleo
+tests/simulador/   testes do controlador
+tests/e2e/         testes de ponta a ponta (Playwright)
 tests/fixtures/    programas de teste e gabaritos gerados pelo original
 tools/referencia/  núcleo original em Pascal, sem interface, para gerar gabaritos
-public/programas/  programas de exemplo distribuídos com o original
+tools/layout/      formulário original e o extrator do layout do painel
+src/assets/programas/  programas que acompanham o simulador original
 ```
 
 O ponto central da arquitetura: a CPU **emite eventos** (um por pulso de

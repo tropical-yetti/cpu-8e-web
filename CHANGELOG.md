@@ -20,3 +20,22 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   mostrá-la. Isso não altera os resultados dos programas.
 - Ferramenta `tools/referencia/cpu8e_ref.pas`: versão do núcleo original sem
   interface gráfica, usada para gerar os gabaritos dos testes.
+
+### 2026-10-13 — Painel do simulador
+
+- Painel da CPU redesenhado em SVG a partir das posições, cores e dicas do
+  formulário original (`CPU8E_Panel.lfm`, extraídas por
+  `tools/layout/extrair-layout.ts`). Ícones da barra de ferramentas e do
+  semáforo reaproveitados do original.
+- Botões, modos de execução, pausa, clock e mensagens seguem a lógica de
+  comando do original (`Cmd`, `RunProgram`, `PulseClock`, `Pause`), inclusive
+  suas particularidades.
+- Diferenças inevitáveis por causa da plataforma:
+  - Ajuda abre a documentação do site, em vez do `gedit`.
+  - Não há botão Sair (Exit); basta fechar a aba.
+  - Os programas `teste.bin` e `allopcodes.bin`, que vinham na pasta do
+    original, são oferecidos na janela Carregar.
+  - Gravar baixa o arquivo pelo navegador.
+  - Apertar Executar durante uma execução contínua é ignorado; no original
+    isso iniciava uma segunda execução dentro da primeira.
+  - Interface também em inglês, com dicas traduzidas.

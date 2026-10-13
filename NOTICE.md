@@ -59,3 +59,9 @@ inclusive os seus defeitos conhecidos (fidelidade total na versão 1.0).
 
 Cada arquivo derivado diretamente de um arquivo do original traz no
 cabeçalho o nome do arquivo de origem e o aviso de copyright correspondente.
+
+Arquivos do original incluídos sem modificação:
+
+- `src/assets/original/*.png` — ícones da barra de ferramentas e do semáforo;
+- `src/assets/programas/teste.bin` e `allopcodes.bin` — programas de exemplo;
+- `tools/layout/CPU8E_Panel.lfm` — formulário do painel, fonte do desenho.
