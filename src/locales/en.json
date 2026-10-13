@@ -35,14 +35,16 @@
   },
   "diagrama": {
     "descricao": "CPU-8E diagram with registers, ALU, buses and control unit",
-    "clock": "Clock speed"
+    "clock": "Clock speed",
+    "registrador": "{texto}, in binary {binario}. Press to show the value in binary."
   },
   "memoria": {
     "titulo": "Main memory (256 bytes)",
     "endereco": "Address",
     "conteudo": "Memory",
     "simbolo": "Symbol",
-    "editar": "Edit the contents of address {endereco}"
+    "editar": "Edit the contents of address {endereco}",
+    "editarCelula": "{valor}: edit address {endereco}"
   },
   "barra": {
     "rotulo": "Simulator commands",
@@ -107,5 +109,11 @@
       "direto": "Direct"
     },
     "ajuda": "Help about {assunto}"
+  },
+  "acessivel": {
+    "titulo": "CPU state",
+    "pulso": "{fase}: {mudancas}",
+    "fimInstrucao": "End of instruction {di}. {acc}",
+    "parada": "CPU halted. {di}"
   }
 }

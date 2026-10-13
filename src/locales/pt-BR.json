@@ -35,14 +35,16 @@
   },
   "diagrama": {
     "descricao": "Diagrama da CPU-8E com registradores, ULA, barramentos e unidade de controle",
-    "clock": "Velocidade do clock"
+    "clock": "Velocidade do clock",
+    "registrador": "{texto}, em binário {binario}. Pressione para ver o valor em binário."
   },
   "memoria": {
     "titulo": "Memória principal (256 bytes)",
     "endereco": "Endereço",
     "conteudo": "Memória",
     "simbolo": "Símbolo",
-    "editar": "Editar o conteúdo do endereço {endereco}"
+    "editar": "Editar o conteúdo do endereço {endereco}",
+    "editarCelula": "{valor}: editar o endereço {endereco}"
   },
   "barra": {
     "rotulo": "Comandos do simulador",
@@ -107,5 +109,11 @@
       "direto": "Direto"
     },
     "ajuda": "Ajuda sobre {assunto}"
+  },
+  "acessivel": {
+    "titulo": "Estado da CPU",
+    "pulso": "{fase}: {mudancas}",
+    "fimInstrucao": "Fim da instrução {di}. {acc}",
+    "parada": "CPU parada. {di}"
   }
 }

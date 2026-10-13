@@ -15,6 +15,7 @@ import BarraFerramentas from '@/components/BarraFerramentas.vue'
 import CaixaMensagem from '@/components/CaixaMensagem.vue'
 import DiagramaCpu from '@/components/DiagramaCpu.vue'
 import DialogoCarregar from '@/components/DialogoCarregar.vue'
+import EstadoAcessivel from '@/components/EstadoAcessivel.vue'
 import TabelaMemoria from '@/components/TabelaMemoria.vue'
 import { useSimuladorStore } from '@/stores/simulador'
 
@@ -91,6 +92,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     <p class="dica-uso dica-celular">{{ t('simulador.dicaCelular') }}</p>
     <DialogoCarregar ref="dialogoCarregar" @escolhido="simulador.carregar" />
     <CaixaMensagem />
+    <EstadoAcessivel />
   </section>
 </template>
 

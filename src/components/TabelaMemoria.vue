@@ -116,7 +116,9 @@ function aoSair(endereco: number) {
                 v-else
                 type="button"
                 class="botao-celula"
-                :aria-label="t('memoria.editar', { endereco: linha.endereco })"
+                :aria-label="
+                  t('memoria.editarCelula', { valor: linha.valor, endereco: linha.endereco })
+                "
               >
                 {{ linha.valor }}
               </button>
@@ -170,8 +172,8 @@ th,
 td {
   text-align: center;
   padding: 0;
-  height: 20px;
-  line-height: 20px;
+  height: 24px;
+  line-height: 24px;
   border-bottom: 1px solid var(--borda-suave);
 }
 th {
@@ -197,7 +199,7 @@ th {
 }
 .campo {
   width: 100%;
-  height: 20px;
+  height: 24px;
   text-align: center;
   font: inherit;
   text-transform: uppercase;

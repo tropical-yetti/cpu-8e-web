@@ -51,7 +51,7 @@ test('execução contínua roda teste.bin até o HALT', async ({ page }) => {
 
 test('editar a memória atualiza o símbolo e avança para a linha seguinte', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('button', { name: 'Editar o conteúdo do endereço 00' }).click()
+  await page.getByRole('button', { name: '00: editar o endereço 00' }).click()
   await page.keyboard.type('91')
   await page.keyboard.press('Enter')
   await page.keyboard.type('07')

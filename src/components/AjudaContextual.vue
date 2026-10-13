@@ -28,12 +28,12 @@ const { t } = useI18n()
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border: 1px solid var(--borda);
   border-radius: 50%;
   font:
-    700 11px/1 Arial,
+    700 12px/1 Arial,
     sans-serif;
   color: var(--texto-suave);
   background: var(--fundo);
