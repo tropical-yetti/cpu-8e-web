@@ -13,13 +13,14 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "licencas": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"MIT;ISC;BSD-2-Clause;BSD-3-Clause;Apache-2.0;0BSD;CC0-1.0;Unlicense;BlueOak-1.0.0;MPL-2.0\"",
+    "licencas": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"MIT;ISC;BSD-2-Clause;BSD-3-Clause;Apache-2.0;0BSD;CC0-1.0;Unlicense;BlueOak-1.0.0;MPL-2.0;PSF-2.0\"",
     "gabaritos": "node --experimental-strip-types tools/referencia/gerar-gabaritos.ts",
     "test:e2e": "playwright test",
     "layout": "node --experimental-strip-types tools/layout/extrair-layout.ts",
     "build:previa": "vite build --config vite.config.previa.ts"
   },
   "dependencies": {
+    "markdown-it": "^15.0.2",
     "pinia": "^4.0.3",
     "vue": "^3.5.42",
     "vue-i18n": "^11.4.14",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.64.0",
+    "@types/markdown-it": "^14.2.0",
     "@types/node": "^24.13.3",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/eslint-config-typescript": "^14.9.0",

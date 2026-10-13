@@ -30,6 +30,8 @@ watch(
     if (mensagem && !dialogo.value?.open) dialogo.value?.showModal()
     if (!mensagem && dialogo.value?.open) dialogo.value.close()
   },
+  // Uma mensagem pode ter sido criada antes de a página abrir (ex.: exemplo da documentação).
+  { immediate: true },
 )
 </script>
 

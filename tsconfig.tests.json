@@ -3,7 +3,7 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tests.tsbuildinfo",
     "target": "es2023",
     "lib": ["ES2023"],
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "skipLibCheck": true,
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -23,6 +23,7 @@
     "tests/**/*.ts",
     "tools/**/*.ts",
     "src/core/**/*.ts",
-    "src/simulador/**/*.ts"
+    "src/simulador/**/*.ts",
+    "src/docs/**/*.ts"
   ]
 }

@@ -10,10 +10,12 @@ import SimuladorView from '@/views/SimuladorView.vue'
 
 export const router = createRouter({
   history: createWebHashHistory(),
+  // Links para uma seção (#ancora) rolam até ela; o resto começa do topo.
+  scrollBehavior: (destino) => (destino.hash ? { el: destino.hash } : { top: 0 }),
   routes: [
     { path: '/', name: 'simulador', component: SimuladorView },
     {
-      path: '/documentacao',
+      path: '/documentacao/:pagina?',
       name: 'documentacao',
       component: () => import('@/views/DocumentacaoView.vue'),
     },
