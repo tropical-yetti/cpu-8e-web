@@ -48,7 +48,7 @@ The default is 50. In Single Step mode this time also passes after each press of
 
 While running, each clock pulse paints red the text of the registers that received a value and the bus segments the data went through. Hover over a part of the diagram, or tap it on a phone, to see a tip about it.
 
-**Binary value:** press and hold ACC, A, B, IR, MAR, MDR, PC, SP or the ALU output (ULA) to see its value in binary, such as `ACC=00000101`. It goes away when you release. With the keyboard, **Tab** to the register and press **Enter**.
+**Binary value:** press and hold ACC, A, B, IR, MAR, MDR, PC, SP or the ALU output to see its value in binary, such as `ACC=00000101`. It goes away when you release. With the keyboard, **Tab** to the register and press **Enter**.
 
 **Accessibility:** screen readers find a table with the state of every register and hear, at each stop, what changed on the last clock pulse (for example, "Fetch: MAR:00").
 

@@ -12,10 +12,10 @@ Each phase is a sequence of **micro-operations**. Most of them take one clock pu
 
 | Pulse | Micro-operation | What happens                                                                                                    |
 | ----- | --------------- | --------------------------------------------------------------------------------------------------------------- |
-| 1     | PC → MAR        | The instruction address goes to MAR and, through BE, to memory. Right after, PC goes up by 1.                   |
-| 2     | M[MAR] → MDR    | Memory delivers the instruction code through BD.                                                                |
+| 1     | PC → MAR        | The instruction address goes to MAR and, through AB, to memory. Right after, PC goes up by 1.                   |
+| 2     | M[MAR] → MDR    | Memory delivers the instruction code through DB.                                                                |
 | 3     | MDR → IR        | The code is copied to the instruction register.                                                                 |
-| 4     | IR → DI, UC     | The decoder identifies the instruction. For 2-byte instructions it already shows the operand (PC points to it). |
+| 4     | IR → ID, CU     | The decoder identifies the instruction. For 2-byte instructions it already shows the operand (PC points to it). |
 
 If the code does not match any instruction, the message **INVALID OpCode!** appears and the CPU stops.
 

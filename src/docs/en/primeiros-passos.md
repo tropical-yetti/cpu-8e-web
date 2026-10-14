@@ -21,7 +21,7 @@ The initial mode is **Single Step**. Each press of **Go** advances one clock pul
 - the **Phase** lamp shows whether the CPU is fetching the instruction, fetching the operand or executing;
 - the **Status** light turns yellow while the CPU waits for you.
 
-Press **Go** a few times and watch the first cycle: PC goes to MAR, memory hands the instruction code to MDR, MDR moves to IR and the decoder (DI) shows `LOD[16]`.
+Press **Go** a few times and watch the first cycle: PC goes to MAR, memory hands the instruction code to MDR, MDR moves to IR and the decoder (ID) shows `LOD[16]`.
 
 ## 3. Run the whole program
 

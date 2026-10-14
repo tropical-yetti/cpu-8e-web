@@ -10,9 +10,15 @@ import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSimuladorStore } from '@/stores/simulador'
 import type { ItemPainel } from '@/core'
+import { rotuloNoIdioma, siglaNoIdioma } from '@/painel/rotulos'
 
 const simulador = useSimuladorStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+
+/** Texto de um item do painel ("ULA:05") no idioma da interface ("ALU:05"). */
+function texto(item: ItemPainel): string {
+  return rotuloNoIdioma(simulador.painel.textos[item], locale.value)
+}
 
 const ITENS: ItemPainel[] = [
   'PC',
@@ -35,13 +41,13 @@ const anuncio = ref('')
 /** O que dizer quando a execução para (pausa ou parada). */
 function descreverParada(): string {
   const { painel } = simulador
-  if (painel.status === 'parada') return t('acessivel.parada', { di: painel.textos.DI })
+  if (painel.status === 'parada') return t('acessivel.parada', { di: texto('DI') })
   const fase = painel.fase ? t(`fases.${painel.fase}`) : ''
   if (painel.realcados.length > 0) {
-    const mudancas = painel.realcados.map((item) => painel.textos[item]).join(', ')
+    const mudancas = painel.realcados.map(texto).join(', ')
     return t('acessivel.pulso', { fase, mudancas })
   }
-  return t('acessivel.fimInstrucao', { di: painel.textos.DI, acc: painel.textos.ACC })
+  return t('acessivel.fimInstrucao', { di: texto('DI'), acc: texto('ACC') })
 }
 
 // Anuncia ao pausar (passo a passo ou ciclo) e ao parar, nunca durante a
@@ -66,7 +72,7 @@ watch(
       </caption>
       <tbody>
         <tr v-for="item in ITENS" :key="item">
-          <th scope="row">{{ item }}</th>
+          <th scope="row">{{ siglaNoIdioma(item, locale) }}</th>
           <td>{{ simulador.painel.textos[item].split(':').slice(1).join(':') }}</td>
         </tr>
         <tr>

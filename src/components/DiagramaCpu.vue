@@ -19,6 +19,7 @@ import { computed, onBeforeUnmount, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSimuladorStore } from '@/stores/simulador'
 import { traduzirDica } from '@/painel/dicas'
+import { rotuloNoIdioma } from '@/painel/rotulos'
 import {
   FORMAS_DO_CLOCK,
   LAYOUT,
@@ -73,7 +74,8 @@ function corDaForma(f: ElementoForma): string {
 
 function textoDe(elemento: ElementoTexto): string {
   const item = itemDoTexto(elemento.nome)
-  return item ? simulador.painel.textos[item] : elemento.texto
+  const texto = item ? simulador.painel.textos[item] : elemento.texto
+  return rotuloNoIdioma(texto, locale.value)
 }
 
 /**
@@ -114,8 +116,9 @@ const REGISTRADORES = LAYOUT.textos.filter((elemento) => {
 const binario = ref<{ texto: string; dica?: string; elemento: ElementoTexto } | null>(null)
 
 function mostrarBinario(elemento: ElementoTexto, comDica: boolean) {
-  const texto = simulador.valorBinario(itemDoTexto(elemento.nome)!)
-  if (texto) {
+  const valor = simulador.valorBinario(itemDoTexto(elemento.nome)!)
+  if (valor) {
+    const texto = rotuloNoIdioma(valor, locale.value)
     binario.value = { texto, dica: comDica ? dica(elemento.dica) : undefined, elemento }
   }
 }
@@ -133,7 +136,10 @@ function rotuloDoRegistrador(elemento: ElementoTexto): string {
   const item = itemDoTexto(elemento.nome) as ItemPainel
   void simulador.painel.textos[item] // recalcula quando o valor muda
   const emBinario = simulador.valorBinario(item)?.split('=')[1] ?? ''
-  return t('diagrama.registrador', { texto: simulador.painel.textos[item], binario: emBinario })
+  return t('diagrama.registrador', {
+    texto: rotuloNoIdioma(simulador.painel.textos[item], locale.value),
+    binario: emBinario,
+  })
 }
 
 function estiloDoBalao(elemento: ElementoTexto) {

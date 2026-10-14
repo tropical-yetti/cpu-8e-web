@@ -31,7 +31,7 @@ These behaviors come from the original simulator and were kept on purpose in ver
 | Pause while stopped             | If you press **Pause** with nothing running, the next **Go** does not start execution; you need to press Go again.                                         |
 | Go with no program              | The warning appears, but the status light stays green.                                                                                                     |
 | Reset or Load during a Full Run | Execution does not stop: the CPU carries on from the cleared state, that is, it restarts the program (the new one, for Load). Press **Halt** first.        |
-| Initial decoder text            | Before the first Reset or load, the decoder shows `ID:NOP`, a label that came with the original form.                                                      |
+| Initial decoder text            | In the Portuguese interface, before the first Reset or load, the decoder shows `ID:NOP` instead of `DI:NOP`, a label that came with the original form.     |
 
 If you find any other difference from the original, it is a bug in this version; [report it in the project repository](https://github.com/tropical-yetti/cpu-8e-web).
 

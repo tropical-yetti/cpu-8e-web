@@ -6,6 +6,15 @@ evolução do próprio CPU-8E Web.
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [Não lançado]
+
+### 2026-10-14 — Siglas do painel no idioma da interface
+
+- Na interface em inglês, as siglas portuguesas do desenho original aparecem
+  em inglês: ULA → ALU, UC → CU, DI → ID, BI → IB, BD → DB e BE → AB, também
+  no valor em binário, nos rótulos para leitores de tela e na documentação em
+  inglês. Em português, o painel continua idêntico ao original.
+
 ## [1.0.0] — 2026-10-13
 
 Primeira versão: port funcional do CPU-8E v2.2.3 para o navegador, com

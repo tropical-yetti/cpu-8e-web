@@ -26,6 +26,20 @@ test('carrega teste.bin e mostra o disassembly', async ({ page }) => {
   await expect(diagrama(page)).toContainText('DI:HLT')
 })
 
+test('as siglas do diagrama seguem o idioma da interface', async ({ page }) => {
+  await page.goto('./')
+  const desenho = page.locator('svg.diagrama')
+  for (const sigla of ['ULA:00', 'UC', 'BI', 'BD', 'BE']) {
+    await expect(desenho.getByText(sigla, { exact: true })).toBeVisible()
+  }
+  await page.getByRole('combobox', { name: 'Idioma' }).selectOption('en')
+  for (const sigla of ['ALU:00', 'CU', 'IB', 'DB', 'AB', 'ACC:00', 'RD']) {
+    await expect(desenho.getByText(sigla, { exact: true })).toBeVisible()
+  }
+  await expect(desenho).not.toContainText('ULA')
+  await expect(page.getByRole('button', { name: /^ALU:00, in binary 00000000/ })).toBeAttached()
+})
+
 test('passo a passo avança um pulso de clock por vez', async ({ page }) => {
   await carregarTeste(page)
   const executar = page.getByRole('button', { name: 'Executar', exact: true })

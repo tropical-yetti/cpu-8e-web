@@ -2,7 +2,7 @@
 
 The CPU-8E follows the von Neumann model: program and data share the same memory, and the CPU fetches one instruction at a time, decodes it and executes it. Everything is 8 bits wide: each register and each memory location holds a value from `00` to `FF` (0 to 255).
 
-This is the same panel as in the simulator. The names below follow the drawing. Labels such as ULA (ALU), DI (instruction decoder), UC (control unit), BI, BE and BD come from the original Portuguese design.
+This is the same panel as in the simulator. The names below follow the drawing. The original design is in Portuguese; in the English interface its abbreviations appear in English: ALU (ULA in Portuguese), ID (DI), CU (UC), IB (BI), AB (BE) and DB (BD).
 
 {{diagrama}}
 
@@ -10,8 +10,8 @@ This is the same panel as in the simulator. The names below follow the drawing. 
 
 There are 256 bytes, addresses `00` to `FF`. The CPU never reads memory directly: it places the address in **MAR** and receives (or sends) the data through **MDR**.
 
-- **BE** (address bus) carries the address from MAR to memory.
-- **BD** (data bus) carries data between memory and MDR.
+- **AB** (address bus) carries the address from MAR to memory.
+- **DB** (data bus) carries data between memory and MDR.
 - **RD** and **WR** are the read and write control signals, sent by the control unit.
 
 ## Registers {#registradores}
@@ -26,11 +26,11 @@ There are 256 bytes, addresses `00` to `FF`. The CPU never reads memory directly
 | **A** and **B** | ALU inputs              | Hold the two operands while the ALU computes.                                           |
 | **SP**          | Stack Pointer           | Top of the stack used by `CAL` and `RET`. Starts at `FF` and goes down on each call.    |
 
-**BI** (internal bus) connects the registers to each other and to the ALU. Every transfer between registers goes through it.
+**IB** (internal bus) connects the registers to each other and to the ALU. Every transfer between registers goes through it.
 
-## ALU (ULA) {#ula}
+## ALU {#ula}
 
-The Arithmetic Logic Unit does the math: addition, subtraction, logic operations (AND, OR, XOR, NOT), shifts and rotations. It takes its operands in **A** and **B** and shows the result at the **ULA** output. Each operation updates three flags:
+The Arithmetic Logic Unit does the math: addition, subtraction, logic operations (AND, OR, XOR, NOT), shifts and rotations. It takes its operands in **A** and **B** and shows the result at the **ALU** output. Each operation updates three flags:
 
 | Flag             | Set to 1 when…                                                               |
 | ---------------- | ---------------------------------------------------------------------------- |
@@ -40,13 +40,13 @@ The Arithmetic Logic Unit does the math: addition, subtraction, logic operations
 
 For subtraction (`SUB` and `CMP`), the ALU adds A to the two's complement of B. That is why **C = 1 when there is no borrow** (A ≥ B) and C = 0 when A < B. The jumps `JEQ`, `JGT`, `JGE` and `JCY` decide based on these flags.
 
-The flags appear twice on the panel: next to the ALU, where they are computed, and below the control unit (UC), which uses them to decide jumps.
+The flags appear twice on the panel: next to the ALU, where they are computed, and below the control unit (CU), which uses them to decide jumps.
 
 ## Control unit and decoder {#controle}
 
-The **DI** (instruction decoder) receives the code from IR and shows which instruction it stands for, such as `LOD 05` or `JMP[0E]`.
+The **ID** (instruction decoder) receives the code from IR and shows which instruction it stands for, such as `LOD 05` or `JMP[0E]`.
 
-The **UC** (control unit) drives everything: on each **clock** pulse it picks the next micro-operation (copy one register to another, read or write memory, tell the ALU to compute) and lights up the matching path. The micro-operations of each instruction are listed in [Instruction cycle](#/documentacao/ciclo).
+The **CU** (control unit) drives everything: on each **clock** pulse it picks the next micro-operation (copy one register to another, read or write memory, tell the ALU to compute) and lights up the matching path. The micro-operations of each instruction are listed in [Instruction cycle](#/documentacao/ciclo).
 
 ## Instruction format {#formato}
 
