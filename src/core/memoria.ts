@@ -49,7 +49,7 @@ export function bytesParaGravar(cpu: Cpu): Uint8Array {
  * Lê o texto digitado numa célula: um ou dois dígitos hexadecimais (00 a FF),
  * em maiúsculas ou minúsculas. Qualquer outra coisa devolve null.
  */
-export function lerByteHexadecimal(texto: string): Byte | null {
+function lerByteHexadecimal(texto: string): Byte | null {
   const limpo = texto.trim()
   return /^[0-9a-fA-F]{1,2}$/.test(limpo) ? Number.parseInt(limpo, 16) : null
 }

@@ -32,10 +32,18 @@ Markdown por arquivo, com os mesmos nomes nos dois idiomas.
 
 ## Fidelidade ao original
 
-Até a v1.0, o comportamento da CPU deve ser idêntico ao do simulador
-original. Qualquer mudança em `src/core/` precisa manter `npm test`
-passando. Se um teste de fidelidade falhar, o núcleo TypeScript está
-errado, não o gabarito.
+O comportamento da CPU deve ser idêntico ao do simulador de referência,
+`tools/referencia/cpu8e_ref.pas`: o código Pascal original com as correções
+do CPU-8E Web, cada uma num bloco `{$IFDEF CORRIGIDO}` (veja o README dessa
+pasta). Qualquer mudança em `src/core/` precisa manter `npm test` passando.
+Se um teste de fidelidade falhar, o núcleo TypeScript está errado, não o
+gabarito.
+
+Para corrigir um defeito do original no núcleo: faça a mesma correção no
+`cpu8e_ref.pas`, dentro de `{$IFDEF CORRIGIDO}`, rode `npm run gabaritos` e
+marque o trecho em TypeScript com `CORRIGIDO NA vX.Y`, explicando o
+comportamento antigo. A correção também entra no `CHANGELOG.md` e na página
+"Diferenças do original".
 
 Para acrescentar um programa de teste: inclua-o em
 `tests/fixtures/programas.ts` e rode `npm run gabaritos` (requer o Free

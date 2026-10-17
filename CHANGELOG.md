@@ -6,14 +6,21 @@ evolução do próprio CPU-8E Web.
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
-## [Não lançado]
+## [1.1.0] — não lançada
 
-### 2026-10-14 — Siglas do painel no idioma da interface
+Correções dos defeitos do simulador original que a versão 1.0 reproduzia de
+propósito. Os itens citados são os da tabela de correções do plano do
+projeto; o antes e o depois de cada um estão na página "Diferenças do
+original" da documentação.
 
-- Na interface em inglês, as siglas portuguesas do desenho original aparecem
-  em inglês: ULA → ALU, UC → CU, DI → ID, BI → IB, BD → DB e BE → AB, também
-  no valor em binário, nos rótulos para leitores de tela e na documentação em
-  inglês. Em português, o painel continua idêntico ao original.
+### 2026-10-17 — Documentação da v1.1
+
+- A página "Diferenças do original" ganhou a seção "Corrigido na versão 1.1",
+  com o comportamento antigo e o novo. As páginas Ciclo de instrução,
+  Instruções e Usando o simulador foram atualizadas (STO com 2 pulsos,
+  contador `00`, botões, edição, Gravar, coluna Símbolo e pilha).
+- `CONTRIBUTING.md` explica como corrigir um defeito do original mantendo os
+  testes de fidelidade.
 
 ### 2026-10-17 — Correções da v1.1 na tabela de memória
 
@@ -66,6 +73,13 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 - O simulador de referência em Pascal (`tools/referencia/cpu8e_ref.pas`)
   recebeu as mesmas correções em blocos `{$IFDEF CORRIGIDO}`; os testes
   continuam comparando o núcleo com ele pulso a pulso.
+
+### 2026-10-14 — Siglas do painel no idioma da interface
+
+- Na interface em inglês, as siglas portuguesas do desenho original aparecem
+  em inglês: ULA → ALU, UC → CU, DI → ID, BI → IB, BD → DB e BE → AB, também
+  no valor em binário, nos rótulos para leitores de tela e na documentação em
+  inglês. Em português, o painel continua idêntico ao original.
 
 ## [1.0.0] — 2026-10-13
 

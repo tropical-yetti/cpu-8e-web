@@ -35,7 +35,7 @@ The operand says **how many times** the operation repeats. Each repetition goes 
 | `ROL`       | bit 7 (comes back on the right)    | bit 7          |
 | `ROR`       | bit 0 (comes back on the left)     | bit 0          |
 
-> **Note:** with a counter of `00`, the original simulator copies into ACC the output the ALU kept from the previous instruction, instead of leaving ACC unchanged. This version reproduces that behavior; see [Differences from the original](#/documentacao/diferencas).
+With a counter of `00`, nothing changes: ACC and the flags stay as they were. (In the original simulator, ACC received the output the ALU kept from the previous instruction; this was fixed in version 1.1, see [Differences from the original](#/documentacao/diferencas).)
 
 ## Jumps
 
@@ -56,7 +56,7 @@ All jumps use direct addressing: the operand is the target address.
 - `CAL addr` saves on the stack the address of the next instruction (the value of PC), decrements SP and jumps to `addr`.
 - `RET` increments SP, reads the saved address and returns to it.
 
-The stack starts at `FF` and grows downward (`FF`, `FE`, `FD`…). There is no protection: too many calls can overwrite the program.
+The stack starts at `FF` and grows downward (`FF`, `FE`, `FD`…). The CPU has no protection: too many calls can overwrite the program. When that happens, the simulator pauses execution and warns you.
 
 ## Control
 

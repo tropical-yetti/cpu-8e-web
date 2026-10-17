@@ -35,22 +35,22 @@ Notice the trick: at the end of this phase, MAR always points to where the value
 
 The table lists the micro-operations of each instruction and how many clock pulses the execute phase takes.
 
-| Instruction                       | Micro-operations                                                                                                  | Pulses               |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------- |
-| `HLT`                             | Stops the CPU.                                                                                                    | 1                    |
-| `NOP`                             | Nothing.                                                                                                          | 1                    |
-| `NOT`                             | ACC → A; ALU computes NOT A; ALU → ACC                                                                            | 3                    |
-| `JMP`                             | MAR → PC                                                                                                          | 1                    |
-| `JEQ`, `JGT`, `JGE`, `JCY`        | If the condition holds: MAR → PC. Otherwise nothing happens.                                                      | 1 or 0               |
-| `STO`                             | ACC → MDR; MDR → M[MAR] (WR signal)                                                                               | 3                    |
-| `LOD`                             | M[MAR] → MDR; MDR → A; ALU passes A through and updates the flags; → ACC                                          | 4                    |
-| `CMP`                             | M[MAR] → MDR; ACC → A; MDR → B; ALU computes A − B (only the flags change)                                        | 4                    |
-| `ADD`, `SUB`, `AND`, `XOR`, `ORL` | M[MAR] → MDR; ACC → A; MDR → B; ALU computes; ALU → ACC                                                           | 5                    |
-| `CAL`                             | PC → MDR (return address); MAR → PC; SP → MAR; MDR → M[MAR]; SP goes down by 1                                    | 4                    |
-| `RET`                             | SP goes up by 1; SP → MAR; M[MAR] → MDR; MDR → PC                                                                 | 3                    |
-| `SHL`, `SHR`, `SRA`, `ROL`, `ROR` | M[MAR] → MDR; MDR → B (counter); ACC → A; while B > 0: ALU computes, ALU → A, B goes down by 1; finally ALU → ACC | 4 + 2 per repetition |
+| Instruction                       | Micro-operations                                                                                                  | Pulses                                    |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| `HLT`                             | Stops the CPU.                                                                                                    | 1                                         |
+| `NOP`                             | Nothing.                                                                                                          | 1                                         |
+| `NOT`                             | ACC → A; ALU computes NOT A; ALU → ACC                                                                            | 3                                         |
+| `JMP`                             | MAR → PC                                                                                                          | 1                                         |
+| `JEQ`, `JGT`, `JGE`, `JCY`        | If the condition holds: MAR → PC. Otherwise nothing happens.                                                      | 1 or 0                                    |
+| `STO`                             | ACC → MDR; MDR → M[MAR] (WR signal)                                                                               | 2                                         |
+| `LOD`                             | M[MAR] → MDR; MDR → A; ALU passes A through and updates the flags; → ACC                                          | 4                                         |
+| `CMP`                             | M[MAR] → MDR; ACC → A; MDR → B; ALU computes A − B (only the flags change)                                        | 4                                         |
+| `ADD`, `SUB`, `AND`, `XOR`, `ORL` | M[MAR] → MDR; ACC → A; MDR → B; ALU computes; ALU → ACC                                                           | 5                                         |
+| `CAL`                             | PC → MDR (return address); MAR → PC; SP → MAR; MDR → M[MAR]; SP goes down by 1                                    | 4                                         |
+| `RET`                             | SP goes up by 1; SP → MAR; M[MAR] → MDR; MDR → PC                                                                 | 3                                         |
+| `SHL`, `SHR`, `SRA`, `ROL`, `ROR` | M[MAR] → MDR; MDR → B (counter); ACC → A; while B > 0: ALU computes, ALU → A, B goes down by 1; finally ALU → ACC | 4 + 2 per repetition; 3 with counter `00` |
 
-`STO` animates the memory write twice, so it takes 3 pulses. This is a quirk of the original simulator, kept in this version (see [Differences from the original](#/documentacao/diferencas)).
+With counter `00`, the shift ends after ACC → A, without changing ACC or the flags. In the original simulator, `STO` took 3 pulses because it animated the write twice; both quirks were fixed in version 1.1 (see [Differences from the original](#/documentacao/diferencas)).
 
 ### Example: how many pulses does `LOD [16]` take?
 
@@ -60,7 +60,7 @@ Fetch (4) + direct operand (3) + execute (4) = **11 pulses**. `LOD 05`, which is
 
 - **Single Step**: stops after each clock pulse.
 - **Single Cycle**: stops at the end of each execute phase, before the next fetch.
-- **Full Run**: stops only at `HLT`, at an invalid code, or when you press **Pause** or **Halt**.
+- **Full Run**: stops only at `HLT`, at an invalid code, when the stack reaches the program, or when you press **Pause**.
 
 In every mode, the time between two pulses is set by the **Clock** (see [Using the simulator](#/documentacao/simulador#clock)).
 
