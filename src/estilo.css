@@ -72,6 +72,7 @@ a {
   --borda-suave: #e5e5e5;
   --selecao: #0a246a;
   --texto-selecao: #ffffff;
+  --fundo-pilha: #fff4d6;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -86,6 +87,7 @@ a {
     --borda-suave: #262c36;
     --selecao: #1f6feb;
     --texto-selecao: #ffffff;
+    --fundo-pilha: #3b2f12;
   }
 }
 
@@ -107,4 +109,5 @@ a {
   --borda-suave: #262c36;
   --selecao: #1f6feb;
   --texto-selecao: #ffffff;
+  --fundo-pilha: #3b2f12;
 }

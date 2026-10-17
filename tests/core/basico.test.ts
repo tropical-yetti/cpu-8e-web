@@ -58,6 +58,54 @@ describe('disassembler', () => {
   it('não mostra nada além do tamanho do programa', () => {
     expect(desmontar(new Uint8Array(256), 0).every((linha) => linha === '')).toBe(true)
   })
+
+  it('item 8 (v1.1): bytes que a execução não alcança aparecem como dados (DB)', () => {
+    // LOD [06]; ADD [07]; HLT; (sobra) ; 05 ; 07
+    const memoria = new Uint8Array(256)
+    memoria.set([0xd1, 0x06, 0xd5, 0x07, 0x00, 0x00, 0x05, 0xaa])
+    expect(desmontar(memoria, 8).slice(0, 8)).toEqual([
+      'LOD',
+      '[06]',
+      'ADD',
+      '[07]',
+      'HLT',
+      'DB 00',
+      'DB 05',
+      'DB AA', // no original, AA aparecia como XXX
+    ])
+  })
+
+  it('item 8 (v1.1): segue os desvios e não desalinha o código depois dos dados', () => {
+    // JMP [04]; dado 91 (pareceria um LOD de 2 bytes); dado 00; LOD 07; HLT
+    const memoria = new Uint8Array(256)
+    memoria.set([0xc4, 0x04, 0x91, 0x00, 0x91, 0x07, 0x00])
+    expect(desmontar(memoria, 7).slice(0, 7)).toEqual([
+      'JMP',
+      '[04]',
+      'DB 91',
+      'DB 00',
+      'LOD',
+      '07',
+      'HLT',
+    ])
+  })
+
+  it('item 8 (v1.1): desvios condicionais e CAL seguem os dois caminhos', () => {
+    // JEQ [05]; HLT; dado; dado; CAL [08]; HLT; ... ; RET em 08
+    const memoria = new Uint8Array(256)
+    memoria.set([0xc5, 0x05, 0x00, 0x33, 0x44, 0xc9, 0x08, 0x00, 0x03])
+    expect(desmontar(memoria, 9).slice(0, 9)).toEqual([
+      'JEQ',
+      '[05]',
+      'HLT',
+      'DB 33',
+      'DB 44',
+      'CAL',
+      '[08]',
+      'HLT',
+      'RET',
+    ])
+  })
 })
 
 describe('memória', () => {

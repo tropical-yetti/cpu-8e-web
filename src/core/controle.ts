@@ -297,7 +297,8 @@ function* executarInstrucao(cpu: Cpu): Execucao {
       cpu.mar = cpu.sp
       yield* pulso(cpu, [destaque('MAR', cpu.mar)], CAMINHOS.SP_PARA_MAR)
       yield* mdrParaMemoria(cpu)
-      // FIEL AO ORIGINAL: a pilha não tem proteção; pode sobrescrever o programa.
+      // A pilha não tem proteção e pode sobrescrever o programa, como no
+      // original. Desde a v1.1 o controlador avisa quando isso acontece.
       cpu.sp = (cpu.sp - 1) & 0xff
       yield valor('SP', cpu.sp)
       break

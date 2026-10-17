@@ -103,6 +103,7 @@ function cancelar(endereco: number) {
             :alternada="endereco % 2 === 1"
             :editando="editando === endereco"
             :invalido="invalido === endereco"
+            :pilha="endereco > simulador.topoPilha"
             @editar="editando = endereco"
             @confirmar="(texto, avancar) => confirmar(endereco, texto, avancar)"
             @cancelar="cancelar(endereco)"
@@ -166,6 +167,10 @@ table {
 .rolagem :deep(.alternada td) {
   background: var(--fundo-alternado);
 }
+/* A pilha vem depois da cor alternada e antes da seleção, que tem prioridade. */
+.rolagem :deep(.pilha td) {
+  background: var(--fundo-pilha);
+}
 .rolagem :deep(.foco td),
 .rolagem :deep(.foco th) {
   background: var(--selecao);
@@ -191,6 +196,12 @@ table {
 }
 .rolagem :deep(.campo[aria-invalid='true']) {
   border: 2px solid var(--erro);
+}
+.rolagem :deep(.rotulo-pilha) {
+  font-family: Arial, sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--texto-suave);
 }
 .aviso-memoria {
   margin: 0;

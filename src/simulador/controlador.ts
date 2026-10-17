@@ -55,6 +55,7 @@ export type Mensagem =
   | { chave: 'gravados'; bytes: number }
   | { chave: 'semPrograma' }
   | { chave: 'invalido' }
+  | { chave: 'colisaoPilha'; endereco: number }
 
 /** Tudo o que o painel mostra. A interface só lê; o controlador só escreve. */
 export interface Painel {
@@ -350,6 +351,7 @@ export class Controlador {
         return
       case 'valor':
         this.painel.textos[evento.item] = `${PREFIXOS[evento.item]}:${evento.valor}`
+        if (evento.item === 'SP' && this.cpu.opcode === 'CAL') return this.conferirPilha()
         return
       case 'foco':
         this.painel.foco = evento.endereco
@@ -368,6 +370,22 @@ export class Controlador {
         this.definirComando('halt')
         return
     }
+  }
+
+  /**
+   * Depois de um CAL: se o endereço de retorno foi gravado dentro do programa,
+   * a pilha alcançou o código. A execução pausa e uma mensagem explica.
+   * CORRIGIDO NA v1.1 (item 7): no original, a pilha descia sem aviso e
+   * sobrescrevia o programa. A CPU continua sem proteção, como uma CPU real;
+   * quem avisa é o simulador.
+   */
+  private conferirPilha(): Promise<void> | void {
+    const endereco = this.cpu.mar // o CAL grava o retorno em M[MAR], com MAR = SP antigo
+    if (endereco >= this.cpu.tamanhoPrograma) return
+    this.cmd = 'pause'
+    this.painel.status = 'pausa'
+    this.mostrarMensagem({ chave: 'colisaoPilha', endereco })
+    return this.mensagemFechada
   }
 
   /** PulseClock: realça, espera (modo passo), dorme o tempo do clock e apaga o realce. */

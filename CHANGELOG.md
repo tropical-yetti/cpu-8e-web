@@ -15,6 +15,18 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   no valor em binário, nos rótulos para leitores de tela e na documentação em
   inglês. Em português, o painel continua idêntico ao original.
 
+### 2026-10-17 — Correções da v1.1 na tabela de memória
+
+- A coluna **Símbolo** separa código de dados: o disassembler segue os
+  caminhos que a execução pode tomar a partir de `00`, inclusive os desvios, e
+  mostra como `DB 05` o que nenhum caminho alcança. O original lia toda a
+  memória como código, e um byte de dado podia desalinhar as instruções
+  seguintes (item 8).
+- As posições ocupadas pela pilha (acima do SP) aparecem destacadas, com a
+  palavra "pilha". Quando um `CAL` grava o endereço de retorno dentro do
+  programa, a execução pausa com uma mensagem. No original, a pilha
+  sobrescrevia o programa sem aviso (item 7).
+
 ### 2026-10-17 — Correções da v1.1 na memória e nos arquivos
 
 - A tabela de memória só aceita valores hexadecimais de `00` a `FF`. Um valor

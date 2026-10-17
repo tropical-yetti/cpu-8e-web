@@ -174,6 +174,35 @@ describe('correções da v1.1 no controlador', () => {
     expect(c.painel.nomePrograma).toBe('outro.bin')
   })
 
+  it('item 7: pausa com mensagem quando a pilha alcança o programa', async () => {
+    // Recursão sem fim: CAL [00] chama a si mesmo e a pilha desce de FF até
+    // chegar ao programa. O programa ocupa 00–FD (o resto é preenchido com NOP).
+    const programa = new Uint8Array(0xfe).fill(0x01)
+    programa.set([0xc9, 0x00])
+    const c = novoComPrograma(programa)
+    c.mudarModo('continuo')
+    await c.mudarClock(100)
+    const execucao = c.executar()
+    await esperarAssentar()
+    expect(c.painel.mensagem).toEqual({ chave: 'colisaoPilha', endereco: 0xfd })
+    c.fecharMensagem()
+    await esperarAssentar()
+    expect(c.painel.status).toBe('pausa')
+    expect(c.executando).toBe(true)
+    c.resetar()
+    await execucao
+  })
+
+  it('item 7: uma chamada normal não dispara o aviso da pilha', async () => {
+    // CAL [04]; HLT; NOP; RET
+    const c = novoComPrograma(new Uint8Array([0xc9, 0x04, 0x00, 0x01, 0x03]))
+    c.mudarModo('continuo')
+    await c.mudarClock(100)
+    await c.executar()
+    expect(c.painel.mensagem).toBeNull()
+    expect(c.painel.status).toBe('parada')
+  })
+
   it('item 15: não existe mais o botão Parar', () => {
     const c = new Controlador(undefined, relogioInstantaneo)
     expect('parar' in c).toBe(false)

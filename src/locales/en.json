@@ -48,7 +48,8 @@
     "simbolo": "Symbol",
     "editar": "Edit the contents of address {endereco}",
     "editarCelula": "{valor}: edit address {endereco}",
-    "invalido": "Type a hexadecimal value from 00 to FF."
+    "invalido": "Type a hexadecimal value from 00 to FF.",
+    "pilha": "stack"
   },
   "barra": {
     "rotulo": "Simulator commands",
@@ -88,7 +89,8 @@
     "lidos": "{bytes} ({hex}h) bytes were read into memory.",
     "gravados": "{bytes} ({hex}h) bytes were saved to disk.",
     "semPrograma": "No program loaded in memory!",
-    "invalido": "INVALID OpCode!"
+    "invalido": "INVALID OpCode!",
+    "colisaoPilha": "The stack reached the program: the CAL return address was written at {endereco}h, over the code. Execution is paused; Go continues anyway."
   },
   "carregar": {
     "titulo": "Load program",

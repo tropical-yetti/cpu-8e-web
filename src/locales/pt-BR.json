@@ -48,7 +48,8 @@
     "simbolo": "Símbolo",
     "editar": "Editar o conteúdo do endereço {endereco}",
     "editarCelula": "{valor}: editar o endereço {endereco}",
-    "invalido": "Digite um valor hexadecimal de 00 a FF."
+    "invalido": "Digite um valor hexadecimal de 00 a FF.",
+    "pilha": "pilha"
   },
   "barra": {
     "rotulo": "Comandos do simulador",
@@ -88,7 +89,8 @@
     "lidos": "Foram lidos {bytes}({hex}h) bytes para a memória.",
     "gravados": "Foram gravados {bytes}({hex}h) bytes para disco.",
     "semPrograma": "Nenhum programa carregado em memória!",
-    "invalido": "INVALID OpCode!"
+    "invalido": "INVALID OpCode!",
+    "colisaoPilha": "A pilha chegou ao programa: o endereço de retorno do CAL foi gravado em {endereco}h, sobre o código. A execução foi pausada; com Executar, ela continua mesmo assim."
   },
   "carregar": {
     "titulo": "Carregar programa",

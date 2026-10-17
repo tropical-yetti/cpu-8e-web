@@ -39,6 +39,12 @@ export const useSimuladorStore = defineStore('simulador', () => {
     }))
   })
 
+  /**
+   * Endereço do topo da pilha (o SP). As posições acima dele, até FF, guardam
+   * os endereços de retorno dos CAL em andamento (v1.1, item 7).
+   */
+  const topoPilha = computed(() => Number.parseInt(painel.textos.SP.split(':')[1] ?? 'FF', 16))
+
   /** Texto "ACC=00000101" ao pressionar um registrador, ou null se não se aplica. */
   function valorBinario(item: ItemPainel): string | null {
     const ler = VALOR_DO_REGISTRADOR[item]
@@ -48,6 +54,7 @@ export const useSimuladorStore = defineStore('simulador', () => {
   return {
     painel,
     memoria,
+    topoPilha,
     valorBinario,
     executar: () => controlador.executar(),
     pausar: () => controlador.pausar(),
