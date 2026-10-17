@@ -15,6 +15,21 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   no valor em binário, nos rótulos para leitores de tela e na documentação em
   inglês. Em português, o painel continua idêntico ao original.
 
+### 2026-10-17 — Correções da v1.1 no núcleo da CPU
+
+- Deslocamentos e rotações com contador `00` mantêm o ACC e as flags. No
+  original, o ACC recebia a saída antiga da ULA, de outra instrução (item 1).
+- O `STO` escreve na memória uma única vez: a execução passa de 3 para 2
+  pulsos de clock. O original animava a escrita duas vezes (item 3).
+- No `NOT`, o pulso ACC → A aparece antes do cálculo da ULA, na ordem em que
+  as coisas acontecem. O resultado não muda (item 14).
+- A subtração da ULA (`SUB` e `CMP`) foi reescrita de forma explícita, com o
+  carry igual a 1 quando A ≥ B. O resultado é o mesmo do original, conferido
+  em todas as combinações de entrada (item 2).
+- O simulador de referência em Pascal (`tools/referencia/cpu8e_ref.pas`)
+  recebeu as mesmas correções em blocos `{$IFDEF CORRIGIDO}`; os testes
+  continuam comparando o núcleo com ele pulso a pulso.
+
 ## [1.0.0] — 2026-10-13
 
 Primeira versão: port funcional do CPU-8E v2.2.3 para o navegador, com

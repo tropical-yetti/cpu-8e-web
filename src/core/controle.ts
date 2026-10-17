@@ -12,14 +12,18 @@
  * ser "congelado" em qualquer `yield` e retomado depois, sem travar a página
  * e sem perder o ponto em que estava.
  *
- * A ordem das operações e dos eventos segue CPU8E_Control.pas linha a linha,
- * INCLUSIVE os defeitos conhecidos (fidelidade total na v1.0). Esses
- * defeitos estão marcados com "FIEL AO ORIGINAL".
+ * A ordem das operações e dos eventos segue CPU8E_Control.pas linha a linha.
+ * A v1.0 reproduzia inclusive os defeitos conhecidos; a v1.1 corrige alguns
+ * deles, marcados com "CORRIGIDO NA v1.1" e explicados no próprio trecho. O
+ * que continua igual ao original de propósito está marcado com "FIEL AO
+ * ORIGINAL". A mesma correção entra em tools/referencia/cpu8e_ref.pas
+ * ({$IFDEF CORRIGIDO}), e os testes comparam os dois pulso a pulso.
  *
  * Derivado de CPU8E_Control.pas, CPU-8E v2.2.3
  * Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
  * Modificado em 2026-10-13: reescrito em TypeScript; PulseClock, SetValue,
  * SetPhase e ShowMem passaram a emitir eventos em vez de desenhar na tela.
+ * Modificado em 2026-10-17: correções da v1.1 (itens 1, 3 e 14).
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -223,10 +227,10 @@ function* executarInstrucao(cpu: Cpu): Execucao {
       break
 
     case 'NOT':
-      cpu.a = cpu.acc
-      // FIEL AO ORIGINAL: a ULA calcula antes de o pulso mostrar ACC → A.
+      // CORRIGIDO NA v1.1 (item 14): no original, a ULA calculava antes de o
+      // pulso mostrar ACC → A, invertendo a ordem na tela.
+      yield* accParaA(cpu)
       yield* processarUla(cpu, 'NOT')
-      yield* pulso(cpu, [destaque('A', cpu.a)], CAMINHOS.ACC_PARA_A)
       yield* ulaParaAcc(cpu)
       break
 
@@ -249,11 +253,9 @@ function* executarInstrucao(cpu: Cpu): Execucao {
     case 'STO':
       cpu.mdr = cpu.acc
       yield* pulso(cpu, [destaque('MDR', cpu.mdr)], CAMINHOS.ACC_PARA_MDR)
+      // CORRIGIDO NA v1.1 (item 3): no original, a escrita na memória era
+      // animada uma segunda vez, gastando um pulso de clock a mais.
       yield* mdrParaMemoria(cpu)
-      yield foco(cpu.mar)
-      // FIEL AO ORIGINAL: a escrita na memória é animada uma segunda vez.
-      yield* pulso(cpu, [], CAMINHOS.MDR_PARA_MEMORIA)
-      yield foco(cpu.pc)
       break
 
     case 'LOD':
@@ -341,9 +343,10 @@ function* deslocar(cpu: Cpu, operacao: 'SHL' | 'SHR' | 'SRA' | 'ROL' | 'ROR'): E
     yield valor('B', cpu.b)
     yield* pulso(cpu, [destaque('A', cpu.a)], CAMINHOS.ULA_PARA_A)
   }
-  // FIEL AO ORIGINAL: com contador 0 o laço não roda e o ACC recebe a saída
-  // anterior da ULA (de outra instrução). Correção prevista para a v1.1.
-  yield* ulaParaAcc(cpu)
+  // CORRIGIDO NA v1.1 (item 1): com contador 0 o laço não roda e, no
+  // original, o ACC recebia a saída antiga da ULA (de outra instrução).
+  // Agora ACC e flags ficam como estão. O MDR guarda o contador.
+  if (cpu.mdr > 0) yield* ulaParaAcc(cpu)
 }
 
 // ---------------------------------------------------------------------------

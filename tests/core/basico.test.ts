@@ -102,3 +102,46 @@ describe('reset', () => {
     expect(cpu.memoria[1]).toBe(0x07)
   })
 })
+
+describe('correções da v1.1 no núcleo', () => {
+  /** Carrega um programa, executa até parar e devolve a CPU e os eventos. */
+  function rodar(bytes: number[]) {
+    const cpu = criarCpu()
+    carregarPrograma(cpu, Uint8Array.from(bytes))
+    const eventos = [...executar(cpu)]
+    return { cpu, eventos }
+  }
+
+  /** Pulsos de clock da fase de execução da instrução de número `instrucao` (a partir de 0). */
+  function pulsosDaExecucao(bytes: number[], instrucao: number) {
+    const { eventos } = rodar(bytes)
+    const fimDe = eventos.flatMap((e, i) => (e.tipo === 'fimInstrucao' ? [i] : []))
+    const inicio = instrucao === 0 ? 0 : fimDe[instrucao - 1]! + 1
+    const trecho = eventos.slice(inicio, fimDe[instrucao])
+    const execucao = trecho.findIndex((e) => e.tipo === 'fase' && e.fase === 'execucao')
+    return trecho.slice(execucao).filter((e) => e.tipo === 'pulso')
+  }
+
+  it('item 1: deslocamento com contador 00 mantém ACC e flags', () => {
+    // LOD 05; CMP 07 (ULA = FE, N = 1, C = 0); SHL 00; HLT
+    const { cpu } = rodar([0x91, 0x05, 0x94, 0x07, 0x8a, 0x00, 0x00])
+    expect(cpu.acc).toBe(0x05)
+    expect(cpu.ula).toMatchObject({ valor: 0xfe, n: true, c: false })
+  })
+
+  it('item 3: STO escreve na memória uma única vez (2 pulsos na execução)', () => {
+    const pulsos = pulsosDaExecucao([0x91, 0x2a, 0xd0, 0x20, 0x00], 1)
+    expect(pulsos).toHaveLength(2)
+    expect(
+      pulsos.filter((p) => p.tipo === 'pulso' && p.barramentos.includes('shWR1')),
+    ).toHaveLength(1)
+  })
+
+  it('item 14: no NOT, ACC → A aparece antes do cálculo da ULA', () => {
+    const pulsos = pulsosDaExecucao([0x91, 0x0f, 0x02, 0x00], 1)
+    const itens = pulsos.map((p) => (p.tipo === 'pulso' ? p.destaques.map((d) => d.item) : []))
+    expect(itens[0]).toEqual(['A'])
+    expect(itens[1]).toContain('ULA')
+    expect(itens[2]).toEqual(['ACC'])
+  })
+})
