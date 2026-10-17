@@ -16,6 +16,7 @@
  * Derivado de CPU8E_Control.pas (ProcessULA), CPU-8E v2.2.3
  * Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
  * Modificado em 2026-10-13: reescrito em TypeScript como função pura.
+ * Modificado em 2026-10-17: subtração escrita de forma explícita (v1.1).
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -69,8 +70,13 @@ export function calcularIntermediario(operacao: OperacaoUla, a: Byte, b: Byte): 
       return a
     case 'CMP':
     case 'SUB':
-      // A − B = A + (complemento de 2 de B)
-      return word(word(inverter(b) + 1) + a)
+      // A − B. O original soma A ao complemento de 2 de B num `word`:
+      // (not B) + 1 + A. Escrito de forma explícita, dá o mesmo resultado:
+      // os 8 bits de baixo são A − B, e o bit 8 (carry) é 1 quando não há
+      // empréstimo, isto é, quando A ≥ B (inclusive com B = 0).
+      // CORRIGIDO NA v1.1 (item 2): só a forma de escrever mudou; a tabela
+      // completa da ULA confere que o resultado é o mesmo do original.
+      return ((a - b) & 0xff) | (a >= b ? BIT_8 : 0)
     case 'ADD':
       return word(a + b)
     case 'AND':
