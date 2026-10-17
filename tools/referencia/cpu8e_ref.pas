@@ -20,6 +20,11 @@ program cpu8e_ref;
       (Delphi), para que os traços reproduzam o comportamento original,
       inclusive os bugs.
 
+  Modificações (2026-10-17, CPU-8E Web v1.1):
+    - As correções da v1.1 entram em blocos {$IFDEF CORRIGIDO}. Compilado
+      com -dCORRIGIDO, o programa reproduz o núcleo corrigido do CPU-8E Web;
+      sem o define, continua sendo o simulador original.
+
   Uso:  cpu8e_ref <programa.bin> [maxEventos]  > traco.jsonl
 
   Este arquivo é distribuído sob a GPL-3.0-or-later, como o restante
