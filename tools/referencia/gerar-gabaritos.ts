@@ -1,6 +1,12 @@
 /**
  * Gera os gabaritos dos testes de fidelidade executando cada programa de
- * tests/fixtures/programas.ts no simulador original (cpu8e_ref.pas).
+ * tests/fixtures/programas.ts no simulador de referência (cpu8e_ref.pas).
+ *
+ * A referência é o código Pascal original. Compilada com -dCORRIGIDO, ela
+ * aplica as mesmas correções da v1.1 que o núcleo TypeScript, cada uma num
+ * bloco {$IFDEF CORRIGIDO} fácil de revisar. Os gabaritos usam essa
+ * variante; sem o define, o executável continua sendo o simulador original
+ * (o comportamento da v1.0, guardado na tag v1.0.0).
  *
  * Requer o Free Pascal (fpc). Uso:  npm run gabaritos
  *
@@ -19,10 +25,16 @@ const aqui = fileURLToPath(new URL('.', import.meta.url))
 const destino = fileURLToPath(new URL('../../tests/fixtures/gabaritos/', import.meta.url))
 const temporario = mkdtempSync(join(tmpdir(), 'cpu8e-'))
 
-/** Compila o simulador de referência e devolve o caminho do executável. */
-export function compilarReferencia(pasta = temporario): string {
-  execFileSync('fpc', ['-v0', `-FE${pasta}`, join(aqui, 'cpu8e_ref.pas')], { stdio: 'inherit' })
-  return join(pasta, 'cpu8e_ref')
+/**
+ * Compila o simulador de referência e devolve o caminho do executável.
+ * `corrigido` (padrão) aplica as correções da v1.1; `false` compila o original.
+ */
+export function compilarReferencia({ corrigido = true, pasta = temporario } = {}): string {
+  const saida = join(pasta, corrigido ? 'corrigido' : 'original')
+  mkdirSync(saida, { recursive: true })
+  const opcoes = ['-v0', `-FE${saida}`, ...(corrigido ? ['-dCORRIGIDO'] : [])]
+  execFileSync('fpc', [...opcoes, join(aqui, 'cpu8e_ref.pas')], { stdio: 'inherit' })
+  return join(saida, 'cpu8e_ref')
 }
 
 /** Executa um programa no simulador de referência e devolve o rastro em texto. */

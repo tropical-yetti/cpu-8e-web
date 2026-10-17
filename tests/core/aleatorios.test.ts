@@ -1,6 +1,7 @@
 /**
  * Teste de fidelidade com programas aleatórios: memórias de 256 bytes
- * sorteadas são executadas no simulador original e no núcleo TypeScript, e
+ * sorteadas são executadas no simulador de referência (o Pascal original com
+ * as correções da v1.1, compilado com -dCORRIGIDO) e no núcleo TypeScript, e
  * os rastros precisam ser idênticos.
  *
  * Precisa do Free Pascal (fpc) instalado; sem ele, o teste é pulado. O CI
@@ -39,7 +40,7 @@ const PROGRAMAS_SORTEADOS = 60
 const MAX_EVENTOS = 3000
 
 describe.skipIf(!temFpc())('fidelidade com programas aleatórios', () => {
-  const executavel = compilarReferencia()
+  const executavel = compilarReferencia({ corrigido: true })
 
   it(`${PROGRAMAS_SORTEADOS} programas sorteados produzem rastros idênticos`, () => {
     for (let semente = 1; semente <= PROGRAMAS_SORTEADOS; semente++) {
