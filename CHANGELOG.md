@@ -15,6 +15,21 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   no valor em binário, nos rótulos para leitores de tela e na documentação em
   inglês. Em português, o painel continua idêntico ao original.
 
+### 2026-10-17 — Correções da v1.1 nos botões
+
+- **Reset** e **Carregar** interrompem também a execução contínua. No
+  original, a execução seguia a partir do estado zerado e recomeçava o
+  programa (item 13).
+- O botão **Parar** (Halt) e o atalho Ctrl+H foram removidos. Ele encerrava a
+  execução sem deixar continuar e só servia para interromper antes do Reset,
+  que agora interrompe sozinho (item 15).
+- **Pausar** sem nada em execução não tem efeito. No original, o Executar
+  seguinte não iniciava a execução (item 11).
+- **Executar** sem programa mostra o aviso e deixa o semáforo vermelho. No
+  original, ele ficava verde (item 12).
+- O decodificador começa com `DI:NOP`. O formulário original trazia `ID:NOP`,
+  e a caixa trocava de nome no primeiro Reset (item 10).
+
 ### 2026-10-17 — Correções da v1.1 no núcleo da CPU
 
 - Deslocamentos e rotações com contador `00` mantêm o ACC e as flags. No

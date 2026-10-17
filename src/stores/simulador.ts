@@ -51,7 +51,6 @@ export const useSimuladorStore = defineStore('simulador', () => {
     valorBinario,
     executar: () => controlador.executar(),
     pausar: () => controlador.pausar(),
-    parar: () => controlador.parar(),
     resetar: () => controlador.resetar(),
     carregar: (bytes: Uint8Array, nome: string) => controlador.carregar(bytes, nome),
     gravar: () => controlador.gravar(),

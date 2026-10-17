@@ -24,6 +24,8 @@ test('carrega teste.bin e mostra o disassembly', async ({ page }) => {
   await expect(linha0).toContainText('D1')
   await expect(linha0).toContainText('LOD')
   await expect(diagrama(page)).toContainText('DI:HLT')
+  // v1.1: o botão Parar saiu da barra (item 15).
+  await expect(page.getByRole('button', { name: 'Parar' })).toHaveCount(0)
 })
 
 test('as siglas do diagrama seguem o idioma da interface', async ({ page }) => {

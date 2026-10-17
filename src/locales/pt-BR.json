@@ -59,8 +59,6 @@
     "executarDica": "Executar / avançar (Ctrl+G)",
     "pausar": "Pausar",
     "pausarDica": "Pausar a execução (Ctrl+P)",
-    "parar": "Parar",
-    "pararDica": "Parar a execução; só o Reset permite executar de novo (Ctrl+H)",
     "resetar": "Reset",
     "resetarDica": "Reiniciar a CPU, mantendo a memória (Ctrl+R)",
     "ajuda": "Ajuda",

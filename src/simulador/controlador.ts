@@ -1,5 +1,5 @@
 /**
- * Controlador do simulador: liga os botões (Executar, Pausar, Parar, Reset,
+ * Controlador do simulador: liga os botões (Executar, Pausar, Reset,
  * Carregar...) à CPU e mantém o estado do painel que a interface desenha.
  *
  * Este arquivo reproduz a lógica de comando do original — a variável `Cmd`,
@@ -78,7 +78,7 @@ export interface Painel {
   simbolos: string[]
   /** Muda a cada escrita na memória, para a interface redesenhar a tabela. */
   versaoMemoria: number
-  habilitados: { executar: boolean; pausar: boolean; parar: boolean; resetar: boolean }
+  habilitados: { executar: boolean; pausar: boolean; resetar: boolean }
   nomePrograma: string | null
   mensagem: Mensagem | null
 }
@@ -100,7 +100,11 @@ const PREFIXOS: Record<ItemPainel, string> = {
   C: 'C',
 }
 
-/** Textos iniciais, como estão no formulário original (inclusive "ID:NOP"). */
+/**
+ * Textos iniciais, como estão no formulário original.
+ * CORRIGIDO NA v1.1 (item 10): o formulário original trazia "ID:NOP", com a
+ * sigla em inglês, e o decodificador passava a "DI:…" no primeiro Reset.
+ */
 function textosIniciais(): Record<ItemPainel, string> {
   return {
     ACC: 'ACC:00',
@@ -112,7 +116,7 @@ function textosIniciais(): Record<ItemPainel, string> {
     A: 'A:00',
     B: 'B:00',
     ULA: 'ULA:00',
-    DI: 'ID:NOP',
+    DI: 'DI:NOP',
     Z: 'Z:0',
     N: 'N:0',
     C: 'C:0',
@@ -132,7 +136,7 @@ export function criarPainel(): Painel {
     foco: 0,
     simbolos: new Array<string>(256).fill(''),
     versaoMemoria: 0,
-    habilitados: { executar: false, pausar: false, parar: false, resetar: false },
+    habilitados: { executar: false, pausar: false, resetar: false },
     nomePrograma: null,
     mensagem: null,
   }
@@ -184,34 +188,34 @@ export class Controlador {
   /** Botão Executar / Go (sbGoClick). */
   async executar(): Promise<void> {
     this.painel.status = 'execucao'
-    if (this.cmd !== 'pause') {
-      // DIFERENÇA DE PLATAFORMA: no original, apertar Go durante uma execução
-      // contínua iniciava uma segunda execução dentro da primeira. Aqui o
-      // pedido é ignorado, porque o navegador não permite esse aninhamento.
-      if (this.emExecucao) return
+    if (this.cmd === 'pause' && this.emExecucao) {
+      // Retoma a execução pausada.
       this.definirComando('go')
-      await this.rodar()
-    } else {
-      // FIEL AO ORIGINAL: se Pausar foi apertado com a CPU parada, este Go
-      // apenas troca o comando e não inicia a execução; é preciso apertar de novo.
-      this.definirComando('go')
+      return
     }
+    // DIFERENÇA DE PLATAFORMA: no original, apertar Go durante uma execução
+    // contínua iniciava uma segunda execução dentro da primeira. Aqui o
+    // pedido é ignorado, porque o navegador não permite esse aninhamento.
+    if (this.emExecucao) return
+    this.definirComando('go')
+    await this.rodar()
   }
 
-  /** Botão Pausar (sbPauseClick). */
+  /**
+   * Botão Pausar (sbPauseClick).
+   * CORRIGIDO NA v1.1 (item 11): sem nada em execução, Pausar não faz nada.
+   * No original, ele deixava o comando em "pausa", e o Executar seguinte só
+   * desfazia isso, sem iniciar a execução.
+   */
   pausar(): void {
+    if (!this.emExecucao) return
     this.definirComando('pause')
     this.painel.status = 'pausa'
   }
 
-  /** Botão Parar / Halt (sbHaltClick). Só um Reset permite executar de novo. */
-  parar(): void {
-    this.definirComando('halt')
-    this.painel.status = 'parada'
-    this.painel.fase = null
-    this.painel.habilitados.executar = false
-    this.painel.habilitados.pausar = false
-  }
+  // CORRIGIDO NA v1.1 (item 15): o botão Parar (Halt) foi removido. Ele
+  // encerrava a execução sem deixar continuar, e só servia para interromper
+  // antes do Reset, que agora interrompe sozinho (item 13).
 
   /** Botão Reset (sbResetClick + ResetCPU). A memória é preservada. */
   resetar(): void {
@@ -238,7 +242,6 @@ export class Controlador {
     Object.assign(this.painel.habilitados, {
       executar: true,
       pausar: true,
-      parar: true,
       resetar: true,
     })
     this.mostrarMensagem({ chave: 'lidos', bytes: lidos })
@@ -263,7 +266,6 @@ export class Controlador {
     Object.assign(this.painel.habilitados, {
       executar: temPrograma,
       pausar: temPrograma,
-      parar: temPrograma,
       resetar: temPrograma,
     })
   }
@@ -295,7 +297,8 @@ export class Controlador {
     if (this.cpu.tamanhoPrograma === 0) {
       this.mostrarMensagem({ chave: 'semPrograma' })
       this.definirComando('halt')
-      // FIEL AO ORIGINAL: o semáforo continua verde depois desta mensagem.
+      // CORRIGIDO NA v1.1 (item 12): no original, o semáforo ficava verde.
+      this.painel.status = 'parada'
     } else {
       await this.rodarPrograma()
     }
@@ -313,11 +316,17 @@ export class Controlador {
           // redesenhada uma vez por quadro, não a cada evento.
           const espera = this.tratarEvento(evento)
           if (espera) await espera
+          // CORRIGIDO NA v1.1 (item 13): Reset e Carregar interrompem também a
+          // execução contínua. No original, ela seguia a partir do estado
+          // zerado, recomeçando o programa. A verificação vem logo depois de
+          // cada espera, que é quando um clique pode ter chegado, e antes de a
+          // CPU dar o próximo passo.
+          if (this.cmd === 'rst' || this.cmd === 'load') throw new Interrupcao()
         }
       } while (this.cmd !== 'halt')
       this.painel.status = 'parada'
     } catch (erro) {
-      // Interrupção por Parar, Reset ou Carregar: a execução simplesmente
+      // Interrupção por Reset ou Carregar: a execução simplesmente
       // termina; a próxima recomeça a fase em que a CPU estava.
       if (!(erro instanceof Interrupcao)) throw erro
     } finally {
@@ -381,7 +390,7 @@ export class Controlador {
 
   /**
    * Pause(Mode): espera se o modo atual pede uma parada aqui ou se o usuário
-   * apertou Pausar. Parar, Reset e Carregar interrompem a execução.
+   * apertou Pausar. Reset e Carregar interrompem a execução.
    */
   private pausa(modo: Modo): Promise<void> | void {
     if (this.painel.modo !== modo && this.cmd !== 'pause' && this.cmd !== 'halt') return

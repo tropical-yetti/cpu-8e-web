@@ -59,8 +59,6 @@
     "executarDica": "Run / advance (Ctrl+G)",
     "pausar": "Pause",
     "pausarDica": "Pause execution (Ctrl+P)",
-    "parar": "Halt",
-    "pararDica": "Halt execution; only Reset allows running again (Ctrl+H)",
     "resetar": "Reset",
     "resetarDica": "Restart the CPU, keeping the memory (Ctrl+R)",
     "ajuda": "Help",
