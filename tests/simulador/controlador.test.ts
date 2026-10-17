@@ -200,8 +200,10 @@ describe('particularidades do original', () => {
 describe('edição e utilidades', () => {
   it('editar a memória atualiza o disassembly e habilita os botões', () => {
     const c = new Controlador(undefined, relogioInstantaneo)
-    c.editarMemoria(0, '91')
-    c.editarMemoria(1, '07')
+    expect(c.editarMemoria(0, '91')).toBe(true)
+    expect(c.editarMemoria(1, '07')).toBe(true)
+    expect(c.editarMemoria(2, 'xyz')).toBe(false) // v1.1: recusado, nada muda
+    expect(c.cpu.tamanhoPrograma).toBe(2)
     expect(c.painel.simbolos.slice(0, 2)).toEqual(['LOD', '07'])
     expect(c.painel.habilitados.executar).toBe(true)
   })

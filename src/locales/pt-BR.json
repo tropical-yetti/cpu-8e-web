@@ -47,7 +47,8 @@
     "conteudo": "Memória",
     "simbolo": "Símbolo",
     "editar": "Editar o conteúdo do endereço {endereco}",
-    "editarCelula": "{valor}: editar o endereço {endereco}"
+    "editarCelula": "{valor}: editar o endereço {endereco}",
+    "invalido": "Digite um valor hexadecimal de 00 a FF."
   },
   "barra": {
     "rotulo": "Comandos do simulador",

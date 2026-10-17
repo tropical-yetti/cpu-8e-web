@@ -254,9 +254,12 @@ export class Controlador {
     return bytes
   }
 
-  /** Edição de uma célula da memória (sgMemoriaSetEditText). */
-  editarMemoria(endereco: Byte, texto: string): void {
-    editarMemoria(this.cpu, endereco, texto)
+  /**
+   * Edição de uma célula da memória (sgMemoriaSetEditText).
+   * Devolve false, sem mudar nada, se o texto não for um valor de 00 a FF.
+   */
+  editarMemoria(endereco: Byte, texto: string): boolean {
+    if (editarMemoria(this.cpu, endereco, texto) === null) return false
     this.painel.versaoMemoria++
     // Como no original, o disassembly reescreve só as posições do programa
     // e deixa o resto da coluna como estava.
@@ -268,6 +271,7 @@ export class Controlador {
       pausar: temPrograma,
       resetar: temPrograma,
     })
+    return true
   }
 
   /** Mudança da velocidade do clock (ClockSelectChange). */

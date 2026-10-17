@@ -47,7 +47,8 @@
     "conteudo": "Memory",
     "simbolo": "Symbol",
     "editar": "Edit the contents of address {endereco}",
-    "editarCelula": "{valor}: edit address {endereco}"
+    "editarCelula": "{valor}: edit address {endereco}",
+    "invalido": "Type a hexadecimal value from 00 to FF."
   },
   "barra": {
     "rotulo": "Simulator commands",

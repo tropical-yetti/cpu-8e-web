@@ -5,6 +5,7 @@
   Derivado de CPU8E_Panel.pas (sgMemoria, ShowMem), CPU-8E v2.2.3
   Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
   Modificado em 2026-10-13: tabela refeita em HTML.
+  Modificado em 2026-10-17: valor inválido é recusado com aviso (v1.1, item 5).
   SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <script setup lang="ts">
@@ -20,6 +21,8 @@ const { t, locale } = useI18n()
 
 const rolagem = ref<HTMLElement | null>(null)
 const editando = ref<number | null>(null)
+/** Endereço cuja edição foi recusada por ter um valor inválido. */
+const invalido = ref<number | null>(null)
 
 /** Mantém a linha selecionada visível, mais ou menos no meio da tabela. */
 async function mostrarFoco(endereco: number) {
@@ -36,15 +39,28 @@ watch(
   (endereco) => void mostrarFoco(endereco),
 )
 
-/** Grava a célula; com Enter, segue para a linha de baixo (AutoAdvance do original). */
+/**
+ * Grava a célula; com Enter, segue para a linha de baixo (AutoAdvance do
+ * original). Um valor inválido é recusado: com Enter, o campo continua aberto
+ * com o aviso; ao sair do campo, a edição é descartada.
+ */
 function confirmar(endereco: number, texto: string, avancar: boolean) {
   if (editando.value !== endereco) return
-  simulador.editarMemoria(endereco, texto.trim())
+  if (!simulador.editarMemoria(endereco, texto)) {
+    if (avancar) {
+      invalido.value = endereco
+    } else {
+      cancelar(endereco)
+    }
+    return
+  }
+  invalido.value = null
   editando.value = avancar && endereco < 255 ? endereco + 1 : null
 }
 
 function cancelar(endereco: number) {
   if (editando.value === endereco) editando.value = null
+  invalido.value = null
 }
 </script>
 
@@ -58,6 +74,9 @@ function cancelar(endereco: number) {
         <AjudaContextual pagina="simulador" secao="memoria" :assunto="t('memoria.titulo')" />
       </span>
     </div>
+    <p v-if="invalido !== null" id="aviso-memoria" class="aviso-memoria" role="alert">
+      {{ t('memoria.invalido') }}
+    </p>
     <div ref="rolagem" class="rolagem">
       <table>
         <caption class="visualmente-oculto">
@@ -83,6 +102,7 @@ function cancelar(endereco: number) {
             :foco="endereco === simulador.painel.foco"
             :alternada="endereco % 2 === 1"
             :editando="editando === endereco"
+            :invalido="invalido === endereco"
             @editar="editando = endereco"
             @confirmar="(texto, avancar) => confirmar(endereco, texto, avancar)"
             @cancelar="cancelar(endereco)"
@@ -168,6 +188,17 @@ table {
   text-transform: uppercase;
   border: 1px solid var(--destaque);
   padding: 0;
+}
+.rolagem :deep(.campo[aria-invalid='true']) {
+  border: 2px solid var(--erro);
+}
+.aviso-memoria {
+  margin: 0;
+  padding: 2px 4px;
+  font-size: 12px;
+  color: var(--erro);
+  background: var(--fundo-cabecalho);
+  border-bottom: 1px solid var(--borda);
 }
 .rolagem :deep(.simbolo) {
   font-family: 'Courier New', monospace;

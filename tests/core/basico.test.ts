@@ -74,20 +74,40 @@ describe('memória', () => {
     expect(carregarPrograma(cpu, new Uint8Array(300).fill(7))).toBe(256)
   })
 
-  it('FIEL AO ORIGINAL: gravar só salva até o tamanho do programa', () => {
+  it('item 4 (v1.1): gravar salva até o último byte não nulo, inclusive dados do STO', () => {
     const cpu = criarCpu()
     carregarPrograma(cpu, new Uint8Array([0x91, 0x05, 0xd0, 0x80, 0x00]))
     executarAteParar(cpu) // o STO grava em 80h, fora do programa
     expect(cpu.memoria[0x80]).toBe(0x05)
-    expect(bytesParaGravar(cpu)).toHaveLength(5)
+    const bytes = bytesParaGravar(cpu)
+    expect(bytes).toHaveLength(0x81)
+    expect(bytes[0x80]).toBe(0x05)
   })
 
-  it('FIEL AO ORIGINAL: edição inválida grava 00 e valores grandes são truncados', () => {
+  it('item 4 (v1.1): gravar nunca corta o programa, mesmo se ele termina em zeros', () => {
     const cpu = criarCpu()
-    expect(editarMemoria(cpu, 0x10, 'zz')).toBe(0x00)
-    expect(editarMemoria(cpu, 0x11, '1ff')).toBe(0xff)
+    carregarPrograma(cpu, new Uint8Array([0x91, 0x05, 0x00, 0x00]))
+    expect(bytesParaGravar(cpu)).toHaveLength(4)
+  })
+
+  it('item 4 (v1.1): a pilha perto de FF também é gravada', () => {
+    const cpu = criarCpu()
+    // CAL [04]; HLT; 00; RET  →  o retorno (02) é empilhado em FF
+    carregarPrograma(cpu, new Uint8Array([0xc9, 0x04, 0x00, 0x00, 0x03]))
+    executarAteParar(cpu)
+    expect(cpu.memoria[0xff]).toBe(0x02)
+    expect(bytesParaGravar(cpu)).toHaveLength(256)
+  })
+
+  it('item 5 (v1.1): edição aceita só hexadecimal de 00 a FF e recusa o resto', () => {
+    const cpu = criarCpu()
     expect(editarMemoria(cpu, 0x12, 'a5')).toBe(0xa5)
-    expect(cpu.tamanhoPrograma).toBe(0x13)
+    expect(editarMemoria(cpu, 0x13, ' 7 ')).toBe(0x07)
+    for (const invalido of ['zz', '1ff', '', '-1', '0x5', 'g']) {
+      expect(editarMemoria(cpu, 0x10, invalido)).toBeNull()
+    }
+    expect(cpu.memoria[0x10]).toBe(0)
+    expect(cpu.tamanhoPrograma).toBe(0x14)
   })
 })
 

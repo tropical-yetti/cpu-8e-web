@@ -15,6 +15,16 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   no valor em binário, nos rótulos para leitores de tela e na documentação em
   inglês. Em português, o painel continua idêntico ao original.
 
+### 2026-10-17 — Correções da v1.1 na memória e nos arquivos
+
+- A tabela de memória só aceita valores hexadecimais de `00` a `FF`. Um valor
+  inválido é recusado com um aviso, e a memória não muda. O original gravava
+  `00` sem avisar e cortava valores acima de `FF` (item 5).
+- **Gravar** salva até o último byte diferente de zero da memória, e nunca
+  menos que o programa carregado. O original gravava só o tamanho do programa,
+  deixando de fora os dados escritos depois dele, com `STO` ou pela pilha
+  (item 4).
+
 ### 2026-10-17 — Correções da v1.1 nos botões
 
 - **Reset** e **Carregar** interrompem também a execução contínua. No

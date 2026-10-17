@@ -6,6 +6,7 @@
  * Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
  * Modificado em 2026-10-13: reescrito em TypeScript; arquivos passaram a ser
  * lidos e gravados como bytes no navegador.
+ * Modificado em 2026-10-17: edição validada e gravação completa (v1.1).
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -25,37 +26,46 @@ export function carregarPrograma(cpu: Cpu, bytes: Uint8Array): number {
 }
 
 /**
- * Bytes a gravar num arquivo.
+ * Bytes a gravar num arquivo: da posição 00 até o último byte diferente de
+ * zero da memória, e nunca menos que o programa carregado (que pode terminar
+ * em zeros, como o HLT = 00).
  *
- * Fiel ao original (v1.0): grava só os `tamanhoPrograma` primeiros bytes.
- * Dados escritos além desse ponto (por STO ou pela pilha) não são gravados.
- * Este comportamento está listado entre as correções previstas para a v1.1.
+ * CORRIGIDO NA v1.1 (item 4): o original gravava só os `tamanhoPrograma`
+ * primeiros bytes, e os dados escritos depois desse ponto (por STO ou pela
+ * pilha, perto de FF) ficavam de fora.
  */
 export function bytesParaGravar(cpu: Cpu): Uint8Array {
-  return cpu.memoria.slice(0, cpu.tamanhoPrograma)
+  let fim = cpu.tamanhoPrograma
+  for (let endereco = TAMANHO_MEMORIA - 1; endereco >= fim; endereco--) {
+    if (cpu.memoria[endereco] !== 0) {
+      fim = endereco + 1
+      break
+    }
+  }
+  return cpu.memoria.slice(0, fim)
 }
 
 /**
- * Converte o texto digitado como `StrToIntDef('$' + texto, 0)` do Free Pascal:
- * hexadecimal válido vira número; qualquer outra coisa vira 0.
+ * Lê o texto digitado numa célula: um ou dois dígitos hexadecimais (00 a FF),
+ * em maiúsculas ou minúsculas. Qualquer outra coisa devolve null.
  */
-function hexadecimalOuZero(texto: string): number {
-  if (!/^[0-9a-fA-F]+$/.test(texto)) return 0
-  const valor = Number.parseInt(texto, 16)
-  // StrToIntDef devolve o padrão quando o número não cabe num inteiro de 32 bits
-  return valor > 0xffffffff ? 0 : valor
+export function lerByteHexadecimal(texto: string): Byte | null {
+  const limpo = texto.trim()
+  return /^[0-9a-fA-F]{1,2}$/.test(limpo) ? Number.parseInt(limpo, 16) : null
 }
 
 /**
- * Edição de uma célula da tabela de memória.
- *
- * Fiel ao original (v1.0): texto inválido grava 00 sem aviso, e valores
- * acima de FF são truncados para 8 bits. Editar além do fim do programa
+ * Edição de uma célula da tabela de memória. Editar além do fim do programa
  * aumenta o tamanho do programa até aquela posição.
- * Devolve o byte efetivamente gravado.
+ * Devolve o byte gravado, ou null se o texto não for um valor válido; nesse
+ * caso a memória não muda.
+ *
+ * CORRIGIDO NA v1.1 (item 5): o original aceitava qualquer texto, gravava 00
+ * sem avisar quando não era hexadecimal e cortava valores acima de FF.
  */
-export function editarMemoria(cpu: Cpu, endereco: Byte, texto: string): Byte {
-  const valor = hexadecimalOuZero(texto) & 0xff
+export function editarMemoria(cpu: Cpu, endereco: Byte, texto: string): Byte | null {
+  const valor = lerByteHexadecimal(texto)
+  if (valor === null) return null
   cpu.memoria[endereco] = valor
   if (endereco + 1 > cpu.tamanhoPrograma) {
     cpu.tamanhoPrograma = endereco + 1
