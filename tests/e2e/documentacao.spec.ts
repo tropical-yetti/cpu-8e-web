@@ -40,7 +40,7 @@ test('um exemplo da documentação carrega no simulador e dá o resultado anunci
   await expect(page.locator('img.semaforo')).toHaveAttribute('alt', 'Parada (vermelho)', {
     timeout: 15_000,
   })
-  await expect(page.getByRole('img', { name: /Diagrama da CPU-8E/ })).toContainText('ACC:0C')
+  await expect(page.getByRole('button', { name: /^ACC:0C,/ })).toBeVisible()
   await expect(page.locator('tr[data-endereco="34"]')).toContainText('0C')
 })
 
@@ -49,4 +49,13 @@ test('a ajuda contextual leva à seção certa', async ({ page }) => {
   await page.getByRole('link', { name: 'Ajuda sobre Modo:' }).click()
   await expect(page).toHaveURL(/documentacao\/simulador#modos$/)
   await expect(page.locator('#modos')).toBeInViewport()
+})
+
+test('a página Siglas lista as siglas do painel nos dois idiomas', async ({ page }) => {
+  await page.goto('./#/documentacao/siglas')
+  await expect(page.getByRole('heading', { level: 1, name: 'Siglas' })).toBeVisible()
+  await expect(page.getByRole('row', { name: /ULA.*Unidade lógica e aritmética/ })).toBeVisible()
+  await page.getByRole('combobox', { name: 'Idioma' }).selectOption('en')
+  await expect(page.getByRole('heading', { level: 1, name: 'Abbreviations' })).toBeVisible()
+  await expect(page.getByRole('row', { name: /ALU.*Arithmetic logic unit/ })).toBeVisible()
 })

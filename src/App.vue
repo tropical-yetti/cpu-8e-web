@@ -3,6 +3,7 @@
 import { I18nT, useI18n } from 'vue-i18n'
 import { IDIOMAS, trocarIdioma, type Idioma } from '@/i18n'
 import { AUTOR_ORIGINAL, URL_CODIGO_FONTE, urlDoCommit } from '@/config'
+import LegendaSiglas from '@/components/painel/LegendaSiglas.vue'
 
 const { t, locale } = useI18n()
 const VERSAO = __VERSAO__
@@ -39,6 +40,8 @@ function aoTrocarIdioma(evento: Event) {
   <main class="conteudo">
     <RouterView />
   </main>
+
+  <LegendaSiglas />
 
   <!-- Avisos legais exigidos pela GPL-3.0 (seção 5d) -->
   <footer class="rodape">

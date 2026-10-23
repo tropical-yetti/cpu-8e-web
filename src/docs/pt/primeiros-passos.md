@@ -16,8 +16,8 @@ A tabela da direita (ou de baixo, no celular) mostra a memória: o **Endereço**
 
 O modo inicial é **Passo a passo**. Cada toque em **Executar** avança um pulso de clock:
 
-- os registradores que mudaram ficam com o texto em **vermelho**;
-- os trechos de barramento por onde o dado passou ficam **vermelhos**;
+- os registradores que mudaram ficam **realçados**;
+- os fios por onde o dado passou **acendem**, com uma seta para onde ele vai;
 - a lâmpada de **Fase** mostra se a CPU está buscando a instrução, buscando o operando ou executando;
 - o semáforo de **Status** fica amarelo enquanto a CPU espera você.
 
@@ -31,7 +31,7 @@ Troque o **Modo** para **Execução contínua** e escolha o clock **100** (o mai
 
 **Reset** zera os registradores e volta o PC para `00`, mantendo o programa na memória. Assim você pode repetir a execução quantas vezes quiser, em qualquer modo.
 
-> **Dica:** mantenha um registrador pressionado para ver o valor dele em binário, como `ACC=11111111`.
+> **Dica:** toque num registrador para ver o valor dele em binário, como `11111111`.
 
 ## Próximos passos
 

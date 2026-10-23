@@ -6,7 +6,7 @@ Every instruction goes through up to three phases. The simulator's **Phase** lam
 2. **Operand**: read the second byte, only for 2-byte instructions.
 3. **Execute**: do what the instruction says.
 
-Each phase is a sequence of **micro-operations**. Most of them take one clock pulse: in **Single Step** mode, the simulator stops at each one, with the data path lit in red. A few, such as adding 1 to PC, happen between two pulses and only change the value shown.
+Each phase is a sequence of **micro-operations**. Most of them take one clock pulse: in **Single Step** mode, the simulator stops at each one, with the data path lit. A few, such as adding 1 to PC, happen between two pulses and only change the value shown.
 
 ## Fetch {#busca}
 

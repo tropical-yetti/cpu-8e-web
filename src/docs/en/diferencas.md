@@ -31,7 +31,8 @@ Some things cannot work the same way in a browser:
 - **Save** downloads the file through the browser instead of opening a window to pick a folder.
 - Pressing **Go** during a Full Run does nothing. In the original, it started a second run inside the first one and scrambled the CPU state.
 - The interface is also available in English, with the panel tips translated and the diagram abbreviations in English (ALU, CU, ID, IB, DB, AB).
-- On a phone, the diagram scrolls sideways when the screen is narrow.
+- In the classic look, on a phone, the diagram scrolls sideways when the screen is narrow.
+- Since 2.0, the default panel has a new look, with abbreviations explained by captions; the original drawing is still there in the **Classic** look.
 
 If you find any other difference from the original, it is a bug in this version; [report it in the project repository](https://github.com/tropical-yetti/cpu-8e-web).
 

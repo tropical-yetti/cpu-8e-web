@@ -17,12 +17,15 @@ import CaixaMensagem from '@/components/CaixaMensagem.vue'
 import DiagramaCpu from '@/components/DiagramaCpu.vue'
 import DialogoCarregar from '@/components/DialogoCarregar.vue'
 import EstadoAcessivel from '@/components/EstadoAcessivel.vue'
+import PainelCpu from '@/components/painel/PainelCpu.vue'
 import TabelaMemoria from '@/components/TabelaMemoria.vue'
+import { VISUAIS, useVisual } from '@/painel/visual'
 import { useSimuladorStore } from '@/stores/simulador'
 
 const simulador = useSimuladorStore()
 const router = useRouter()
 const { t } = useI18n()
+const { visual, mudarVisual } = useVisual()
 const dialogoCarregar = ref<InstanceType<typeof DialogoCarregar> | null>(null)
 
 function carregar() {
@@ -70,7 +73,7 @@ function aoTeclar(evento: KeyboardEvent) {
   if (habilitado) void executar()
 }
 
-// No celular em pé: diagrama ampliado (com rolagem lateral) ou ajustado à tela.
+// Visual clássico, no celular em pé: diagrama ampliado (com rolagem lateral) ou ajustado à tela.
 const CHAVE_AJUSTE = 'cpu8e.ajustarDiagrama'
 function lerAjuste(): boolean {
   try {
@@ -99,15 +102,33 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
       {{ t('simulador.programa') }} <strong>{{ simulador.painel.nomePrograma }}</strong>
     </p>
     <BarraFerramentas @carregar="carregar" @gravar="gravar" @ajuda="ajuda" />
+    <div class="opcoes-painel">
+      <div class="visuais" role="radiogroup" :aria-label="t('painel.visual')">
+        <button
+          v-for="opcao in VISUAIS"
+          :key="opcao"
+          type="button"
+          role="radio"
+          :aria-checked="visual === opcao"
+          @click="mudarVisual(opcao)"
+        >
+          {{ t(`painel.visuais.${opcao}`) }}
+        </button>
+      </div>
+    </div>
     <div class="area">
-      <div class="painel-cpu" :class="{ ampliado: !ajustarATela }">
-        <DiagramaCpu />
+      <div
+        class="painel-cpu"
+        :class="{ ampliado: visual === 'classico' && !ajustarATela, novo: visual === 'novo' }"
+      >
+        <PainelCpu v-if="visual === 'novo'" />
+        <DiagramaCpu v-else />
         <AjudaContextual class="ajuda-diagrama" pagina="cpu" :assunto="t('diagrama.descricao')" />
       </div>
       <TabelaMemoria class="memoria" />
     </div>
     <p class="dica-uso">{{ t('simulador.dicaUso') }}</p>
-    <p class="dica-uso dica-celular">
+    <p v-if="visual === 'classico'" class="dica-uso dica-celular">
       {{ t('simulador.dicaCelular') }}
       <button
         type="button"
@@ -133,6 +154,35 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   margin: 0 0 8px;
   font-size: 0.9rem;
   color: var(--texto-suave);
+}
+.opcoes-painel {
+  display: flex;
+  justify-content: flex-end;
+  margin: 8px 0;
+}
+.visuais {
+  display: inline-flex;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.visuais button {
+  min-height: 32px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  background: var(--fundo-tabela);
+  border: 0;
+  cursor: pointer;
+}
+.visuais button + button {
+  border-left: 1px solid var(--borda);
+}
+.visuais button[aria-checked='true'] {
+  color: var(--texto);
+  font-weight: 600;
+  background: var(--fundo-hover);
 }
 .area {
   display: grid;

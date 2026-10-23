@@ -6,7 +6,7 @@ Toda instrução passa por até três fases. A lâmpada **Fase** do simulador mo
 2. **Operando**: ler o segundo byte, só nas instruções de 2 bytes.
 3. **Execução**: fazer o que a instrução manda.
 
-Cada fase é uma sequência de **micro-operações**. A maioria corresponde a um pulso de clock: no modo **Passo a passo**, o simulador para em cada uma, com o caminho do dado aceso em vermelho. Algumas, como somar 1 ao PC, acontecem entre dois pulsos e só mudam o valor mostrado.
+Cada fase é uma sequência de **micro-operações**. A maioria corresponde a um pulso de clock: no modo **Passo a passo**, o simulador para em cada uma, com o caminho do dado aceso. Algumas, como somar 1 ao PC, acontecem entre dois pulsos e só mudam o valor mostrado.
 
 ## Busca {#busca}
 

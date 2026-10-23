@@ -34,7 +34,14 @@ for (const tema of ['light', 'dark'] as const) {
       await auditar(page, 'simulador')
     })
 
-    for (const pagina of ['primeiros-passos', 'cpu', 'instrucoes', 'programas']) {
+    test('visual clássico não tem problemas graves de acessibilidade', async ({ page }) => {
+      await page.goto('./')
+      await page.getByRole('radio', { name: 'Clássico' }).click()
+      await expect(page.getByRole('img', { name: /Diagrama da CPU-8E/ })).toBeVisible()
+      await auditar(page, 'visual clássico')
+    })
+
+    for (const pagina of ['primeiros-passos', 'cpu', 'instrucoes', 'programas', 'siglas']) {
       test(`documentação /${pagina} não tem problemas graves de acessibilidade`, async ({
         page,
       }) => {
@@ -76,7 +83,8 @@ test('dá para usar o simulador só com o teclado', async ({ page, isMobile, bro
   const pc = page.getByRole('button', { name: /^PC:00/ })
   await pc.focus()
   await page.keyboard.press('Enter')
-  await expect(page.getByText('PC=00000000')).toBeVisible()
+  await expect(pc).toContainText('00000000')
+  await expect(pc).toHaveAttribute('aria-pressed', 'true')
 
   // Editar a memória pelo teclado.
   await page.getByRole('button', { name: 'D1: editar o endereço 00' }).focus()
