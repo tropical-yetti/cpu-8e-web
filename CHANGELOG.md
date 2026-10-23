@@ -16,6 +16,8 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   (#7) e código e estilo comuns com o MEM-8E Web (#8).
 - Modelo de issue **Decisão de arquitetura (ADR)**, para qualquer pessoa
   propor uma decisão com a mesma estrutura.
+- As ADRs 0001 a 0004 foram aceitas, com a aprovação registrada nas issues
+  #5 a #8.
 
 ## [1.1.0] — 2026-10-23
 
