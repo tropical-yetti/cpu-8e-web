@@ -18,10 +18,6 @@ jobs:
           node-version: 22
           cache: npm
 
-      # O Free Pascal é usado para comparar o núcleo com o simulador original.
-      - name: Instalar Free Pascal
-        run: sudo apt-get update && sudo apt-get install -y fp-compiler
-
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint

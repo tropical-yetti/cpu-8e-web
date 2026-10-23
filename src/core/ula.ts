@@ -60,7 +60,8 @@ const word = (x: number): number => x & 0xffff
 /**
  * Calcula o valor intermediário de 16 bits. Cada caso segue a expressão
  * correspondente do original (validado contra todas as 851.968 combinações
- * pela tabela gerada em tools/referencia/ula_tabela.pas).
+ * pela tabela gerada a partir do código Pascal original, em
+ * tests/fixtures/ula-original.bin.gz).
  */
 export function calcularIntermediario(operacao: OperacaoUla, a: Byte, b: Byte): number {
   switch (operacao) {

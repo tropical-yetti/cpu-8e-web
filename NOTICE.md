@@ -62,6 +62,7 @@ cabeçalho o nome do arquivo de origem e o aviso de copyright correspondente.
 
 Arquivos do original incluídos sem modificação:
 
-- `src/assets/original/*.png` — ícones da barra de ferramentas e do semáforo;
+- `src/assets/original/*.png` — ícones da barra de ferramentas e do semáforo
+  (o `Halt.png`, do botão Parar removido na 1.1, saiu na série 2.x);
 - `src/assets/programas/teste.bin` e `allopcodes.bin` — programas de exemplo;
 - `tools/layout/CPU8E_Panel.lfm` — formulário do painel, fonte do desenho.
