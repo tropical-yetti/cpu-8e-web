@@ -8,7 +8,7 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
-### 2026-10-23 — Propostas das ADRs 0005 e 0006
+### 2026-10-23 — ADRs 0005 e 0006
 
 - ADR 0005 (#16): painel novo, no estilo do MEM-8E Web, como padrão, e o
   desenho original como "visual clássico".
