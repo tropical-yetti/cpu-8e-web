@@ -8,6 +8,21 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-23 — Validação por instrução e estado
+
+- Novos testes por instrução (ADR 0003, #7): para os 35 códigos válidos, o
+  estado antes e depois de uma única instrução (memória inteira, ACC, PC, SP,
+  flags e saída da ULA), com os casos de borda: estouro de 8 bits e com sinal,
+  empréstimo, zero, negativo, contador `00` e maior que 8, desvios tomados e
+  não tomados, pilha que alcança o programa e código inválido.
+- Novo programa de teste "todas as instruções": passa pelas 23 instruções e
+  pelos estouros, chama uma sub-rotina e grava os resultados de `80` a `8F`.
+- Saíram a referência em Pascal (`tools/referencia/`), os gabaritos, o teste
+  com programas aleatórios e o Free Pascal do CI; tudo continua no histórico e
+  na tag `v1.1.0`. A tabela completa da ULA continua como teste de regressão.
+- Saiu o ícone `Halt.png`, que ficou sem uso quando o botão Parar foi
+  removido na 1.1.
+
 ### 2026-10-23 — Ordem da série 2.x
 
 - A 2.0.0 passa a ser o primeiro lançamento da série 2.x: reúne o processo,

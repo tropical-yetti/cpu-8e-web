@@ -76,9 +76,8 @@ registradores, as flags, o PC e o SP são comparados com o esperado. A tabela
 completa da ULA, gravada em `tests/fixtures/`, é um teste de regressão
 ([ADR 0003](docs/adr/0003-validacao-por-instrucao.md)).
 
-A comparação pulso a pulso com o código Pascal original, usada na série 1.x,
-ainda está em `tools/referencia/` e sai na versão 2.1.0. Até lá, `npm test`
-também roda essa comparação quando o Free Pascal está instalado.
+A série 1.x comparava o núcleo pulso a pulso com o código Pascal original;
+essa comparação ficou no histórico e na tag `v1.1.0`.
 
 Antes de abrir um pull request:
 
