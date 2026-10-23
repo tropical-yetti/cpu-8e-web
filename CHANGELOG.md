@@ -8,6 +8,15 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-23 — Registros de decisões de arquitetura
+
+- Nova pasta `docs/adr/`, com modelo, índice e as ADRs 0001 a 0004, como
+  Proposta: registros de decisão com diagramas em Mermaid (#5), séries 1.x e
+  2.x, ramos e regra de lançamentos (#6), validação por instrução e estado
+  (#7) e código e estilo comuns com o MEM-8E Web (#8).
+- Modelo de issue **Decisão de arquitetura (ADR)**, para qualquer pessoa
+  propor uma decisão com a mesma estrutura.
+
 ## [1.1.0] — 2026-10-23
 
 Correções dos defeitos do simulador original que a versão 1.0 reproduzia de
