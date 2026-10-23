@@ -21,7 +21,9 @@ A série 1.x reproduziu o simulador CPU-8E original e corrigiu os defeitos dele
 
 - **Versões menores** (2.1.0, 2.2.0…) ficam na `dev`: cada uma ganha a sua
   seção no CHANGELOG e o número no `package.json`, num pull request
-  `chore: versão X.Y.Z` para a `dev`.
+  `chore: versão X.Y.Z` para a `dev`. Uma versão só ganha número quando
+  traz algo novo para quem usa o site; até lá, as mudanças se acumulam na
+  seção "Não lançado" do CHANGELOG.
 - **Lançamento:** quando um conjunto de versões menores está estável e
   testado, um único pull request `dev` → `main` publica tudo de uma vez. O
   lançamento ganha uma tag (`v2.2.0`) e uma release no GitHub.
