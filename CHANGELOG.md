@@ -8,6 +8,17 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-23 — Plano e CONTRIBUTING
+
+- O plano do projeto passa a morar no repositório, em `docs/PLANO.md`, com os
+  objetivos de aprendizagem, o que a série 2.x traz e os marcos versão a
+  versão. Ele muda por pull request, junto com o trabalho.
+- O `CONTRIBUTING.md` ganhou as seções de ramos e pull requests, versões e
+  lançamentos (ADR 0002), decisões de arquitetura (ADR 0001) e validação
+  (ADR 0003), com a lista de verificações antes de um pull request e as metas
+  de cobertura. A seção "Fidelidade ao original" deu lugar à validação por
+  instrução e estado.
+
 ### 2026-10-23 — Registros de decisões de arquitetura
 
 - Nova pasta `docs/adr/`, com modelo, índice e as ADRs 0001 a 0004, como
