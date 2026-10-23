@@ -15,6 +15,14 @@ propósito. Os itens citados são os da tabela de correções do plano do
 projeto; o antes e o depois de cada um estão na página "Diferenças do
 original" da documentação.
 
+### 2026-10-23 — CI
+
+- Os testes de ponta a ponta rodam na imagem oficial do Playwright, que já
+  traz os navegadores e as bibliotecas de sistema, em vez de instalá-los a
+  cada execução. `tests/ci.test.ts` confere que a versão da imagem é a mesma
+  do `@playwright/test`, agora fixada sem `^`.
+- O CI roda também a cada push na `dev`.
+
 ### 2026-10-17 — Documentação da v1.1
 
 - A página "Diferenças do original" ganhou a seção "Corrigido na versão 1.1",
