@@ -84,7 +84,7 @@ export const PROGRAMAS: ProgramaTeste[] = [
   },
   {
     nome: 'deslocamentos',
-    descricao: 'Shifts e rotates, inclusive o defeito do contador zero',
+    descricao: 'Shifts e rotates, inclusive o contador zero (corrigido na v1.1)',
     bytes: montar(
       [0x00,
         [0x91, 0x81], // LOD  81
@@ -97,7 +97,7 @@ export const PROGRAMAS: ProgramaTeste[] = [
         [0x8c, 0x01], // SRA  01
         [0x95, 0x10], // ADD  10
         [0x94, 0x05], // CMP  05    ; a ULA guarda ACC − 05
-        [0x8a, 0x00], // SHL  00    ; defeito do original: ACC recebe ACC − 05
+        [0x8a, 0x00], // SHL  00    ; v1.1: ACC fica como está (o original punha ACC − 05)
         [0xca, 0x20], // SHL  [20]
         [0xcd, 0x21], // ROL  [21]
         [0x00],       // HLT

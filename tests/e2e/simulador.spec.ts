@@ -24,6 +24,8 @@ test('carrega teste.bin e mostra o disassembly', async ({ page }) => {
   await expect(linha0).toContainText('D1')
   await expect(linha0).toContainText('LOD')
   await expect(diagrama(page)).toContainText('DI:HLT')
+  // v1.1: o botão Parar saiu da barra (item 15).
+  await expect(page.getByRole('button', { name: 'Parar' })).toHaveCount(0)
 })
 
 test('as siglas do diagrama seguem o idioma da interface', async ({ page }) => {
@@ -74,6 +76,23 @@ test('editar a memória atualiza o símbolo e avança para a linha seguinte', as
   await expect(page.locator('tr[data-endereco="0"]')).toContainText('LOD')
   await expect(page.locator('tr[data-endereco="1"]')).toContainText('07')
   await expect(page.getByRole('button', { name: 'Executar', exact: true })).toBeEnabled()
+})
+
+test('editar a memória com um valor inválido mostra o aviso e não grava (v1.1)', async ({
+  page,
+}) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: '00: editar o endereço 00' }).click()
+  const campo = page.getByRole('textbox', { name: 'Editar o conteúdo do endereço 00' })
+  await page.keyboard.type('ZZ')
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('alert')).toHaveText('Digite um valor hexadecimal de 00 a FF.')
+  await expect(campo).toHaveAttribute('aria-invalid', 'true')
+  await campo.fill('A5')
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  await page.keyboard.press('Escape')
+  await expect(page.locator('tr[data-endereco="0"]')).toContainText('A5')
 })
 
 test('troca o idioma para inglês e lembra a escolha', async ({ page }) => {

@@ -3,8 +3,9 @@
  * sequência de eventos e estados que o simulador original, para cada
  * programa de tests/fixtures/programas.ts.
  *
- * Os gabaritos (tests/fixtures/gabaritos/*.jsonl) foram gerados pelo código
- * Pascal original com `npm run gabaritos`.
+ * Os gabaritos (tests/fixtures/gabaritos/*.jsonl) são gerados pelo código
+ * Pascal original com `npm run gabaritos`, compilado com as correções da v1.1
+ * (-dCORRIGIDO; veja tools/referencia/cpu8e_ref.pas).
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */

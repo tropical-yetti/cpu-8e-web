@@ -20,6 +20,11 @@ program cpu8e_ref;
       (Delphi), para que os traços reproduzam o comportamento original,
       inclusive os bugs.
 
+  Modificações (2026-10-17, CPU-8E Web v1.1):
+    - As correções da v1.1 entram em blocos {$IFDEF CORRIGIDO}. Compilado
+      com -dCORRIGIDO, o programa reproduz o núcleo corrigido do CPU-8E Web;
+      sem o define, continua sendo o simulador original.
+
   Uso:  cpu8e_ref <programa.bin> [maxEventos]  > traco.jsonl
 
   Este arquivo é distribuído sob a GPL-3.0-or-later, como o restante
@@ -348,8 +353,13 @@ begin
       _NOP: PulseClock([], [], []);
       _NOT: begin
         A := ACC;
-        ProcessULA;
+        {$IFNDEF CORRIGIDO}
+        ProcessULA;   { original: a ULA calcula antes de o pulso mostrar ACC -> A }
+        {$ENDIF}
         PulseClock([A], ['stA'], ['shACCOut1', 'shACCOut2', 'shBI1', 'shBI2', 'shBI3', 'shAIn1', 'shAIn2']);
+        {$IFDEF CORRIGIDO}
+        ProcessULA;   { v1.1 (item 14): primeiro ACC -> A, depois a ULA }
+        {$ENDIF}
         ACC := ULA.Value;
         PulseClock([ACC], ['stACC'], ['shULAOut1', 'shULAOut2', 'shBI1', 'shBI2', 'shBI3', 'shACCIn1', 'shACCIn2']);
       end;
@@ -362,9 +372,13 @@ begin
         MDR := ACC;
         PulseClock([MDR], ['stMDR'], ['shACCOut1', 'shACCOut2', 'shBI1', 'shBI2', 'shBI3', 'shMDRIn1', 'shMDRIn2']);
         MDRToMem;
+        {$IFNDEF CORRIGIDO}
+        { original: a escrita na memória é animada uma segunda vez.
+          v1.1 (item 3): uma única escrita. }
         ShowMem(MAR);
         PulseClock([], [], ['shMDROut3', 'shMDROut4', 'shBD1', 'shBD2', 'shWR1', 'shWR2']);
         ShowMem(PC);
+        {$ENDIF}
       end;
       _LOD: begin
         MemToMDR;
@@ -434,8 +448,16 @@ begin
           SetValue(B,'stB');
           PulseClock([A], ['stA'], ['shULAOut1', 'shULAOut2', 'shBI1', 'shBI2', 'shBI3', 'shAIn1', 'shAIn2']);
         end;
-        ACC := ULA.Value;
-        PulseClock([ACC], ['stACC'], ['shULAOut1', 'shULAOut2', 'shBI1', 'shBI2', 'shBI3', 'shACCIn1', 'shACCIn2']);
+        { original: com contador 0 o laço não roda e o ACC recebe a saída
+          antiga da ULA. v1.1 (item 1): com contador 0, ACC e flags ficam
+          como estão (MDR guarda o contador; B já foi a 0 no laço). }
+        {$IFDEF CORRIGIDO}
+        if MDR > 0 then
+        {$ENDIF}
+        begin
+          ACC := ULA.Value;
+          PulseClock([ACC], ['stACC'], ['shULAOut1', 'shULAOut2', 'shBI1', 'shBI2', 'shBI3', 'shACCIn1', 'shACCIn2']);
+        end;
       end;
     end;
   end;

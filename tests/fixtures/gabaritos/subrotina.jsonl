@@ -158,9 +158,6 @@
 {"t":"pulso","itens":[["MDR","02"]],"bus":["shACCOut1","shACCOut2","shBI1","shBI2","shBI3","shMDRIn1","shMDRIn2"],"est":{"acc":2,"pc":8,"mar":48,"mdr":2,"a":1,"b":1,"sp":255,"ula":2,"z":0,"n":0,"c":0,"ir":208,"s":2,"memHash":1763279155,"mem":""}}
 {"t":"pulso","itens":[],"bus":["shMDROut3","shMDROut4","shBD1","shBD2","shWR1","shWR2"],"est":{"acc":2,"pc":8,"mar":48,"mdr":2,"a":1,"b":1,"sp":255,"ula":2,"z":0,"n":0,"c":0,"ir":208,"s":2,"memHash":1407877633,"mem":""}}
 {"t":"mem","foco":48}
-{"t":"mem","foco":48}
-{"t":"pulso","itens":[],"bus":["shMDROut3","shMDROut4","shBD1","shBD2","shWR1","shWR2"],"est":{"acc":2,"pc":8,"mar":48,"mdr":2,"a":1,"b":1,"sp":255,"ula":2,"z":0,"n":0,"c":0,"ir":208,"s":2,"memHash":1407877633,"mem":""}}
-{"t":"mem","foco":8}
 {"t":"mem","foco":8}
 {"t":"fimInstrucao"}
 {"t":"mem","foco":8}

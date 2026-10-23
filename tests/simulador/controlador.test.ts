@@ -1,6 +1,6 @@
 /**
  * Testes do controlador: botões, modos de execução e mensagens, com o
- * comportamento do simulador original.
+ * comportamento do simulador original e as correções da v1.1.
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -37,7 +37,6 @@ describe('carregar', () => {
     expect(c.painel.habilitados).toEqual({
       executar: true,
       pausar: true,
-      parar: true,
       resetar: true,
     })
     expect(c.painel.simbolos.slice(0, 4)).toEqual(['LOD', '[16]', 'CMP', '07'])
@@ -95,20 +94,18 @@ describe('ciclo a ciclo', () => {
   })
 })
 
-describe('parar e reset', () => {
-  it('Parar interrompe e só o Reset permite executar de novo', async () => {
+describe('reset', () => {
+  it('Reset durante uma pausa interrompe e zera a CPU, mantendo a memória', async () => {
     const c = novoComPrograma()
     c.mudarModo('ciclo')
     void c.executar()
     await esperarAssentar()
-    c.parar()
+    expect(c.painel.status).toBe('pausa')
+    c.resetar()
     await esperarAssentar()
     expect(c.executando).toBe(false)
     expect(c.painel.status).toBe('parada')
     expect(c.painel.fase).toBeNull()
-    expect(c.painel.habilitados.executar).toBe(false)
-
-    c.resetar()
     expect(c.painel.habilitados.executar).toBe(true)
     expect(c.cpu.acc).toBe(0)
     expect(c.painel.textos.ACC).toBe('ACC:00')
@@ -116,25 +113,104 @@ describe('parar e reset', () => {
   })
 })
 
-describe('particularidades do original', () => {
-  it('Pausar com a CPU parada faz o próximo Executar não iniciar a execução', async () => {
+describe('correções da v1.1 no controlador', () => {
+  it('item 10: o decodificador começa com DI:NOP', () => {
+    expect(new Controlador(undefined, relogioInstantaneo).painel.textos.DI).toBe('DI:NOP')
+  })
+
+  it('item 11: Pausar com a CPU parada não tem efeito', async () => {
     const c = novoComPrograma()
     c.mudarModo('continuo')
     await c.mudarClock(100)
     c.pausar()
-    await c.executar()
-    expect(c.cpu.pc).toBe(0)
+    expect(c.painel.status).toBe('parada')
     await c.executar()
     expect(c.cpu.acc).toBe(0xff)
+    expect(c.painel.status).toBe('parada')
   })
 
-  it('Executar sem programa mostra o aviso e deixa o semáforo verde', async () => {
+  it('item 12: Executar sem programa mostra o aviso e deixa o semáforo vermelho', async () => {
     const c = new Controlador(undefined, relogioInstantaneo)
     await c.executar()
     expect(c.painel.mensagem).toEqual({ chave: 'semPrograma' })
-    expect(c.painel.status).toBe('execucao')
+    expect(c.painel.status).toBe('parada')
   })
 
+  /** Programa que nunca termina (LOD 05; JMP [00]), num relógio que cede a vez ao navegador. */
+  function emLacoInfinito(): Controlador {
+    const c = new Controlador(undefined, { dormir: () => new Promise((r) => setTimeout(r, 0)) })
+    c.carregar(new Uint8Array([0x91, 0x05, 0xc4, 0x00]), 'laco.bin')
+    c.fecharMensagem()
+    c.mudarModo('continuo')
+    return c
+  }
+
+  it('item 13: Reset interrompe a execução contínua', async () => {
+    const c = emLacoInfinito()
+    await c.mudarClock(50)
+    const execucao = c.executar()
+    await esperarAssentar()
+    expect(c.executando).toBe(true)
+    c.resetar()
+    await execucao
+    expect(c.executando).toBe(false)
+    expect(c.painel.status).toBe('parada')
+    expect(c.cpu.pc).toBe(0)
+    expect(c.cpu.acc).toBe(0)
+  })
+
+  it('item 13: Carregar interrompe a execução contínua e não roda o programa novo', async () => {
+    const c = emLacoInfinito()
+    await c.mudarClock(50)
+    const execucao = c.executar()
+    await esperarAssentar()
+    expect(c.executando).toBe(true)
+    c.carregar(new Uint8Array([0x91, 0x07, 0x00]), 'outro.bin')
+    c.fecharMensagem()
+    await execucao
+    expect(c.executando).toBe(false)
+    expect(c.cpu.pc).toBe(0)
+    expect(c.cpu.acc).toBe(0)
+    expect(c.painel.nomePrograma).toBe('outro.bin')
+  })
+
+  it('item 7: pausa com mensagem quando a pilha alcança o programa', async () => {
+    // Recursão sem fim: CAL [00] chama a si mesmo e a pilha desce de FF até
+    // chegar ao programa. O programa ocupa 00–FD (o resto é preenchido com NOP).
+    const programa = new Uint8Array(0xfe).fill(0x01)
+    programa.set([0xc9, 0x00])
+    const c = novoComPrograma(programa)
+    c.mudarModo('continuo')
+    await c.mudarClock(100)
+    const execucao = c.executar()
+    await esperarAssentar()
+    expect(c.painel.mensagem).toEqual({ chave: 'colisaoPilha', endereco: 0xfd })
+    c.fecharMensagem()
+    await esperarAssentar()
+    expect(c.painel.status).toBe('pausa')
+    expect(c.executando).toBe(true)
+    c.resetar()
+    await execucao
+  })
+
+  it('item 7: uma chamada normal não dispara o aviso da pilha', async () => {
+    // CAL [04]; HLT; NOP; RET
+    const c = novoComPrograma(new Uint8Array([0xc9, 0x04, 0x00, 0x01, 0x03]))
+    c.mudarModo('continuo')
+    await c.mudarClock(100)
+    await c.executar()
+    expect(c.painel.mensagem).toBeNull()
+    expect(c.painel.status).toBe('parada')
+  })
+
+  it('item 15: não existe mais o botão Parar', () => {
+    const c = new Controlador(undefined, relogioInstantaneo)
+    expect('parar' in c).toBe(false)
+    expect(Object.keys(c.painel.habilitados)).toEqual(['executar', 'pausar', 'resetar'])
+  })
+})
+
+describe('particularidades do original', () => {
   it('código inválido mostra a mensagem e para depois do OK', async () => {
     const c = novoComPrograma(new Uint8Array([0x91, 0x05, 0xaa, 0x00]))
     c.mudarModo('continuo')
@@ -153,8 +229,10 @@ describe('particularidades do original', () => {
 describe('edição e utilidades', () => {
   it('editar a memória atualiza o disassembly e habilita os botões', () => {
     const c = new Controlador(undefined, relogioInstantaneo)
-    c.editarMemoria(0, '91')
-    c.editarMemoria(1, '07')
+    expect(c.editarMemoria(0, '91')).toBe(true)
+    expect(c.editarMemoria(1, '07')).toBe(true)
+    expect(c.editarMemoria(2, 'xyz')).toBe(false) // v1.1: recusado, nada muda
+    expect(c.cpu.tamanhoPrograma).toBe(2)
     expect(c.painel.simbolos.slice(0, 2)).toEqual(['LOD', '07'])
     expect(c.painel.habilitados.executar).toBe(true)
   })

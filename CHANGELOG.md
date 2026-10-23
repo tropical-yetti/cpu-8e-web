@@ -6,7 +6,73 @@ evolução do próprio CPU-8E Web.
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
-## [Não lançado]
+## [1.1.0] — não lançada
+
+Correções dos defeitos do simulador original que a versão 1.0 reproduzia de
+propósito. Os itens citados são os da tabela de correções do plano do
+projeto; o antes e o depois de cada um estão na página "Diferenças do
+original" da documentação.
+
+### 2026-10-17 — Documentação da v1.1
+
+- A página "Diferenças do original" ganhou a seção "Corrigido na versão 1.1",
+  com o comportamento antigo e o novo. As páginas Ciclo de instrução,
+  Instruções e Usando o simulador foram atualizadas (STO com 2 pulsos,
+  contador `00`, botões, edição, Gravar, coluna Símbolo e pilha).
+- `CONTRIBUTING.md` explica como corrigir um defeito do original mantendo os
+  testes de fidelidade.
+
+### 2026-10-17 — Correções da v1.1 na tabela de memória
+
+- A coluna **Símbolo** separa código de dados: o disassembler segue os
+  caminhos que a execução pode tomar a partir de `00`, inclusive os desvios, e
+  mostra como `DB 05` o que nenhum caminho alcança. O original lia toda a
+  memória como código, e um byte de dado podia desalinhar as instruções
+  seguintes (item 8).
+- As posições ocupadas pela pilha (acima do SP) aparecem destacadas, com a
+  palavra "pilha". Quando um `CAL` grava o endereço de retorno dentro do
+  programa, a execução pausa com uma mensagem. No original, a pilha
+  sobrescrevia o programa sem aviso (item 7).
+
+### 2026-10-17 — Correções da v1.1 na memória e nos arquivos
+
+- A tabela de memória só aceita valores hexadecimais de `00` a `FF`. Um valor
+  inválido é recusado com um aviso, e a memória não muda. O original gravava
+  `00` sem avisar e cortava valores acima de `FF` (item 5).
+- **Gravar** salva até o último byte diferente de zero da memória, e nunca
+  menos que o programa carregado. O original gravava só o tamanho do programa,
+  deixando de fora os dados escritos depois dele, com `STO` ou pela pilha
+  (item 4).
+
+### 2026-10-17 — Correções da v1.1 nos botões
+
+- **Reset** e **Carregar** interrompem também a execução contínua. No
+  original, a execução seguia a partir do estado zerado e recomeçava o
+  programa (item 13).
+- O botão **Parar** (Halt) e o atalho Ctrl+H foram removidos. Ele encerrava a
+  execução sem deixar continuar e só servia para interromper antes do Reset,
+  que agora interrompe sozinho (item 15).
+- **Pausar** sem nada em execução não tem efeito. No original, o Executar
+  seguinte não iniciava a execução (item 11).
+- **Executar** sem programa mostra o aviso e deixa o semáforo vermelho. No
+  original, ele ficava verde (item 12).
+- O decodificador começa com `DI:NOP`. O formulário original trazia `ID:NOP`,
+  e a caixa trocava de nome no primeiro Reset (item 10).
+
+### 2026-10-17 — Correções da v1.1 no núcleo da CPU
+
+- Deslocamentos e rotações com contador `00` mantêm o ACC e as flags. No
+  original, o ACC recebia a saída antiga da ULA, de outra instrução (item 1).
+- O `STO` escreve na memória uma única vez: a execução passa de 3 para 2
+  pulsos de clock. O original animava a escrita duas vezes (item 3).
+- No `NOT`, o pulso ACC → A aparece antes do cálculo da ULA, na ordem em que
+  as coisas acontecem. O resultado não muda (item 14).
+- A subtração da ULA (`SUB` e `CMP`) foi reescrita de forma explícita, com o
+  carry igual a 1 quando A ≥ B. O resultado é o mesmo do original, conferido
+  em todas as combinações de entrada (item 2).
+- O simulador de referência em Pascal (`tools/referencia/cpu8e_ref.pas`)
+  recebeu as mesmas correções em blocos `{$IFDEF CORRIGIDO}`; os testes
+  continuam comparando o núcleo com ele pulso a pulso.
 
 ### 2026-10-14 — Siglas do painel no idioma da interface
 

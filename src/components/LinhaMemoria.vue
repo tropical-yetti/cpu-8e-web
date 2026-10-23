@@ -15,6 +15,10 @@ const props = defineProps<{
   foco: boolean
   alternada: boolean
   editando: boolean
+  /** O último valor digitado foi recusado (fora de 00–FF). */
+  invalido?: boolean
+  /** A posição está ocupada pela pilha (acima do SP). */
+  pilha?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -46,7 +50,7 @@ function aoSair() {
 </script>
 
 <template>
-  <tr :class="{ foco, alternada }">
+  <tr :class="{ foco, alternada, pilha }">
     <th scope="row">{{ endereco }}</th>
     <td class="valor" @click="emit('editar')">
       <input
@@ -54,11 +58,13 @@ function aoSair() {
         ref="campo"
         v-model="texto"
         class="campo"
-        maxlength="8"
+        maxlength="2"
         autocomplete="off"
         autocapitalize="characters"
         spellcheck="false"
         :aria-label="t('memoria.editar', { endereco })"
+        :aria-invalid="invalido ? 'true' : undefined"
+        :aria-describedby="invalido ? 'aviso-memoria' : undefined"
         @keydown.enter.prevent="emit('confirmar', texto, true)"
         @keydown.escape.prevent="emit('cancelar')"
         @blur="aoSair"
@@ -72,6 +78,9 @@ function aoSair() {
         {{ valor }}
       </button>
     </td>
-    <td class="simbolo">{{ simbolo }}</td>
+    <td class="simbolo">
+      <template v-if="simbolo">{{ simbolo }}</template>
+      <span v-else-if="pilha" class="rotulo-pilha">{{ t('memoria.pilha') }}</span>
+    </td>
   </tr>
 </template>
