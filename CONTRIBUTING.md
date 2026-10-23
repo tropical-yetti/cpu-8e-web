@@ -3,11 +3,47 @@
 Obrigado pelo interesse! Este projeto também é material de estudo, então o
 código precisa ser fácil de ler.
 
+## Ramos e pull requests
+
+- `main` é o que está publicado no site. Ela só recebe **lançamentos**, para
+  ficar estável e sem mudanças frequentes.
+- `dev` recebe o trabalho em andamento e é o ramo padrão do repositório.
+- Cada funcionalidade ou correção tem o próprio ramo, criado a partir de `dev`
+  (`feat/…`, `fix/…`, `docs/…`, `test/…`, `ci/…`, `chore/…`), e volta para
+  `dev` por pull request.
+
+### Versões e lançamentos
+
+As versões seguem o [versionamento semântico](https://semver.org/lang/pt-BR/).
+A série 1.x reproduziu o simulador CPU-8E original e corrigiu os defeitos dele
+(até a 1.1.0); a série 2.x traz os recursos próprios do CPU-8E Web
+([ADR 0002](docs/adr/0002-versoes-e-lancamentos.md)).
+
+- **Versões menores** (2.1.0, 2.2.0…) ficam na `dev`: cada uma ganha a sua
+  seção no CHANGELOG e o número no `package.json`, num pull request
+  `chore: versão X.Y.Z` para a `dev`.
+- **Lançamento:** quando um conjunto de versões menores está estável e
+  testado, um único pull request `dev` → `main` publica tudo de uma vez. O
+  lançamento ganha uma tag (`v2.2.0`) e uma release no GitHub.
+- **Correção urgente** (um erro no site publicado): o ramo `fix/…` sai da
+  `main`, vira uma versão de correção (2.2.1) e entra direto na `main`. Em
+  seguida, a `main` é integrada na `dev`, para a correção não se perder no
+  próximo lançamento.
+
+O plano das próximas versões está em [`docs/PLANO.md`](docs/PLANO.md) e muda
+por pull request, junto com o trabalho que ele descreve.
+
+## Decisões de arquitetura
+
+Decisões de arquitetura são registradas como ADRs em [`docs/adr/`](docs/adr/).
+Cada ADR é proposta e discutida numa issue antes de ser aceita. O processo
+está em [`docs/adr/README.md`](docs/adr/README.md).
+
 ## Regras de código
 
 - **Português no domínio:** nomes iguais aos da arquitetura da CPU-8E (`acc`,
   `mar`, `ula`, `buscarInstrucao`). Termos técnicos consagrados ficam como
-  são (`opcode`, `flag`).
+  são (`opcode`, `flag`, `clock`).
 - **Comentários explicam o porquê**, não o óbvio.
 - **Núcleo sem interface:** nada em `src/core/` pode importar Vue, o DOM ou
   o navegador.
@@ -30,43 +66,55 @@ Markdown por arquivo, com os mesmos nomes nos dois idiomas.
 - `{{tabela-instrucoes}}` e `{{diagrama}}`, sozinhos numa linha, inserem a
   tabela de instruções e o diagrama da CPU.
 
-## Fidelidade ao original
+## Validação
 
-O comportamento da CPU deve ser idêntico ao do simulador de referência,
-`tools/referencia/cpu8e_ref.pas`: o código Pascal original com as correções
-do CPU-8E Web, cada uma num bloco `{$IFDEF CORRIGIDO}` (veja o README dessa
-pasta). Qualquer mudança em `src/core/` precisa manter `npm test` passando.
-Se um teste de fidelidade falhar, o núcleo TypeScript está errado, não o
-gabarito.
+A partir da série 2.x, o núcleo é validado por **instrução** e **estado**:
+cada instrução é executada a partir de um estado conhecido, e a memória, os
+registradores, as flags, o PC e o SP são comparados com o esperado. A tabela
+completa da ULA, gravada em `tests/fixtures/`, é um teste de regressão
+([ADR 0003](docs/adr/0003-validacao-por-instrucao.md)).
 
-Para corrigir um defeito do original no núcleo: faça a mesma correção no
-`cpu8e_ref.pas`, dentro de `{$IFDEF CORRIGIDO}`, rode `npm run gabaritos` e
-marque o trecho em TypeScript com `CORRIGIDO NA vX.Y`, explicando o
-comportamento antigo. A correção também entra no `CHANGELOG.md` e na página
-"Diferenças do original".
+A comparação pulso a pulso com o código Pascal original, usada na série 1.x,
+ainda está em `tools/referencia/` e sai na versão 2.1.0. Até lá, `npm test`
+também roda essa comparação quando o Free Pascal está instalado.
 
-Para acrescentar um programa de teste: inclua-o em
-`tests/fixtures/programas.ts` e rode `npm run gabaritos` (requer o Free
-Pascal: `sudo apt install fp-compiler`).
+Antes de abrir um pull request:
+
+```sh
+npm run format:check
+npm run lint
+npm run typecheck
+npm run test:cobertura   # os testes, com a meta de cobertura
+npm run build
+npm run test:e2e   # abre o site num navegador de verdade
+```
+
+Metas de cobertura (o CI falha abaixo delas): o núcleo (`src/core/`), com 95%
+das linhas e 90% dos desvios; o controlador (`src/simulador/`), com 90% e 85%.
+Os componentes são cobertos pelos testes de ponta a ponta, que também
+conferem a acessibilidade (axe), o teclado e o refluxo em telas estreitas.
 
 ## Licença e autoria
 
 O projeto é GPL-3.0-or-later. Ao contribuir, você concorda em licenciar sua
 contribuição nos mesmos termos.
 
-- Arquivos derivados de um arquivo do simulador original levam no
-  cabeçalho o nome do arquivo de origem, o aviso de copyright original e a
-  data da modificação (veja `src/core/controle.ts` como exemplo).
 - Todo arquivo novo leva `SPDX-License-Identifier: GPL-3.0-or-later`.
-- Mudanças de comportamento em relação ao original entram no
-  `CHANGELOG.md`, com data.
+- Um arquivo derivado de um arquivo do CPU-8E original leva no cabeçalho a
+  origem, o aviso de copyright original e a data da modificação (veja
+  `src/core/controle.ts`), e entra na lista `DERIVADOS` de
+  `tests/licenca.test.ts`.
+- Um arquivo copiado de um projeto irmão registra a origem no cabeçalho
+  ([ADR 0004](docs/adr/0004-codigo-e-estilo-comuns.md)).
+- Toda menção ao [Prof. Joel Guilherme da Silva Filho](http://lattes.cnpq.br/7746085908957322)
+  leva ao currículo Lattes dele.
+- Mudanças entram no `CHANGELOG.md`, com data.
 - Novas dependências precisam ter licença compatível com a GPL-3.0
   (`npm run licencas` verifica isso no CI). MPL-2.0 e PSF-2.0 também são
-  aceitas: as duas são compatíveis com a GPL. Aqui, a MPL-2.0 só aparece em
-  ferramentas de build, e a PSF-2.0 no `argparse`, usado apenas pela linha de
-  comando do markdown-it (não entra no site).
+  aceitas: as duas são compatíveis com a GPL.
 
 ## Commits
 
 Use [Conventional Commits](https://www.conventionalcommits.org/pt-br/):
-`feat:`, `fix:`, `docs:`, `test:`, `chore:`.
+`feat:`, `fix:`, `docs:`, `test:`, `ci:`, `chore:`. Quando houver uma issue,
+cite-a no fim da mensagem: `feat: memória por dentro (#12)`.
