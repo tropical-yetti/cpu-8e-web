@@ -6,7 +6,9 @@ evolução do próprio CPU-8E Web.
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
-## [1.1.0] — não lançada
+## [Não lançado]
+
+## [1.1.0] — 2026-10-23
 
 Correções dos defeitos do simulador original que a versão 1.0 reproduzia de
 propósito. Os itens citados são os da tabela de correções do plano do
