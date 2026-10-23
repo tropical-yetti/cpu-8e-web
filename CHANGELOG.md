@@ -18,6 +18,9 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   (ADR 0003), com a lista de verificações antes de um pull request e as metas
   de cobertura. A seção "Fidelidade ao original" deu lugar à validação por
   instrução e estado.
+- O README voltou a ter as seções que tinha perdido na preparação da 1.0.0
+  (o que dá para fazer, desenvolvimento e licença) e ganhou uma de
+  acessibilidade, que pede ajuda a quem usa leitor de tela na issue #12.
 
 ### 2026-10-23 — Registros de decisões de arquitetura
 
