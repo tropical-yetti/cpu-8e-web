@@ -6,6 +6,7 @@
   --texto-suave: #59636e;
   --borda: #d1d9e0;
   --destaque: #0969da;
+  --erro: #cf222e;
   font-family:
     system-ui,
     -apple-system,
@@ -25,6 +26,7 @@
     --texto-suave: #9198a1;
     --borda: #3d444d;
     --destaque: #4493f8;
+    --erro: #ff7b72;
   }
 }
 
@@ -70,6 +72,7 @@ a {
   --borda-suave: #e5e5e5;
   --selecao: #0a246a;
   --texto-selecao: #ffffff;
+  --fundo-pilha: #fff4d6;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -84,6 +87,7 @@ a {
     --borda-suave: #262c36;
     --selecao: #1f6feb;
     --texto-selecao: #ffffff;
+    --fundo-pilha: #2b2210;
   }
 }
 
@@ -95,6 +99,7 @@ a {
   --texto-suave: #9198a1;
   --borda: #3d444d;
   --destaque: #4493f8;
+  --erro: #ff7b72;
   --fundo-painel: #161b22;
   --fundo-barra: #1f242c;
   --fundo-hover: #2a313c;
@@ -104,4 +109,5 @@ a {
   --borda-suave: #262c36;
   --selecao: #1f6feb;
   --texto-selecao: #ffffff;
+  --fundo-pilha: #2b2210;
 }

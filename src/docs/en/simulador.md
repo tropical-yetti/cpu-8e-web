@@ -2,35 +2,34 @@
 
 ## Toolbar {#barra}
 
-| Button    | Shortcut | What it does                                                                                                                               |
-| --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Load**  | Ctrl+L   | Loads a `.bin` program: a file from your device or one of the original simulator's programs. Memory is cleared first and the CPU is reset. |
-| **Save**  | Ctrl+S   | Downloads the program in memory as a `.bin` file.                                                                                          |
-| **Go**    | Ctrl+G   | Starts running or advances, depending on the mode.                                                                                         |
-| **Pause** | Ctrl+P   | Pauses at the next clock pulse. **Go** continues from there.                                                                               |
-| **Halt**  | Ctrl+H   | Stops execution. After that, **Go** and **Pause** stay disabled until a **Reset**.                                                         |
-| **Reset** | Ctrl+R   | Clears the registers, sets SP to `FF` and PC to `00`. Memory is not erased.                                                                |
-| **Help**  | F1       | Opens this documentation.                                                                                                                  |
+| Button    | Shortcut | What it does                                                                                                                                                                          |
+| --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Load**  | Ctrl+L   | Loads a `.bin` program: a file from your device or one of the original simulator's programs. Memory is cleared first and the CPU is reset, which also interrupts any run in progress. |
+| **Save**  | Ctrl+S   | Downloads the memory contents as a `.bin` file (see [Saving](#gravar)).                                                                                                               |
+| **Go**    | Ctrl+G   | Starts running or advances, depending on the mode.                                                                                                                                    |
+| **Pause** | Ctrl+P   | Pauses at the next clock pulse. **Go** continues from there. With nothing running, it does nothing.                                                                                   |
+| **Reset** | Ctrl+R   | Interrupts any run in progress, clears the registers and sets SP to `FF` and PC to `00`. Memory is not erased.                                                                        |
+| **Help**  | F1       | Opens this documentation.                                                                                                                                                             |
 
-Go, Pause, Halt and Reset start disabled and become available once a program is loaded or typed into memory.
+Go, Pause and Reset start disabled and become available once a program is loaded or typed into memory.
 
 ## Modes {#modos}
 
-| Mode             | Where the CPU stops and waits for you to press Go                 |
-| ---------------- | ----------------------------------------------------------------- |
-| **Single Step**  | After each clock pulse, with the highlight on.                    |
-| **Single Cycle** | At the end of each instruction.                                   |
-| **Full Run**     | Only at `HLT`, at an invalid code, or if you press Pause or Halt. |
+| Mode             | Where the CPU stops and waits for you to press Go                                           |
+| ---------------- | ------------------------------------------------------------------------------------------- |
+| **Single Step**  | After each clock pulse, with the highlight on.                                              |
+| **Single Cycle** | At the end of each instruction.                                                             |
+| **Full Run**     | Only at `HLT`, at an invalid code, if the stack reaches the program, or if you press Pause. |
 
 You can change the mode at any time; it takes effect at the next stopping point.
 
 ## Phase and status {#fase-status}
 
-The **Phase** lamps show which part of the [instruction cycle](#/documentacao/ciclo) the CPU is in: **Fetch** (blue), **Operand** (yellow) or **Execute** (green). After a Reset or Halt they are all off.
+The **Phase** lamps show which part of the [instruction cycle](#/documentacao/ciclo) the CPU is in: **Fetch** (blue), **Operand** (yellow) or **Execute** (green). After a Reset they are all off.
 
 The **Status** light shows the execution state:
 
-- **red**: halted (after a Reset, Halt or `HLT`);
+- **red**: stopped (after a Reset, `HLT`, or Go with no program);
 - **yellow**: paused, waiting for you to press Go;
 - **green**: running.
 
@@ -58,23 +57,28 @@ The table shows all 256 addresses:
 
 - **Address**: from `00` to `FF`;
 - **Memory**: the contents in hexadecimal;
-- **Symbol**: the instruction those contents stand for (disassembly).
+- **Symbol**: the instruction those contents stand for (disassembly), or `DB` followed by the value when the byte is data.
 
 The highlighted row follows execution: usually it is the address of the current instruction or of the last write.
+
+Locations used by the [stack](#pilha) have a different background color, and the **Symbol** column shows the word "stack" where there is no instruction.
 
 ### Editing memory {#editar-memoria}
 
 Tap a cell in the **Memory** column, type the value in hexadecimal (`00` to `FF`) and press **Enter**: the value is stored and editing moves to the next row, so you can type a program in sequence. **Esc** cancels the edit.
 
-- Anything that is not valid hexadecimal is stored as `00`, with no warning.
-- Values above `FF` keep only their last two digits (`1FF` becomes `FF`).
+- Only hexadecimal values with one or two digits, from `00` to `FF`, upper or lower case, are accepted. Anything else is refused: a warning appears above the table, the field stays open and memory does not change.
 - Editing past the end of the program extends the program up to that location.
 
-The **Symbol** column is updated after each edit and each load. It reads memory from `00` as if everything were code, so data areas also appear as instructions (sometimes `XXX`).
+The **Symbol** column is updated after each edit and each load. To tell code from data, it follows the paths execution can take starting at `00`: each instruction is followed by the next one, and jumps (`JMP`, `JEQ`, `JGT`, `JGE`, `JCY` and `CAL`) also lead to the operand address. Whatever no path reaches is shown as data, for example `DB 05`. A program that modifies its own code may be shown differently from how it runs.
 
 ### Saving {#gravar}
 
-**Save** writes the bytes from `00` to the end of the program (the size of the loaded file, or the last edited location). Data the program wrote past that point, with `STO` or through the stack, is not included in the file.
+**Save** writes the bytes from `00` up to the last non-zero byte of memory, and never less than the loaded or edited program. So data the program wrote with `STO`, and return addresses kept on the stack, are included in the file too.
+
+### Stack {#pilha}
+
+The stack starts at `FF` and grows down with each `CAL` (see [Subroutines and the stack](#/documentacao/instrucoes)). The locations above SP, which hold return addresses, are highlighted in the table. If a `CAL` writes its return address inside the program, execution pauses with a message: the stack has reached the code. Pressing **Go** continues anyway, as on a real CPU, which has no such protection.
 
 ## Language {#idioma}
 

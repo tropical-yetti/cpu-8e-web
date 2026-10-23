@@ -20,6 +20,10 @@ const texto = computed(() => {
     const hex = mensagem.bytes.toString(16).toUpperCase().padStart(2, '0')
     return t(`mensagens.${mensagem.chave}`, { bytes: mensagem.bytes, hex })
   }
+  if (mensagem.chave === 'colisaoPilha') {
+    const endereco = mensagem.endereco.toString(16).toUpperCase().padStart(2, '0')
+    return t('mensagens.colisaoPilha', { endereco })
+  }
   return t(`mensagens.${mensagem.chave}`)
 })
 

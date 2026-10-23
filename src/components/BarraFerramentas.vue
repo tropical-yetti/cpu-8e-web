@@ -1,11 +1,12 @@
 <!--
-  Barra de ferramentas: carregar, gravar, executar, pausar, parar, reset,
+  Barra de ferramentas: carregar, gravar, executar, pausar, reset,
   ajuda, modo de execução, fase atual e semáforo de status.
 
   Derivado de CPU8E_Panel.lfm/.pas (CPU-8E v2.2.3)
   Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
   Modificado em 2026-10-13: barra refeita em HTML; o botão Exit não existe
   no navegador e Help abre a documentação do site.
+  Modificado em 2026-10-17: botão Parar (Halt) removido (v1.1, item 15).
   SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <script setup lang="ts">
@@ -18,7 +19,6 @@ import iconeCarregar from '@/assets/original/Load.png'
 import iconeGravar from '@/assets/original/SaveAs.png'
 import iconeExecutar from '@/assets/original/Go.png'
 import iconePausar from '@/assets/original/Pause.png'
-import iconeParar from '@/assets/original/Halt.png'
 import iconeResetar from '@/assets/original/Reset.png'
 import iconeAjuda from '@/assets/original/help.png'
 import semaforoVermelho from '@/assets/original/Red.png'
@@ -74,15 +74,6 @@ function aoMudarModo(evento: Event) {
       >
         <img :src="iconePausar" alt="" />
         <span>{{ t('barra.pausar') }}</span>
-      </button>
-      <button
-        type="button"
-        :disabled="!simulador.painel.habilitados.parar"
-        :title="t('barra.pararDica')"
-        @click="simulador.parar()"
-      >
-        <img :src="iconeParar" alt="" />
-        <span>{{ t('barra.parar') }}</span>
       </button>
       <button
         type="button"

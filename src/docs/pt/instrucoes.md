@@ -35,7 +35,7 @@ O operando diz **quantas vezes** a operação se repete. Cada repetição passa 
 | `ROL`     | o bit 7 (volta pela direita)           | o bit 7      |
 | `ROR`     | o bit 0 (volta pela esquerda)          | o bit 0      |
 
-> **Atenção:** com contador `00`, o simulador original copia para o ACC a saída que a ULA guardava da instrução anterior, em vez de manter o ACC. Esta versão reproduz esse comportamento; veja [Diferenças do original](#/documentacao/diferencas).
+Com contador `00`, nada muda: o ACC e as flags ficam como estavam. (No simulador original, o ACC recebia a saída que a ULA guardava da instrução anterior; isso foi corrigido na versão 1.1, veja [Diferenças do original](#/documentacao/diferencas).)
 
 ## Desvios
 
@@ -56,7 +56,7 @@ Todos usam endereçamento direto: o operando é o endereço de destino.
 - `CAL end` guarda na pilha o endereço da instrução seguinte (o valor do PC), diminui o SP e desvia para `end`.
 - `RET` aumenta o SP, lê o endereço guardado e volta para ele.
 
-A pilha começa em `FF` e cresce para baixo (`FF`, `FE`, `FD`…). Não há proteção: chamadas demais podem sobrescrever o programa.
+A pilha começa em `FF` e cresce para baixo (`FF`, `FE`, `FD`…). A CPU não tem proteção: chamadas demais podem sobrescrever o programa. Quando isso acontece, o simulador pausa a execução e avisa.
 
 ## Controle
 

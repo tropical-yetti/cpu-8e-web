@@ -2,7 +2,8 @@
   Página do simulador: barra de ferramentas, diagrama da CPU e memória.
 
   Atalhos de teclado (os mesmos do original): Ctrl+L carregar, Ctrl+S gravar,
-  Ctrl+G executar, Ctrl+P pausar, Ctrl+H parar, Ctrl+R reset, F1 ajuda.
+  Ctrl+G executar, Ctrl+P pausar, Ctrl+R reset, F1 ajuda. O Ctrl+H (parar)
+  saiu na v1.1, junto com o botão Parar.
 
   SPDX-License-Identifier: GPL-3.0-or-later
 -->
@@ -60,7 +61,6 @@ function aoTeclar(evento: KeyboardEvent) {
     s: [true, gravar],
     g: [habilitados.executar, simulador.executar],
     p: [habilitados.pausar, simulador.pausar],
-    h: [habilitados.parar, simulador.parar],
     r: [habilitados.resetar, simulador.resetar],
   }
   const acao = acoes[evento.key.toLowerCase()]
