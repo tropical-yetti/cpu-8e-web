@@ -1,11 +1,11 @@
-# Verificações em cada pull request e em cada push na main.
+# Verificações em cada pull request e em cada push na main e na dev.
 # SPDX-License-Identifier: GPL-3.0-or-later
 name: CI
 
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
   verificar:
@@ -31,16 +31,18 @@ jobs:
         run: npm run licencas
       - run: npm run build
 
+  # Roda dentro da imagem oficial do Playwright, que já traz os navegadores e
+  # as bibliotecas de sistema: nada de baixar ~180 pacotes a cada execução.
+  # A versão da imagem precisa ser a mesma do @playwright/test no
+  # package.json (tests/ci.test.ts confere).
   ponta-a-ponta:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.0-noble
+      options: --user 1001
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run test:e2e
 
   lighthouse:
