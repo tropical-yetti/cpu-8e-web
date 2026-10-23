@@ -8,6 +8,22 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-23 — Painel novo e visual clássico (ADR 0005)
+
+- Painel novo, no estilo do MEM-8E Web, como padrão (#16): registradores em
+  caixas, o barramento interno no meio, fios coloridos por barramento (BI
+  azul, BE verde, BD ciano, controle amarelo) com seta para onde o dado vai,
+  e a borda da memória. Cresce com a tela e cabe em 320 px sem rolar de lado.
+- O desenho do formulário original continua como **Visual: Clássico**. A
+  escolha fica guardada no navegador e vale também para a documentação.
+- Siglas com legenda ao apontar, focar ou tocar, e a página "Siglas" na
+  documentação, geradas da mesma tabela. A legenda é copiada do MEM-8E Web.
+- No painel novo, tocar num registrador mostra o valor em binário; tocar de
+  novo volta ao hexadecimal.
+- Testes: cada caminho de dados acende os fios certos; toda sigla tem nome
+  nos dois idiomas e é a mesma do visual clássico; ponta a ponta nos dois
+  visuais; axe também no visual clássico e na página "Siglas".
+
 ### 2026-10-23 — ADRs 0005 e 0006
 
 - ADR 0005 (#16): painel novo, no estilo do MEM-8E Web, como padrão, e o

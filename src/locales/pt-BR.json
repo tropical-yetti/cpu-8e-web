@@ -13,7 +13,7 @@
   },
   "simulador": {
     "programa": "Programa:",
-    "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Mantenha um registrador pressionado para ver o valor em binário; toque numa célula da memória para editá-la.",
+    "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Toque num registrador para ver o valor em binário; toque numa célula da memória para editá-la.",
     "dicaCelular": "No celular em pé, deslize o diagrama para os lados ou gire o aparelho.",
     "ajustar": "Ajustar à tela",
     "ampliar": "Ampliar diagrama"
@@ -117,12 +117,105 @@
       "imediato": "Imediato",
       "direto": "Direto"
     },
-    "ajuda": "Ajuda sobre {assunto}"
+    "ajuda": "Ajuda sobre {assunto}",
+    "sigla": "Sigla",
+    "significado": "O que é"
   },
   "acessivel": {
     "titulo": "Estado da CPU",
     "pulso": "{fase}: {mudancas}",
     "fimInstrucao": "Fim da instrução {di}. {acc}",
     "parada": "CPU parada. {di}"
+  },
+  "painel": {
+    "cpu": "CPU-8E",
+    "visual": "Visual do painel",
+    "visuais": {
+      "novo": "Novo",
+      "classico": "Clássico"
+    },
+    "memoria": "Memória"
+  },
+  "siglas": {
+    "pc": {
+      "sigla": "PC",
+      "nome": "Program Counter (contador de programa): o endereço da próxima instrução."
+    },
+    "sp": {
+      "sigla": "SP",
+      "nome": "Stack Pointer (ponteiro de pilha): o topo da pilha, onde o CAL guarda o endereço de retorno."
+    },
+    "mar": {
+      "sigla": "MAR",
+      "nome": "Memory Address Register: registrador de endereço da memória."
+    },
+    "mdr": {
+      "sigla": "MDR",
+      "nome": "Memory Data Register: registrador de dados da memória, com o byte lido ou a gravar."
+    },
+    "ir": {
+      "sigla": "IR",
+      "nome": "Instruction Register (registrador de instrução): o código da instrução em execução."
+    },
+    "acc": {
+      "sigla": "ACC",
+      "nome": "Acumulador: recebe o resultado das operações da ULA."
+    },
+    "a": {
+      "sigla": "A",
+      "nome": "Registrador temporário com o 1º operando da ULA (uma cópia do ACC)."
+    },
+    "b": {
+      "sigla": "B",
+      "nome": "Registrador temporário com o 2º operando da ULA."
+    },
+    "ula": {
+      "sigla": "ULA",
+      "nome": "Unidade lógica e aritmética: faz as contas, as operações lógicas e os deslocamentos."
+    },
+    "z": {
+      "sigla": "Z",
+      "nome": "Flag zero: o último resultado da ULA foi zero."
+    },
+    "n": {
+      "sigla": "N",
+      "nome": "Flag negativo: o bit 7 do último resultado da ULA é 1."
+    },
+    "c": {
+      "sigla": "C",
+      "nome": "Flag carry (vai-um): o bit que sobra de uma soma ou de um deslocamento. Em SUB e CMP, C = 1 quer dizer que não houve empréstimo."
+    },
+    "uc": {
+      "sigla": "UC",
+      "nome": "Unidade de controle: a cada pulso de clock, dá os sinais que movem os dados."
+    },
+    "di": {
+      "sigla": "DI",
+      "nome": "Decodificador de instruções: traduz o código do IR na instrução."
+    },
+    "clk": {
+      "sigla": "CLK",
+      "nome": "Clock: o ritmo da unidade de controle. De 10 (mais lento) a 100 (sem espera)."
+    },
+    "bi": {
+      "sigla": "BI",
+      "nome": "Barramento interno: liga os registradores e a ULA dentro da CPU."
+    },
+    "be": {
+      "sigla": "BE",
+      "nome": "Barramento de endereços: leva o endereço do MAR até a memória."
+    },
+    "bd": {
+      "sigla": "BD",
+      "nome": "Barramento de dados: leva o dado entre a memória e o MDR, nos dois sentidos."
+    },
+    "rd": {
+      "sigla": "RD",
+      "nome": "Read (leitura): a memória põe no BD o byte do endereço no MAR."
+    },
+    "wr": {
+      "sigla": "WR",
+      "nome": "Write (escrita): a memória grava o BD no endereço do MAR."
+    }
   }
 }
