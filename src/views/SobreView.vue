@@ -1,7 +1,13 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import { AUTOR_ORIGINAL, URL_CODIGO_FONTE, URL_CODIGO_ORIGINAL, URL_LICENCA } from '@/config'
+import { I18nT, useI18n } from 'vue-i18n'
+import {
+  AUTOR_ORIGINAL,
+  ISSUE_LEITOR_DE_TELA,
+  URL_CODIGO_FONTE,
+  URL_CODIGO_ORIGINAL,
+  URL_LICENCA,
+} from '@/config'
 
 const { t } = useI18n()
 const VERSAO = __VERSAO__
@@ -48,6 +54,14 @@ const AUTORES_ORIGINAIS: { versao: string; nomes: string; url?: string }[] = [
     <p>
       <a :href="URL_CODIGO_FONTE" target="_blank" rel="noopener">{{ t('rodape.codigoFonte') }}</a>
     </p>
+
+    <h2>{{ t('sobre.acessibilidadeTitulo') }}</h2>
+    <p>{{ t('sobre.acessibilidade') }}</p>
+    <I18nT keypath="sobre.acessibilidadeTestes" tag="p" scope="global">
+      <template #issue>
+        <a :href="ISSUE_LEITOR_DE_TELA">{{ t('sobre.acessibilidadeIssue') }}</a>
+      </template>
+    </I18nT>
 
     <h2>{{ t('sobre.licencaTitulo') }}</h2>
     <p>{{ t('sobre.licenca') }}</p>

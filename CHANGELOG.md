@@ -8,6 +8,17 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-23 — Rodapé, página Sobre e traduções
+
+- O rodapé mostra, ao lado da versão, o commit de onde o site foi gerado, com
+  link para ele no GitHub.
+- A página Sobre ganhou a seção "Acessibilidade", que explica como o site é
+  testado e pede ajuda a quem usa leitor de tela (#12).
+- Novo teste: português e inglês têm as mesmas chaves de tradução, e nenhuma
+  mensagem está vazia.
+- O CI gera em cada pull request uma prévia do site num único `index.html`,
+  disponível nos artefatos da execução.
+
 ### 2026-10-23 — Plano e CONTRIBUTING
 
 - O plano do projeto passa a morar no repositório, em `docs/PLANO.md`, com os

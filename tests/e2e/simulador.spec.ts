@@ -108,7 +108,15 @@ test('mostra os avisos de licença', async ({ page }) => {
   await expect(
     page.getByRole('contentinfo').getByRole('link', { name: 'Joel Guilherme da Silva Filho' }),
   ).toHaveAttribute('href', 'http://lattes.cnpq.br/7746085908957322')
+  // O rodapé mostra o commit de onde o site foi gerado, com link para ele.
+  await expect(
+    page.getByRole('contentinfo').getByRole('link', { name: /^[0-9a-f]{7,}$/ }),
+  ).toHaveAttribute('href', /\/commit\/[0-9a-f]{7,}$/)
   await page.getByRole('link', { name: /Licença GPL-3.0-or-later/ }).click()
+  await expect(page.getByRole('link', { name: 'conte como foi na issue #12' })).toHaveAttribute(
+    'href',
+    'https://github.com/tropical-yetti/cpu-8e-web/issues/12',
+  )
   await expect(page.getByRole('heading', { name: 'Licença' })).toBeVisible()
   await expect(page.getByText(/SEM NENHUMA GARANTIA/)).toBeVisible()
   for (const nome of ['Joel Guilherme da Silva Filho', 'Prof. Joel Guilherme da Silva Filho']) {
