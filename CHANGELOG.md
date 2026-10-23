@@ -8,6 +8,16 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-23 — Ordem da série 2.x
+
+- A 2.0.0 passa a ser o primeiro lançamento da série 2.x: reúne o processo,
+  os testes por instrução, o painel novo, a memória por dentro como vista
+  padrão e o guia de primeiro acesso. A 2.1.0 traz os experimentos, o roteiro
+  de aula e a revisão da documentação; o montador fica para a 2.2.0
+  (`docs/PLANO.md`).
+- Uma versão só ganha número quando traz algo novo para quem usa o site; até
+  lá, as mudanças ficam aqui, em "Não lançado" (CONTRIBUTING).
+
 ### 2026-10-23 — Rodapé, página Sobre e traduções
 
 - O rodapé mostra, ao lado da versão, o commit de onde o site foi gerado, com
