@@ -240,3 +240,104 @@ describe('programa "todas as instruções"', () => {
     expect(cpu.controle.s).toBe(3)
   })
 })
+
+describe('flags Z, N e C', () => {
+  /** Executa uma instrução e devolve as flags e o ACC depois. */
+  function flagsDepois(programa: number[], antes: Antes) {
+    const { cpu } = executarUma({ nome: '', programa, antes, depois: {} })
+    return { z: cpu.ula.z, n: cpu.ula.n, c: cpu.ula.c, acc: cpu.acc }
+  }
+
+  // Cada linha: instrução (código imediato e operando), ACC antes, ACC
+  // depois e as flags esperadas. O teste começa com cada flag no valor
+  // oposto ao esperado, para provar que a instrução escreveu a flag, e não
+  // que ela só ficou como estava.
+  // prettier-ignore
+  const ULA: [nome: string, programa: number[], acc: number, resultado: number, z: boolean, n: boolean, c: boolean][] = [
+    ['NOT FF → 00: Z',              [0x02],       0xff, 0x00, true,  false, false],
+    ['NOT 0F → F0: N',              [0x02],       0x0f, 0xf0, false, true,  false],
+    ['NOT 80 → 7F: nenhuma',        [0x02],       0x80, 0x7f, false, false, false],
+    ['LOD 00: Z',                   [0x91, 0x00], 0x55, 0x00, true,  false, false],
+    ['LOD 80: N',                   [0x91, 0x80], 0x00, 0x80, false, true,  false],
+    ['LOD 7F: nenhuma',             [0x91, 0x7f], 0x00, 0x7f, false, false, false],
+    ['ADD FF + 01 → 00: Z e C',     [0x95, 0x01], 0xff, 0x00, true,  false, true],
+    ['ADD 7F + 01 → 80: N',         [0x95, 0x01], 0x7f, 0x80, false, true,  false],
+    ['ADD F0 + 20 → 10: C',         [0x95, 0x20], 0xf0, 0x10, false, false, true],
+    ['ADD F0 + 0F → FF: N, sem C',  [0x95, 0x0f], 0xf0, 0xff, false, true,  false],
+    ['ADD 01 + 01 → 02: nenhuma',   [0x95, 0x01], 0x01, 0x02, false, false, false],
+    ['SUB 05 − 05 → 00: Z e C',     [0x96, 0x05], 0x05, 0x00, true,  false, true],
+    ['SUB 01 − 02 → FF: N, sem C',  [0x96, 0x02], 0x01, 0xff, false, true,  false],
+    ['SUB 05 − 01 → 04: C',         [0x96, 0x01], 0x05, 0x04, false, false, true],
+    ['SUB 90 − 01 → 8F: N e C',     [0x96, 0x01], 0x90, 0x8f, false, true,  true],
+    ['CMP 05 com 05: Z e C',        [0x94, 0x05], 0x05, 0x05, true,  false, true],
+    ['CMP 01 com 02: N, sem C',     [0x94, 0x02], 0x01, 0x01, false, true,  false],
+    ['CMP 05 com 01: C',            [0x94, 0x01], 0x05, 0x05, false, false, true],
+    ['CMP 00 com 01: N, sem C',     [0x94, 0x01], 0x00, 0x00, false, true,  false],
+    ['AND F0 e 0F → 00: Z',         [0x9a, 0x0f], 0xf0, 0x00, true,  false, false],
+    ['AND 80 e FF → 80: N',         [0x9a, 0xff], 0x80, 0x80, false, true,  false],
+    ['AND 3C e 0F → 0C: nenhuma',   [0x9a, 0x0f], 0x3c, 0x0c, false, false, false],
+    ['XOR 5A e 5A → 00: Z',         [0x9b, 0x5a], 0x5a, 0x00, true,  false, false],
+    ['XOR 0F e F0 → FF: N',         [0x9b, 0xf0], 0x0f, 0xff, false, true,  false],
+    ['XOR 01 e 03 → 02: nenhuma',   [0x9b, 0x03], 0x01, 0x02, false, false, false],
+    ['ORL 00 e 00 → 00: Z',         [0x9c, 0x00], 0x00, 0x00, true,  false, false],
+    ['ORL 00 e 80 → 80: N',         [0x9c, 0x80], 0x00, 0x80, false, true,  false],
+    ['ORL 01 e 02 → 03: nenhuma',   [0x9c, 0x02], 0x01, 0x03, false, false, false],
+    ['SHL 80 → 00: Z e C',          [0x8a, 0x01], 0x80, 0x00, true,  false, true],
+    ['SHL 40 → 80: N',              [0x8a, 0x01], 0x40, 0x80, false, true,  false],
+    ['SHL C0 → 80: N e C',          [0x8a, 0x01], 0xc0, 0x80, false, true,  true],
+    ['SHL 01 → 02: nenhuma',        [0x8a, 0x01], 0x01, 0x02, false, false, false],
+    ['SHR 01 → 00: Z e C',          [0x8b, 0x01], 0x01, 0x00, true,  false, true],
+    ['SHR 80 → 40: N sempre 0',     [0x8b, 0x01], 0x80, 0x40, false, false, false],
+    ['SHR 03 → 01: C',              [0x8b, 0x01], 0x03, 0x01, false, false, true],
+    ['SRA 80 → C0: N',              [0x8c, 0x01], 0x80, 0xc0, false, true,  false],
+    ['SRA 01 → 00: Z e C',          [0x8c, 0x01], 0x01, 0x00, true,  false, true],
+    ['SRA 81 → C0: N e C',          [0x8c, 0x01], 0x81, 0xc0, false, true,  true],
+    ['SRA 02 → 01: nenhuma',        [0x8c, 0x01], 0x02, 0x01, false, false, false],
+    ['ROL 00 → 00: Z',              [0x8d, 0x01], 0x00, 0x00, true,  false, false],
+    ['ROL 40 → 80: N',              [0x8d, 0x01], 0x40, 0x80, false, true,  false],
+    ['ROL 80 → 01: C',              [0x8d, 0x01], 0x80, 0x01, false, false, true],
+    ['ROL C0 → 81: N e C',          [0x8d, 0x01], 0xc0, 0x81, false, true,  true],
+    ['ROR 00 → 00: Z',              [0x8e, 0x01], 0x00, 0x00, true,  false, false],
+    ['ROR 01 → 80: N e C',          [0x8e, 0x01], 0x01, 0x80, false, true,  true],
+    ['ROR 02 → 01: nenhuma',        [0x8e, 0x01], 0x02, 0x01, false, false, false],
+  ]
+
+  it.each(ULA)('%s', (_nome, programa, acc, resultado, z, n, c) => {
+    expect(flagsDepois(programa, { acc, z: !z, n: !n, c: !c })).toEqual({ z, n, c, acc: resultado })
+  })
+
+  it('as instruções da ULA com flags escrevem as três (todas aparecem nos casos acima)', () => {
+    const comFlags = INSTRUCOES.filter((i) => i.alteraFlags).map((i) => i.mnemonico)
+    const testadas = new Set(ULA.map(([nome]) => nome.split(' ')[0]))
+    expect(comFlags.filter((m) => !testadas.has(m))).toEqual([])
+  })
+
+  // Instruções que não passam pela ULA não podem mexer nas flags, estejam
+  // elas ligadas ou desligadas.
+  // prettier-ignore
+  const SEM_FLAGS: [nome: string, programa: number[], antes: Antes][] = [
+    ['HLT', [0x00], {}],
+    ['NOP', [0x01], {}],
+    ['JMP', [0xc4, 0x20], {}],
+    ['JEQ', [0xc5, 0x20], {}],
+    ['JGT', [0xc6, 0x20], {}],
+    ['JGE', [0xc7, 0x20], {}],
+    ['JCY', [0xc8, 0x20], {}],
+    ['CAL', [0xc9, 0x20], {}],
+    ['RET', [0x03], { sp: 0xfe, memoria: { 0xff: 0x10 } }],
+    ['STO', [0xd0, 0x20], { acc: 0x00 }],
+  ]
+
+  it.each(SEM_FLAGS)('%s não muda as flags', (_nome, programa, antes) => {
+    for (const valor of [true, false]) {
+      const depois = flagsDepois(programa, { ...antes, z: valor, n: valor, c: valor })
+      expect({ z: depois.z, n: depois.n, c: depois.c }).toEqual({ z: valor, n: valor, c: valor })
+    }
+  })
+
+  it('as instruções sem flags estão todas na lista acima', () => {
+    const semFlags = INSTRUCOES.filter((i) => !i.alteraFlags).map((i) => i.mnemonico)
+    const testadas = new Set(SEM_FLAGS.map(([nome]) => nome))
+    expect(semFlags.filter((m) => !testadas.has(m))).toEqual([])
+  })
+})

@@ -15,6 +15,11 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   flags e saída da ULA), com os casos de borda: estouro de 8 bits e com sinal,
   empréstimo, zero, negativo, contador `00` e maior que 8, desvios tomados e
   não tomados, pilha que alcança o programa e código inválido.
+- Testes próprios para as flags Z, N e C: cada instrução da ULA aparece com
+  casos que ligam e que desligam cada flag (o teste começa com a flag no valor
+  oposto, para provar que ela foi escrita), e as instruções que não passam
+  pela ULA (HLT, NOP, desvios, CAL, RET e STO) mantêm as três flags, ligadas
+  ou desligadas.
 - Novo programa de teste "todas as instruções": passa pelas 23 instruções e
   pelos estouros, chama uma sub-rotina e grava os resultados de `80` a `8F`.
 - Saíram a referência em Pascal (`tools/referencia/`), os gabaritos, o teste
