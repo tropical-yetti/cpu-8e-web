@@ -37,12 +37,11 @@ Ao usar o simulador, o aluno deve conseguir explicar:
 
 ## 2. O que a 2.x traz
 
-- **Painel novo** ([ADR 0005](adr/README.md), a escrever): o mesmo estilo do
+- **Painel novo** ([ADR 0005](adr/0005-painel-novo-e-visual-classico.md)): o mesmo estilo do
   MEM-8E Web como padrão, com fios coloridos por tipo de barramento e siglas
   com legenda. O desenho do formulário original continua como opção "visual
   clássico".
-- **Memória por dentro (linha × coluna)** ([ADR 0006](adr/README.md), a
-  escrever): a vista padrão da memória, com os decodificadores de linha
+- **Memória por dentro (linha × coluna)** ([ADR 0006](adr/0006-memoria-por-dentro.md)): a vista padrão da memória, com os decodificadores de linha
   (A7–A4) e de coluna (A3–A0) e a grade 16 × 16; a tabela de antes continua
   como alternativa. A linha e a coluna acompanham o MAR; os pulsos de leitura
   e escrita mostram o acesso.

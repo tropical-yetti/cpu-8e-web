@@ -29,9 +29,11 @@ flowchart LR
 
 ## Índice
 
-| Nº                                      | Decisão                                                                | Estado |
-| --------------------------------------- | ---------------------------------------------------------------------- | ------ |
-| [0001](0001-registros-de-decisao.md)    | Registros de decisão de arquitetura, com diagramas em Mermaid          | Aceita |
-| [0002](0002-versoes-e-lancamentos.md)   | Séries 1.x e 2.x, ramos e regra de lançamentos                         | Aceita |
-| [0003](0003-validacao-por-instrucao.md) | Validação por instrução e estado, no lugar da comparação pulso a pulso | Aceita |
-| [0004](0004-codigo-e-estilo-comuns.md)  | Código e estilo comuns com o MEM-8E Web                                | Aceita |
+| Nº                                            | Decisão                                                                | Estado   |
+| --------------------------------------------- | ---------------------------------------------------------------------- | -------- |
+| [0001](0001-registros-de-decisao.md)          | Registros de decisão de arquitetura, com diagramas em Mermaid          | Aceita   |
+| [0002](0002-versoes-e-lancamentos.md)         | Séries 1.x e 2.x, ramos e regra de lançamentos                         | Aceita   |
+| [0003](0003-validacao-por-instrucao.md)       | Validação por instrução e estado, no lugar da comparação pulso a pulso | Aceita   |
+| [0004](0004-codigo-e-estilo-comuns.md)        | Código e estilo comuns com o MEM-8E Web                                | Aceita   |
+| [0005](0005-painel-novo-e-visual-classico.md) | Painel novo como padrão e o desenho original como visual clássico      | Proposta |
+| [0006](0006-memoria-por-dentro.md)            | Memória por dentro (linha × coluna) como vista padrão                  | Proposta |

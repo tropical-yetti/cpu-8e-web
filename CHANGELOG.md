@@ -8,6 +8,13 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-23 — Propostas das ADRs 0005 e 0006
+
+- ADR 0005 (#16): painel novo, no estilo do MEM-8E Web, como padrão, e o
+  desenho original como "visual clássico".
+- ADR 0006 (#17): memória por dentro (linha × coluna) como vista padrão,
+  acompanhando o MAR, com a tabela como alternativa.
+
 ### 2026-10-23 — Validação por instrução e estado
 
 - Novos testes por instrução (ADR 0003, #7): para os 35 códigos válidos, o
