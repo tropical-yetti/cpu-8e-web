@@ -23,6 +23,10 @@
     "historia": "CPU-8E Web is a browser version of the CPU-8E simulator, created at IESB (Instituto de Educação Superior de Brasília, Brazil) to teach computer architecture.",
     "autoresOriginais": "Original simulator",
     "derivada": "This version",
+    "acessibilidadeTitulo": "Accessibility",
+    "acessibilidade": "The site is built to work with the keyboard alone and with a screen reader, and follows the WCAG 2.2 guidelines, level AA. A table meant for screen readers holds the state of every register, and at each stop the reader announces what changed on the last clock pulse.",
+    "acessibilidadeTestes": "So far, the tests are automated: axe, in the light and dark themes, and a keyboard-only test. Nobody who uses a screen reader every day has tested the site yet. If you do, your help is very welcome: {issue}.",
+    "acessibilidadeIssue": "tell us how it went in issue #12",
     "licencaTitulo": "License",
     "licenca": "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.",
     "garantia": "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
@@ -34,7 +38,8 @@
     "copyright": "© 2009–2010 {autor} and contributors (CPU-8E) · © 2026 CPU-8E Web contributors",
     "licenca": "GPL-3.0-or-later license, no warranty",
     "codigoFonte": "Source code",
-    "versao": "Version {versao}"
+    "versao": "Version {versao}",
+    "commit": "Commit this site was built from"
   },
   "diagrama": {
     "descricao": "CPU-8E diagram with registers, ALU, buses and control unit",

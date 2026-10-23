@@ -23,6 +23,10 @@
     "historia": "O CPU-8E Web é uma versão para navegador do simulador CPU-8E, criado no IESB – Instituto de Educação Superior de Brasília para o ensino de arquitetura de computadores.",
     "autoresOriginais": "Simulador original",
     "derivada": "Esta versão",
+    "acessibilidadeTitulo": "Acessibilidade",
+    "acessibilidade": "O site é feito para funcionar só com o teclado e com leitor de tela, e segue as diretrizes WCAG 2.2, nível AA. Uma tabela, só para leitores de tela, traz o estado de todos os registradores, e a cada parada o leitor anuncia o que mudou no último pulso de clock.",
+    "acessibilidadeTestes": "Até agora, os testes são automáticos: o axe, nos temas claro e escuro, e um teste de uso só com o teclado. Ninguém que usa leitor de tela no dia a dia testou o site ainda. Se você usa, sua ajuda é muito bem-vinda: {issue}.",
+    "acessibilidadeIssue": "conte como foi na issue #12",
     "licencaTitulo": "Licença",
     "licenca": "Este programa é software livre: você pode redistribuí-lo e/ou modificá-lo sob os termos da Licença Pública Geral GNU, conforme publicada pela Free Software Foundation, versão 3 da licença ou (a seu critério) qualquer versão posterior.",
     "garantia": "Este programa é distribuído na esperança de que seja útil, mas SEM NENHUMA GARANTIA; sem mesmo a garantia implícita de COMERCIALIZAÇÃO ou de ADEQUAÇÃO A UM PROPÓSITO ESPECÍFICO.",
@@ -34,7 +38,8 @@
     "copyright": "© 2009–2010 {autor} e colaboradores (CPU-8E) · © 2026 colaboradores do CPU-8E Web",
     "licenca": "Licença GPL-3.0-or-later, sem garantia",
     "codigoFonte": "Código-fonte",
-    "versao": "Versão {versao}"
+    "versao": "Versão {versao}",
+    "commit": "Commit de onde este site foi gerado"
   },
   "diagrama": {
     "descricao": "Diagrama da CPU-8E com registradores, ULA, barramentos e unidade de controle",
