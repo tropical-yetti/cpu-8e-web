@@ -39,6 +39,15 @@ test('carrega teste.bin e mostra o disassembly', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Parar' })).toHaveCount(0)
 })
 
+test('o nome do programa não empurra o painel para baixo', async ({ page }) => {
+  await page.goto('./')
+  const painel = page.locator('.area')
+  const antes = (await painel.boundingBox())!.y
+  await carregarTeste(page)
+  await expect(page.getByText('Programa: teste.bin')).toBeVisible()
+  expect((await painel.boundingBox())!.y).toBe(antes)
+})
+
 test('as siglas do painel seguem o idioma da interface', async ({ page }) => {
   await page.goto('./')
   const painel = page.locator('[data-visual="novo"]')

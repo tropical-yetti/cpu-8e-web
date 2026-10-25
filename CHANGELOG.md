@@ -26,6 +26,9 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   contraste) e fundo amarelo claro na UC, as duas unidades no mesmo padrão.
 - As pontas das setas terminam na borda do fio e não ficam mais escondidas
   atrás das caixas (entrada dos registradores, IR → UC, flags → UC).
+- O nome do programa carregado aparece na linha do seletor de visual, entre a
+  barra de ferramentas e o painel: carregar um arquivo não empurra mais o
+  painel (nem o rodapé) para baixo.
 - No painel novo, os valores aparecem com o prefixo `0x`. Tocar num
   registrador troca a base: hexadecimal, decimal, binário (`0b…`) e de volta;
   cada registrador guarda a sua. Leitores de tela ouvem as três bases.

@@ -98,11 +98,16 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
 <template>
   <section class="simulador" :aria-label="t('nav.simulador')">
     <h1 class="visualmente-oculto">{{ t('nav.simulador') }}</h1>
-    <p v-if="simulador.painel.nomePrograma" class="programa">
-      {{ t('simulador.programa') }} <strong>{{ simulador.painel.nomePrograma }}</strong>
-    </p>
     <BarraFerramentas @carregar="carregar" @gravar="gravar" @ajuda="ajuda" />
+    <!-- O nome do programa fica na mesma linha do seletor de visual, que existe
+         sempre: carregar um arquivo não empurra o painel para baixo. -->
     <div class="opcoes-painel">
+      <p class="programa" :title="simulador.painel.nomePrograma ?? undefined">
+        <template v-if="simulador.painel.nomePrograma">
+          <span class="rotulo-programa">{{ `${t('simulador.programa')} ` }}</span
+          ><strong>{{ simulador.painel.nomePrograma }}</strong>
+        </template>
+      </p>
       <div class="visuais" role="radiogroup" :aria-label="t('painel.visual')">
         <button
           v-for="opcao in VISUAIS"
@@ -151,13 +156,19 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   flex-direction: column;
 }
 .programa {
-  margin: 0 0 8px;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
   font-size: 0.9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: var(--texto-suave);
 }
 .opcoes-painel {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
   margin: 8px 0;
 }
 .visuais {
@@ -226,6 +237,17 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   background: var(--fundo-barra);
   color: var(--texto);
   cursor: pointer;
+}
+/* Em telas estreitas, só o nome do arquivo: "Programa:" fica para leitores de tela. */
+@media (max-width: 400px) {
+  .rotulo-programa {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }
 @media (max-width: 720px) {
   .area {
