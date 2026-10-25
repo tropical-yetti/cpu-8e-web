@@ -18,9 +18,16 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   escolha fica guardada no navegador e vale também para a documentação.
 - Siglas com legenda ao apontar, focar ou tocar, e a página "Siglas" na
   documentação, geradas da mesma tabela. A legenda é copiada do MEM-8E Web.
-- No painel novo, tocar num registrador mostra o valor em binário; tocar de
-  novo volta ao hexadecimal.
-- Testes: cada caminho de dados acende os fios certos; toda sigla tem nome
+- Bloco da ULA com rótulo próprio e borda mais forte: as entradas A e B
+  ligadas à **Saída** (o antigo campo ULA), para mostrar que o resultado
+  combina as duas, e o **Status Register** com as flags Z, N e C. As ligações
+  acendem no pulso em que a ULA calcula.
+- No painel novo, os valores aparecem com o prefixo `0x`. Tocar num
+  registrador troca a base: hexadecimal, decimal, binário (`0b…`) e de volta;
+  cada registrador guarda a sua. Leitores de tela ouvem as três bases.
+- Legenda do A mais precisa: "em geral, uma cópia do ACC" (no `LOD` e nos
+  deslocamentos ele recebe outros valores).
+- Testes: as três bases; cada caminho de dados acende os fios certos; toda sigla tem nome
   nos dois idiomas e é a mesma do visual clássico; ponta a ponta nos dois
   visuais; axe também no visual clássico e na página "Siglas".
 

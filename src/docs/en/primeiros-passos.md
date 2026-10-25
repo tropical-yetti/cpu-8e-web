@@ -31,7 +31,7 @@ Change the **Mode** to **Full Run** and pick clock **100** (the fastest). Press 
 
 **Reset** clears the registers and sets PC back to `00`, keeping the program in memory. You can repeat the run as many times as you like, in any mode.
 
-> **Tip:** tap a register to see its value in binary, such as `11111111`.
+> **Tip:** tap a register to change the base of its value: from hexadecimal (`0xFF`) to decimal (`255`) and binary (`0b11111111`).
 
 ## Next steps
 

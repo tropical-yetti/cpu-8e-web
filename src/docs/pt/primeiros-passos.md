@@ -31,7 +31,7 @@ Troque o **Modo** para **Execução contínua** e escolha o clock **100** (o mai
 
 **Reset** zera os registradores e volta o PC para `00`, mantendo o programa na memória. Assim você pode repetir a execução quantas vezes quiser, em qualquer modo.
 
-> **Dica:** toque num registrador para ver o valor dele em binário, como `11111111`.
+> **Dica:** toque num registrador para trocar a base do valor: de hexadecimal (`0xFF`) para decimal (`255`) e binário (`0b11111111`).
 
 ## Próximos passos
 

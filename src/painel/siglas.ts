@@ -8,7 +8,7 @@
 
 import type { ItemPainel } from '@/core'
 
-/** Ordem da página "Siglas": registradores, ULA e flags, controle, barramentos. */
+/** Ordem da página "Siglas": registradores, ULA, Status Register e flags, controle, barramentos. */
 export const SIGLAS = [
   'pc',
   'sp',
@@ -19,6 +19,7 @@ export const SIGLAS = [
   'a',
   'b',
   'ula',
+  'status',
   'z',
   'n',
   'c',

@@ -13,7 +13,7 @@
   },
   "simulador": {
     "programa": "Programa:",
-    "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Toque num registrador para ver o valor em binário; toque numa célula da memória para editá-la.",
+    "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Toque num registrador para trocar a base (hexadecimal, decimal ou binário); toque numa célula da memória para editá-la.",
     "dicaCelular": "No celular em pé, deslize o diagrama para os lados ou gire o aparelho.",
     "ajustar": "Ajustar à tela",
     "ampliar": "Ampliar diagrama"
@@ -134,7 +134,10 @@
       "novo": "Novo",
       "classico": "Clássico"
     },
-    "memoria": "Memória"
+    "memoria": "Memória",
+    "saida": "Saída",
+    "saidaDaUla": "Saída da ULA",
+    "registrador": "{nome}: {hex}, {dec} em decimal, {bin} em binário. Pressione para trocar a base mostrada."
   },
   "siglas": {
     "pc": {
@@ -163,7 +166,7 @@
     },
     "a": {
       "sigla": "A",
-      "nome": "Registrador temporário com o 1º operando da ULA (uma cópia do ACC)."
+      "nome": "Registrador temporário com o 1º operando da ULA: em geral, uma cópia do ACC."
     },
     "b": {
       "sigla": "B",
@@ -171,7 +174,11 @@
     },
     "ula": {
       "sigla": "ULA",
-      "nome": "Unidade lógica e aritmética: faz as contas, as operações lógicas e os deslocamentos."
+      "nome": "Unidade lógica e aritmética: combina as entradas A e B (soma, subtração, operações lógicas, deslocamentos) e põe o resultado na saída."
+    },
+    "status": {
+      "sigla": "Status Register",
+      "nome": "Registrador de status: guarda as flags Z, N e C do último resultado da ULA, que a UC usa para decidir os desvios."
     },
     "z": {
       "sigla": "Z",

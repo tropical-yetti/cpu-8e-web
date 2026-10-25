@@ -45,11 +45,11 @@ The default is 50. In Single Step mode this time also passes after each press of
 
 ## Panel {#diagrama}
 
-The panel shows the CPU with the internal bus (**IB**) in the middle. On the left are PC, SP, ACC and the ALU, with registers A and B and the flags; on the right, MAR, MDR, IR and the control unit (CU), with the instruction decoder (ID) and the clock. Toward the memory go the address bus (**AB**), the data bus (**DB**) and the **RD** and **WR** signals.
+The panel shows the CPU with the internal bus (**IB**) in the middle. On the left are PC, SP, ACC and the **ALU** block: inputs A and B, connected to the **Output** to show that the result combines both, and the **Status Register**, with the flags; on the right, MAR, MDR, IR and the control unit (CU), with the instruction decoder (ID) and the clock. Toward the memory go the address bus (**AB**), the data bus (**DB**) and the **RD** and **WR** signals.
 
 While running, each clock pulse highlights the registers that received a value and lights up the wires the data went through, with an arrow showing where it goes. The colors are those of the original panel: IB blue, AB green, DB cyan and control signals yellow. Hover over an abbreviation, focus it with the keyboard or tap it on a phone to see what it stands for; the full list is in [Abbreviations](#/documentacao/siglas).
 
-**Binary value:** tap ACC, A, B, IR, MAR, MDR, PC, SP or the ALU output to see its value in binary, such as `00000101`. Tap again to go back to hexadecimal. With the keyboard, **Tab** to the register and press **Enter**.
+**Bases:** registers show their value in hexadecimal, with the `0x` prefix (for example, `0x05`). Tap ACC, A, B, IR, MAR, MDR, PC, SP or the ALU output to see the same value in decimal (`5`); tap again to see it in binary, with the `0b` prefix (`0b00000101`); one more tap goes back to hexadecimal. Each register keeps its own base. With the keyboard, **Tab** to the register and press **Enter**. Screen readers hear the value in all three bases.
 
 **Classic look:** the **Panel look** selector, above the panel, switches to the original simulator's drawing, with the same positions, colors and tips. There, registers that changed get red text, and the binary value shows while the register is held down. The choice is kept in the browser.
 

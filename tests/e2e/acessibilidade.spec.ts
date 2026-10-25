@@ -79,12 +79,13 @@ test('dá para usar o simulador só com o teclado', async ({ page, isMobile, bro
   await page.keyboard.press('Control+g')
   await expect(page.locator('[aria-live="polite"]')).toHaveText(/Busca: MAR:00/)
 
-  // Registradores recebem foco e mostram o valor em binário com Enter.
-  const pc = page.getByRole('button', { name: /^PC:00/ })
+  // Registradores recebem foco, e Enter troca a base (decimal, depois binário).
+  const pc = page.getByRole('button', { name: /^PC: 0x00,/ })
   await pc.focus()
   await page.keyboard.press('Enter')
-  await expect(pc).toContainText('00000000')
-  await expect(pc).toHaveAttribute('aria-pressed', 'true')
+  await expect(pc).toContainText('0')
+  await page.keyboard.press('Enter')
+  await expect(pc).toContainText('0b00000000')
 
   // Editar a memória pelo teclado.
   await page.getByRole('button', { name: 'D1: editar o endereço 00' }).focus()

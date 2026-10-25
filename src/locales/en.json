@@ -13,7 +13,7 @@
   },
   "simulador": {
     "programa": "Program:",
-    "dicaUso": "To start, press Load and choose teste.bin. Then use Go: in single step mode, each press advances one clock pulse. Tap a register to see its value in binary; tap a memory cell to edit it.",
+    "dicaUso": "To start, press Load and choose teste.bin. Then use Go: in single step mode, each press advances one clock pulse. Tap a register to change the base (hexadecimal, decimal or binary); tap a memory cell to edit it.",
     "dicaCelular": "On a phone held upright, swipe the diagram sideways or rotate the device.",
     "ajustar": "Fit to screen",
     "ampliar": "Enlarge diagram"
@@ -134,7 +134,10 @@
       "novo": "New",
       "classico": "Classic"
     },
-    "memoria": "Memory"
+    "memoria": "Memory",
+    "saida": "Output",
+    "saidaDaUla": "ALU output",
+    "registrador": "{nome}: {hex}, {dec} in decimal, {bin} in binary. Press to change the base shown."
   },
   "siglas": {
     "pc": {
@@ -163,7 +166,7 @@
     },
     "a": {
       "sigla": "A",
-      "nome": "Temporary register with the 1st ALU operand (a copy of ACC)."
+      "nome": "Temporary register with the 1st ALU operand: usually a copy of ACC."
     },
     "b": {
       "sigla": "B",
@@ -171,7 +174,11 @@
     },
     "ula": {
       "sigla": "ALU",
-      "nome": "Arithmetic logic unit: does the arithmetic, the logic operations and the shifts."
+      "nome": "Arithmetic logic unit: combines inputs A and B (addition, subtraction, logic operations, shifts) and puts the result on the output."
+    },
+    "status": {
+      "sigla": "Status Register",
+      "nome": "Holds the Z, N and C flags of the last ALU result, which the CU uses to decide jumps."
     },
     "z": {
       "sigla": "Z",

@@ -30,7 +30,7 @@ There are 256 bytes, addresses `00` to `FF`. The CPU never reads memory directly
 
 ## ALU {#ula}
 
-The Arithmetic Logic Unit does the math: addition, subtraction, logic operations (AND, OR, XOR, NOT), shifts and rotations. It takes its operands in **A** and **B** and shows the result at the **ALU** output. Each operation updates three flags:
+The Arithmetic Logic Unit does the math: addition, subtraction, logic operations (AND, OR, XOR, NOT), shifts and rotations. It takes its operands in **A** and **B** and shows the result at the **Output** (the **ALU** field in the classic look). Each operation updates three flags:
 
 | Flag             | Set to 1 when…                                                               |
 | ---------------- | ---------------------------------------------------------------------------- |
@@ -40,7 +40,7 @@ The Arithmetic Logic Unit does the math: addition, subtraction, logic operations
 
 For subtraction (`SUB` and `CMP`), the ALU adds A to the two's complement of B. That is why **C = 1 when there is no borrow** (A ≥ B) and C = 0 when A < B. The jumps `JEQ`, `JGT`, `JGE` and `JCY` decide based on these flags.
 
-The flags are computed by the ALU and go to the control unit (CU), which uses them to decide jumps. In the classic look, they appear twice: next to the ALU and below the CU.
+The flags are kept in the **Status Register** and go to the control unit (CU), which uses them to decide jumps. In the classic look, they appear twice: next to the ALU and below the CU.
 
 ## Control unit and decoder {#controle}
 

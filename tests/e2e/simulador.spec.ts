@@ -15,9 +15,9 @@ async function carregarTeste(page: Page) {
 }
 
 const diagrama = (page: Page) => page.getByRole('img', { name: /Diagrama da CPU-8E/ })
-/** Um registrador do painel novo, pelo texto "MAR:00" do nome acessível. */
-const registrador = (page: Page, texto: string) =>
-  page.getByRole('button', { name: new RegExp(`^${texto},`) })
+/** Um registrador do painel novo, pelo começo do nome acessível ("MAR: 0x00,"). */
+const registrador = (page: Page, nome: string, valor: string) =>
+  page.getByRole('button', { name: new RegExp(`^${nome}: 0x${valor},`) })
 const decodificador = (page: Page) => page.locator('[data-visual="novo"] [data-sigla="di"]')
 
 async function usarVisual(page: Page, visual: 'Novo' | 'Clássico') {
@@ -50,7 +50,10 @@ test('as siglas do painel seguem o idioma da interface', async ({ page }) => {
     await expect(painel.getByText(sigla, { exact: true }).first()).toBeVisible()
   }
   await expect(painel).not.toContainText('ULA')
-  await expect(page.getByRole('button', { name: /^ALU:00, in binary 00000000/ })).toBeAttached()
+  await expect(
+    page.getByRole('button', { name: /^ALU output: 0x00, 0 in decimal, 00000000 in binary/ }),
+  ).toBeVisible()
+  await expect(painel.getByText('Output', { exact: true })).toBeVisible()
 })
 
 test('no visual clássico, as siglas do diagrama seguem o idioma da interface', async ({ page }) => {
@@ -75,15 +78,15 @@ test('passo a passo avança um pulso de clock por vez', async ({ page }) => {
   await executar.click()
   await expect(status(page)).toHaveAttribute('alt', 'Pausa (amarelo)')
   await expect(page.locator('.lampada.acesa')).toHaveText('Busca')
-  await expect(registrador(page, 'MAR:00')).toHaveClass(/realcado/)
+  await expect(registrador(page, 'MAR', '00')).toHaveClass(/realcado/)
   // PC → MAR: o PC sai para o BI, o MAR recebe, e o endereço segue pelo BE.
   for (const fio of ['.bi', '.ponte-esquerda >> nth=0', '.linha-be']) {
     await expect(page.locator(`[data-visual="novo"] ${fio}`)).toHaveClass(/aceso/)
   }
 
   await executar.click()
-  await expect(registrador(page, 'MDR:D1')).toHaveClass(/realcado/)
-  await expect(registrador(page, 'PC:01')).toBeVisible()
+  await expect(registrador(page, 'MDR', 'D1')).toHaveClass(/realcado/)
+  await expect(registrador(page, 'PC', '01')).toBeVisible()
   // Leitura: RD acende, e o BD traz o dado da memória para o MDR.
   await expect(page.locator('.linha-rd')).toHaveClass(/aceso/)
   await expect(page.locator('.linha-bd')).toHaveClass(/para-esquerda/)
@@ -120,15 +123,45 @@ test('o visual escolhido fica guardado, e a documentação mostra o mesmo', asyn
   await expect(diagrama(page)).toHaveCount(0)
 })
 
-test('tocar num registrador mostra o valor em binário', async ({ page }) => {
-  await carregarTeste(page)
-  const mdr = registrador(page, 'MDR:00')
-  await mdr.click()
-  await expect(mdr).toHaveAttribute('aria-pressed', 'true')
-  await expect(mdr).toContainText('00000000')
-  await mdr.click()
-  await expect(mdr).toHaveAttribute('aria-pressed', 'false')
-  await expect(mdr).toContainText('00')
+test('tocar num registrador troca a base: hexadecimal, decimal, binário', async ({ page }) => {
+  await page.goto('./')
+  const sp = registrador(page, 'SP', 'FF')
+  await expect(sp).toHaveAccessibleName(/^SP: 0xFF, 255 em decimal, 11111111 em binário/)
+  await expect(sp).toContainText('0xFF')
+  await sp.click()
+  await expect(sp).toContainText('255')
+  await sp.click()
+  await expect(sp).toContainText('0b11111111')
+  await sp.click()
+  await expect(sp).toContainText('0xFF')
+  // Cada registrador tem a sua base.
+  await sp.click()
+  await expect(registrador(page, 'PC', '00')).toContainText('0x00')
+})
+
+test('a ULA mostra A e B ligados à saída e o Status Register', async ({ page }) => {
+  await page.goto('./')
+  const painel = page.locator('[data-visual="novo"]')
+  await expect(painel.getByText('ULA', { exact: true })).toBeVisible()
+  await expect(painel.getByText('Saída', { exact: true })).toBeVisible()
+  await expect(painel.getByText('Status Register', { exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: /^Saída da ULA: 0x00,/ })).toBeVisible()
+  await expect(painel.locator('.combinacao')).not.toHaveClass(/aceso/)
+  // LOD 05: a ULA deixa passar A, e as ligações acendem no pulso dela.
+  await page.getByRole('button', { name: '00: editar o endereço 00' }).click()
+  await page.keyboard.type('91')
+  await page.keyboard.press('Enter')
+  await page.keyboard.type('05')
+  await page.keyboard.press('Enter')
+  await page.keyboard.press('Escape')
+  await page.getByRole('combobox', { name: 'Velocidade do clock' }).selectOption('100')
+  const executar = page.getByRole('button', { name: 'Executar', exact: true })
+  for (let i = 0; i < 12 && !(await painel.locator('.combinacao.aceso').count()); i++) {
+    await executar.click()
+    await page.waitForTimeout(100)
+  }
+  await expect(painel.locator('.combinacao')).toHaveClass(/aceso/)
+  await expect(page.getByRole('button', { name: /^Saída da ULA: 0x05,/ })).toBeVisible()
 })
 
 test('as siglas têm legenda ao apontar e ao focar', async ({ page, isMobile }) => {
@@ -137,8 +170,12 @@ test('as siglas têm legenda ao apontar e ao focar', async ({ page, isMobile }) 
   if (!isMobile) {
     await page.locator('[data-visual="novo"] .nome-bi').hover()
     await expect(legenda).toContainText('Barramento interno')
+    await page.locator('[data-visual="novo"] .nome-ula').hover()
+    await expect(legenda).toContainText('Unidade lógica e aritmética')
+    await page.locator('[data-visual="novo"] .nome-status').hover()
+    await expect(legenda).toContainText('flags Z, N e C')
   }
-  const pc = registrador(page, 'PC:00')
+  const pc = registrador(page, 'PC', '00')
   await pc.focus()
   await expect(legenda).toContainText('Program Counter')
   await expect(pc).toHaveAttribute('aria-describedby', 'legenda-sigla')
@@ -152,7 +189,7 @@ test('execução contínua roda teste.bin até o HALT', async ({ page }) => {
   await page.getByRole('combobox', { name: 'Velocidade do clock' }).selectOption('100')
   await page.getByRole('button', { name: 'Executar', exact: true }).click()
   await expect(status(page)).toHaveAttribute('alt', 'Parada (vermelho)', { timeout: 15_000 })
-  await expect(registrador(page, 'ACC:FF')).toBeVisible()
+  await expect(registrador(page, 'ACC', 'FF')).toBeVisible()
 })
 
 test('editar a memória atualiza o símbolo e avança para a linha seguinte', async ({ page }) => {

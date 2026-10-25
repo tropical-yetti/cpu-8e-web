@@ -40,7 +40,7 @@ test('um exemplo da documentação carrega no simulador e dá o resultado anunci
   await expect(page.locator('img.semaforo')).toHaveAttribute('alt', 'Parada (vermelho)', {
     timeout: 15_000,
   })
-  await expect(page.getByRole('button', { name: /^ACC:0C,/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /^ACC: 0x0C,/ })).toBeVisible()
   await expect(page.locator('tr[data-endereco="34"]')).toContainText('0C')
 })
 

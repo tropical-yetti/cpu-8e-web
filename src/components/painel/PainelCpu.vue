@@ -4,20 +4,24 @@
   a memória (BE, BD, RD e WR). A cada pulso de clock acendem os registradores
   que receberam um valor e os fios por onde o dado passou.
 
-  À esquerda do BI: PC, SP, ACC e o bloco da ULA (A, B, a saída e as flags).
-  À direita: MAR, MDR, IR e a unidade de controle, com o decodificador (DI) e
-  o clock. As flags vão da ULA para a UC por baixo do BI.
+  À esquerda do BI: PC, SP, ACC e o bloco da ULA, com as entradas A e B, a
+  saída (ligada às duas entradas, para mostrar que o resultado combina A e B)
+  e o Status Register com as flags. À direita: MAR, MDR, IR e a unidade de
+  controle, com o decodificador (DI) e o clock. As flags vão do Status
+  Register para a UC por baixo do BI.
 
   Lê o mesmo estado do painel que o visual clássico (DiagramaCpu.vue). Os
-  registradores são botões: pressionar mostra o valor em binário. As siglas
-  têm legenda ao apontar, focar ou tocar (LegendaSiglas.vue).
+  registradores são botões: os valores aparecem em hexadecimal (0x05), e cada
+  toque passa para decimal, binário e de volta a hexadecimal. As siglas têm
+  legenda ao apontar, focar ou tocar (LegendaSiglas.vue).
 
   SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ItemPainel } from '@/core'
+import { formatar, proximaBase, type Base } from '@/painel/bases'
 import { fiosAcesos, type Fio } from '@/painel/fios'
 import { SIGLA_DO_ITEM } from '@/painel/siglas'
 import { useSimuladorStore } from '@/stores/simulador'
@@ -54,12 +58,18 @@ function aceso(fio: Fio | undefined): boolean {
 }
 
 /** "PC:01" → "01". */
-function valor(item: ItemPainel): string {
+function texto(item: ItemPainel): string {
   return simulador.painel.textos[item].split(':')[1] ?? ''
 }
 
-function sigla(item: ItemPainel): string {
-  return t(`siglas.${SIGLA_DO_ITEM[item]}.sigla`)
+/** "PC:01" → 1. */
+function numero(item: Registrador): number {
+  return Number.parseInt(texto(item), 16)
+}
+
+/** Nome mostrado na caixa: a sigla, ou "Saída" para a saída da ULA. */
+function nome(item: ItemPainel): string {
+  return item === 'ULA' ? t('painel.saida') : t(`siglas.${SIGLA_DO_ITEM[item]}.sigla`)
 }
 
 /** Seta do fio entre um registrador e o BI: sai do registrador ou entra nele. */
@@ -70,24 +80,26 @@ function direcao(lado: 'esquerda' | 'direita', entra: Fio | undefined, sai: Fio 
 }
 
 // -------------------------------------------------------------------------
-// Valor em binário do registrador pressionado
+// Base de exibição de cada registrador (tocar passa para a próxima)
 // -------------------------------------------------------------------------
 
-const emBinario = ref<Registrador | null>(null)
+const bases = reactive<Partial<Record<Registrador, Base>>>({})
 
-function alternarBinario(item: Registrador) {
-  emBinario.value = emBinario.value === item ? null : item
+function base(item: Registrador): Base {
+  return bases[item] ?? 'hex'
 }
 
-function binario(item: Registrador): string {
-  void simulador.painel.textos[item] // recalcula quando o valor muda
-  return simulador.valorBinario(item)?.split('=')[1] ?? ''
+function trocarBase(item: Registrador) {
+  bases[item] = proximaBase(base(item))
 }
 
 function rotuloDoRegistrador(item: Registrador): string {
-  return t('diagrama.registrador', {
-    texto: `${sigla(item)}:${valor(item)}`,
-    binario: binario(item),
+  const valor = numero(item)
+  return t('painel.registrador', {
+    nome: item === 'ULA' ? t('painel.saidaDaUla') : nome(item),
+    hex: formatar(valor, 'hex'),
+    dec: formatar(valor, 'dec'),
+    bin: formatar(valor, 'bin').slice(2),
   })
 }
 
@@ -117,8 +129,14 @@ function aoMudarClock(evento: Event) {
       <FioCpu class="bi" sigla="bi" :aceso="aceso('bi')" cor="bi" largo vertical />
       <span class="nome-bi" aria-hidden="true" data-sigla="bi">{{ t('siglas.bi.sigla') }}</span>
 
-      <!-- Bloco da ULA (atrás de A, B, saída e flags) -->
+      <!-- Bloco da ULA (atrás de A, B, saída e Status Register) -->
       <div class="bloco-ula" aria-hidden="true"></div>
+      <span class="nome-ula" aria-hidden="true" data-sigla="ula">{{ t('siglas.ula.sigla') }}</span>
+      <!-- A e B → saída: o resultado combina as duas entradas -->
+      <div class="combinacao" :class="{ aceso: realcados.has('ULA') }" aria-hidden="true">
+        <span class="ligacao ligacao-a"></span>
+        <span class="ligacao ligacao-b"></span>
+      </div>
 
       <!-- Registradores dos dois lados do BI -->
       <template v-for="lado in ['esquerda', 'direita'] as const" :key="lado">
@@ -128,15 +146,15 @@ function aoMudarClock(evento: Event) {
             class="registrador"
             :class="[`lado-${lado}`, { realcado: realcados.has(r.item) }]"
             :style="{ gridRow: r.linha }"
-            :data-sigla="SIGLA_DO_ITEM[r.item]"
+            :data-sigla="r.item === 'ULA' ? undefined : SIGLA_DO_ITEM[r.item]"
+            :data-base="base(r.item)"
             :aria-label="rotuloDoRegistrador(r.item)"
-            :aria-pressed="emBinario === r.item"
-            @click="alternarBinario(r.item)"
-            @blur="emBinario = null"
+            @click="trocarBase(r.item)"
           >
-            <span class="sigla">{{ sigla(r.item) }}</span>
-            <span v-if="emBinario === r.item" class="valor binario">{{ binario(r.item) }}</span>
-            <span v-else class="valor">{{ valor(r.item) }}</span>
+            <span class="sigla">{{ nome(r.item) }}</span>
+            <span class="valor" :class="`base-${base(r.item)}`">{{
+              formatar(numero(r.item), base(r.item))
+            }}</span>
           </button>
           <FioCpu
             v-if="r.entra || r.sai"
@@ -149,18 +167,21 @@ function aoMudarClock(evento: Event) {
         </template>
       </template>
 
-      <!-- Flags da ULA, ligadas à UC por baixo do BI -->
-      <div class="flags">
-        <span
-          v-for="flag in FLAGS"
-          :key="flag"
-          class="flag"
-          :class="{ realcado: realcados.has(flag), ligada: valor(flag) === '1' }"
-          :data-sigla="SIGLA_DO_ITEM[flag]"
-        >
-          <span class="sigla">{{ sigla(flag) }}</span>
-          <span class="valor">{{ valor(flag) }}</span>
-        </span>
+      <!-- Status Register com as flags, ligado à UC por baixo do BI -->
+      <div class="status">
+        <span class="nome-status" data-sigla="status">{{ t('siglas.status.sigla') }}</span>
+        <div class="flags">
+          <span
+            v-for="flag in FLAGS"
+            :key="flag"
+            class="flag"
+            :class="{ realcado: realcados.has(flag), ligada: texto(flag) === '1' }"
+            :data-sigla="SIGLA_DO_ITEM[flag]"
+          >
+            <span class="sigla">{{ nome(flag) }}</span>
+            <span class="valor">{{ texto(flag) }}</span>
+          </span>
+        </div>
       </div>
       <FioCpu class="fio-flags" :aceso="aceso('flags')" cor="controle" direcao="direita" />
 
@@ -177,8 +198,8 @@ function aoMudarClock(evento: Event) {
       <div class="uc">
         <span class="sigla-uc" data-sigla="uc">{{ t('siglas.uc.sigla') }}</span>
         <span class="di" :class="{ realcado: realcados.has('DI') }" data-sigla="di">
-          <span class="sigla">{{ sigla('DI') }}</span>
-          <span class="valor">{{ valor('DI') }}</span>
+          <span class="sigla">{{ nome('DI') }}</span>
+          <span class="valor">{{ texto('DI') }}</span>
         </span>
         <label class="clock" data-sigla="clk">
           <span class="nome-clock" aria-hidden="true">
@@ -201,7 +222,7 @@ function aoMudarClock(evento: Event) {
         :nome="t('siglas.be.sigla')"
         sigla="be"
         :aceso="aceso('be')"
-        :valor="valor('MAR')"
+        :valor="formatar(numero('MAR'), 'hex')"
         cor="be"
         largo
         direcao="direita"
@@ -211,7 +232,7 @@ function aoMudarClock(evento: Event) {
         :nome="t('siglas.bd.sigla')"
         sigla="bd"
         :aceso="direcaoBd !== null"
-        :valor="valor('MDR')"
+        :valor="formatar(numero('MDR'), 'hex')"
         cor="bd"
         largo
         :direcao="direcaoBd"
@@ -240,7 +261,12 @@ function aoMudarClock(evento: Event) {
 /*
  * Grade: [registradores da esquerda] [ponte] [BI] [ponte] [registradores da
  * direita] [fios para a memória] [borda da memória]. Linhas: 1 título;
- * 2 PC/MAR; 3 SP/MDR; 4 ACC/IR; 5 IR → UC; 6 A; 7 B; 8 ULA; 9 flags.
+ * 2 PC/MAR; 3 SP/MDR; 4 ACC/IR; 5 rótulo ULA e IR → UC; 6 A; 7 B; 8 saída;
+ * 9 Status Register.
+ *
+ * Na coluna da esquerda, as caixas ficam centralizadas no bloco da ULA junto
+ * com a ligação de A e B à saída: [ligação][caixa], com a mesma folga dos dois
+ * lados. PC, SP e ACC ficam alinhados com elas.
  *
  * As medidas são em "em": o painel inteiro cresce com a largura disponível
  * (consultas de contêiner no fim).
@@ -249,16 +275,21 @@ function aoMudarClock(evento: Event) {
   container-type: inline-size;
 }
 .painel {
-  --caixa: 5em;
+  --esq: 6.6em;
+  --caixa: 4.25em;
+  --ligacao: 1.1em;
+  --recuo: 0.15em;
+  --folga: calc((var(--esq) - 2 * var(--recuo) - var(--caixa) - var(--ligacao)) / 2);
+  --margem: calc(var(--recuo) + var(--folga));
   --caixa-uc: 6.25em;
   --ponte: minmax(0.75em, 4em);
   --externo: minmax(3em, 12em);
   --borda-memoria: 1.75em;
   display: grid;
   grid-template-columns:
-    [esq] var(--caixa) [pe] var(--ponte) [bi] 0.75em [pd] var(--ponte)
+    [esq] var(--esq) [pe] var(--ponte) [bi] 0.75em [pd] var(--ponte)
     [dir] var(--caixa-uc) [ext] var(--externo) [mem] var(--borda-memoria) [fim];
-  grid-template-rows: auto repeat(3, 3em) 1em repeat(3, 3em) 2.5em;
+  grid-template-rows: auto repeat(3, 3em) 1.75em repeat(3, 3em) minmax(3.7em, auto);
   justify-content: center;
   row-gap: 0.5em;
   align-items: center;
@@ -297,12 +328,64 @@ function aoMudarClock(evento: Event) {
   border-radius: 6px;
 }
 .bloco-ula {
-  grid-row: 6 / 10;
+  grid-row: 5 / 10;
   grid-column: esq;
   align-self: stretch;
-  margin: -0.25em 0 -0.25em 0.4em;
-  border: 1px dashed var(--borda);
+  margin: -0.15em var(--recuo) -0.3em;
+  border: 2px dashed color-mix(in srgb, var(--texto-suave) 80%, var(--texto));
   border-radius: 8px;
+  background: color-mix(in srgb, var(--texto) 3%, transparent);
+}
+.nome-ula {
+  grid-row: 5;
+  grid-column: esq;
+  justify-self: center;
+  align-self: end;
+  font-weight: 800;
+  font-size: 0.9em;
+  z-index: 1;
+}
+
+/* A e B ligados à saída */
+.combinacao {
+  grid-row: 6 / 9;
+  grid-column: esq;
+  justify-self: end;
+  align-self: stretch;
+  position: relative;
+  width: var(--ligacao);
+  margin-right: calc(var(--margem) + var(--caixa));
+  --cor: var(--fio-apagado);
+}
+.combinacao.aceso {
+  --cor: var(--destaque);
+}
+.ligacao {
+  position: absolute;
+  right: 0;
+  /* Até o meio da saída (linha 8): 1,5em acima do fim. */
+  bottom: 1.5em;
+  border: 2px solid var(--cor);
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+  transition: border-color 120ms;
+}
+.ligacao-a {
+  left: 0;
+  top: 1.5em;
+}
+.ligacao-b {
+  left: 50%;
+  top: 5em;
+}
+.ligacao-a::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  bottom: -6px;
+  border: 5px solid transparent;
+  border-left-color: var(--cor);
+  border-right-width: 0;
 }
 .bi {
   grid-row: 2 / 9;
@@ -346,7 +429,8 @@ function aoMudarClock(evento: Event) {
 .registrador.lado-esquerda {
   grid-column: esq;
   justify-self: end;
-  width: calc(var(--caixa) - 0.75em);
+  width: var(--caixa);
+  margin-right: var(--margem);
 }
 .registrador.lado-direita {
   grid-column: dir;
@@ -364,9 +448,9 @@ function aoMudarClock(evento: Event) {
 .valor {
   font: 700 1.05em var(--mono);
 }
-.valor.binario {
-  font-size: 0.72em;
-  letter-spacing: -0.02em;
+.valor.base-bin {
+  font-size: 0.66em;
+  letter-spacing: -0.03em;
 }
 .realcado {
   border-color: var(--destaque);
@@ -379,24 +463,43 @@ function aoMudarClock(evento: Event) {
 }
 .ponte-esquerda {
   grid-column: pe;
+  /* Do lado da caixa, que fica recuada no bloco da ULA, até o BI. */
+  margin-left: calc(-1 * var(--margem));
 }
 .ponte-direita {
   grid-column: pd;
 }
 
-/* Flags */
-.flags {
+/* Status Register e flags */
+.status {
   grid-row: 9;
   grid-column: esq;
   justify-self: end;
   display: flex;
+  flex-direction: column;
   gap: 0.2em;
-  width: calc(var(--caixa) - 0.75em);
+  width: calc(var(--caixa) + var(--ligacao));
+  margin-right: var(--margem);
+  padding: 0.2em 0.25em 0.25em;
+  border: 2px solid var(--borda);
+  border-radius: 6px;
+  background: var(--fundo-painel);
   z-index: 1;
+}
+.nome-status {
+  font-size: 0.62em;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--texto-suave);
+}
+.flags {
+  display: flex;
+  gap: 0.2em;
 }
 .flag {
   flex: 1;
-  height: 2.2em;
+  height: 2em;
 }
 .flag .valor {
   font-size: 0.85em;
@@ -407,7 +510,7 @@ function aoMudarClock(evento: Event) {
 .fio-flags {
   grid-row: 9;
   grid-column: pe / dir;
-  z-index: 2;
+  margin-left: calc(-1 * var(--margem));
 }
 
 /* IR → UC */
@@ -508,14 +611,21 @@ function aoMudarClock(evento: Event) {
 /* Celular de 320 px: o painel cabe sem rolar de lado (WCAG 1.4.10, refluxo). */
 @container (max-width: 340px) {
   .painel {
-    --caixa: 4.4em;
+    --esq: 5.9em;
+    --caixa: 3.85em;
+    --ligacao: 0.9em;
+    --recuo: 0.1em;
     --caixa-uc: 5.3em;
     --ponte: minmax(0.5em, 1.5em);
     --externo: minmax(2.4em, 1fr);
     --borda-memoria: 1.2em;
   }
-  .valor.binario {
-    font-size: 0.64em;
+  .valor.base-bin {
+    font-size: 0.56em;
+  }
+  /* Sem espaço para o valor ao lado do nome do barramento. */
+  .externo :deep(.valor) {
+    display: none;
   }
 }
 </style>
