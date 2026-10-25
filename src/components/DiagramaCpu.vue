@@ -12,6 +12,8 @@
   Derivado de CPU8E_Panel.lfm/.pas (CPU-8E v2.2.3)
   Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)
   Modificado em 2026-10-13: desenho refeito em SVG, com camada acessível.
+  Modificado em 2026-10-25: partes do desenho ocultas para leitores de tela
+  (o SVG é lido pela descrição).
   SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <script setup lang="ts">
@@ -171,9 +173,11 @@ function aoMudarClock(evento: Event) {
   <div class="diagrama-conteiner" @pointerup="esconderBinario" @pointerleave="esconderBinario">
     <svg class="diagrama" :viewBox="viewBox" role="img" :aria-label="t('diagrama.descricao')">
       <!-- Formas: blocos, setas e segmentos de barramento -->
+      <!-- aria-hidden: o desenho é lido pela descrição do SVG, não pelas dicas de cada parte. -->
       <g
         v-for="forma in LAYOUT.formas"
         :key="forma.nome"
+        aria-hidden="true"
         @pointerdown="aoTocarDesenho($event, forma.dica, forma.x, forma.y)"
       >
         <title v-if="forma.dica">{{ dica(forma.dica) }}</title>
@@ -208,6 +212,7 @@ function aoMudarClock(evento: Event) {
       <g
         v-for="elemento in LAYOUT.textos"
         :key="elemento.nome"
+        aria-hidden="true"
         @pointerdown="aoTocarDesenho($event, elemento.dica, elemento.x, elemento.y)"
       >
         <title v-if="elemento.dica">{{ dica(elemento.dica) }}</title>

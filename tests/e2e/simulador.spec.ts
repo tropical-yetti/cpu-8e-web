@@ -335,6 +335,9 @@ test('na grade, um toque escolhe, outro edita, e Enter segue para o endereço se
   page,
 }) => {
   await page.goto('./')
+  // A célula 00 começa com o foco do teclado, mas o primeiro toque nela também só escolhe.
+  await celula(page, '00').click()
+  await expect(page.getByRole('textbox')).toHaveCount(0)
   await celula(page, '10').click()
   await expect(page.locator('[data-detalhe]')).toHaveText('Endereço 10: 00 · —')
   await celula(page, '10').click()

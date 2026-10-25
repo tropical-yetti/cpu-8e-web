@@ -111,7 +111,11 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     <!-- O nome do programa fica na mesma linha do seletor de visual, que existe
          sempre: carregar um arquivo não empurra o painel para baixo. -->
     <div class="opcoes-painel">
-      <p class="programa" :title="simulador.painel.nomePrograma ?? undefined">
+      <p
+        class="programa"
+        :title="simulador.painel.nomePrograma ?? undefined"
+        :aria-hidden="simulador.painel.nomePrograma ? undefined : 'true'"
+      >
         <template v-if="simulador.painel.nomePrograma">
           <span class="rotulo-programa">{{ `${t('simulador.programa')} ` }}</span
           ><strong>{{ simulador.painel.nomePrograma }}</strong>

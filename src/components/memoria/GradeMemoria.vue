@@ -183,10 +183,18 @@ function teclado(evento: KeyboardEvent, endereco: number) {
   }
 }
 
-/** Um toque escolhe; um toque na célula já escolhida edita. */
+/**
+ * Um toque escolhe; um segundo toque na mesma célula edita. Conta o último
+ * toque, e não o foco: a célula 00 começa com o foco (é a parada de Tab da
+ * grade), e o primeiro toque nela também deve só escolher.
+ */
+let ultimoToque: number | null = null
 function tocar(endereco: number) {
-  if (foco.value === endereco) editar(endereco)
-  else focar(endereco)
+  if (ultimoToque === endereco) editar(endereco)
+  else {
+    ultimoToque = endereco
+    focar(endereco)
+  }
 }
 
 // -------------------------------------------------------------------------

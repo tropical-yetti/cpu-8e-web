@@ -8,6 +8,21 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-25 — Leitor de tela simulado
+
+- Testes com o leitor de tela virtual do Guidepup (#12), como no MEM-8E Web:
+  ler a página inteira passa por uma célula só da grade; os registradores
+  dizem o nome e o valor nas três bases; o visual clássico é lido pela
+  descrição; cada seta na grade anuncia só a célula nova; o resumo da grade
+  e o anúncio de cada pulso; a árvore de acessibilidade do painel e da
+  memória.
+- Correções que esses testes acharam: o visual clássico lia as dicas de cada
+  parte do desenho (agora ocultas; o SVG é lido pela descrição); sem
+  programa carregado, um parágrafo vazio era anunciado antes do painel.
+- Grade da memória: o primeiro toque na célula 00 abria a edição, porque
+  ela começa com o foco do teclado. Agora o primeiro toque em qualquer
+  célula só escolhe, e o segundo edita.
+
 ### 2026-10-25 — Guia de primeiro acesso e ajuda "?"
 
 - Na primeira visita, um guia de dez balões apresenta a tela: comandos,
