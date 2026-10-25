@@ -88,7 +88,7 @@ test('dá para usar o simulador só com o teclado', async ({ page, isMobile, bro
   await expect(pc).toContainText('0b00000000')
 
   // Editar a memória pelo teclado.
-  await page.getByRole('button', { name: 'D1: editar o endereço 00' }).focus()
+  await page.locator('td[data-endereco="00"]').focus()
   await page.keyboard.press('Enter')
   await expect(
     page.getByRole('textbox', { name: 'Editar o conteúdo do endereço 00' }),

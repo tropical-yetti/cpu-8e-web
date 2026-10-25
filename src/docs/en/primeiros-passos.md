@@ -10,7 +10,7 @@ This page takes about five minutes and walks through the basics: loading a progr
 2. Choose **teste.bin**, one of the programs included with the original simulator.
 3. A message confirms how many bytes were read. Press **OK**.
 
-The table on the right (or below, on a phone) shows the memory: the **Address**, the contents in hexadecimal (**Memory**) and the matching instruction (**Symbol**). The program starts at address `00` with `LOD [16]`.
+On the right (or below, on a phone) is the memory, seen **inside**: the 256 bytes in a grid of 16 rows by 16 columns, where the first digit of the address is the row and the second is the column. The program starts at address `00` with `LOD [16]`; tap a cell to see the instruction it holds. The **Table** selector shows the same memory as a list, with the **Address**, the contents and the **Symbol**.
 
 ## 2. Run it step by step
 

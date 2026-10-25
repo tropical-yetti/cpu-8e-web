@@ -8,6 +8,28 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-25 — Memória por dentro (ADR 0006)
+
+- A memória ganha a vista **Por dentro (linha × coluna)**, a nova vista
+  padrão (#17): os 256 bytes numa grade 16 × 16, com o decodificador de linha
+  (A7–A4) à esquerda e o de coluna (A3–A0) acima. A tabela de antes continua
+  no seletor **Por dentro | Tabela**, e a escolha fica guardada no navegador.
+- A linha e a coluna do MAR ficam marcadas o tempo todo, em verde (a cor do
+  BE). Num pulso de leitura, a célula acessada acende em ciano (BD); num de
+  escrita, em amarelo (controle). Uma faixa embaixo da grade diz o acesso em
+  andamento.
+- A grade marca a célula do PC, a pilha e os bytes que são dados; a célula
+  escolhida mostra o endereço, o valor e o símbolo. Um toque escolhe, outro
+  toque (dois cliques, Enter ou um dígito hexadecimal) edita, com a mesma
+  validação da tabela; Enter segue para o endereço seguinte.
+- Leitor de tela: só a célula escolhida é anunciada, e um resumo diz a linha
+  e a coluna do MAR e o acesso.
+- A grade e os decodificadores são copiados e adaptados do MEM-8E Web, sem o
+  sinal CS (os decodificadores da CPU-8E estão sempre habilitados).
+- Numa escrita, o valor novo aparece já no pulso do WR, nas duas vistas (antes,
+  só no pulso seguinte).
+- Documentação: seção "Por dentro" em Simulador, Primeiros passos e A CPU-8E.
+
 ### 2026-10-23 — Painel novo e visual clássico (ADR 0005)
 
 - Painel novo, no estilo do MEM-8E Web, como padrão (#16): registradores em

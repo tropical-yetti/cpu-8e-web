@@ -18,14 +18,16 @@ import DiagramaCpu from '@/components/DiagramaCpu.vue'
 import DialogoCarregar from '@/components/DialogoCarregar.vue'
 import EstadoAcessivel from '@/components/EstadoAcessivel.vue'
 import PainelCpu from '@/components/painel/PainelCpu.vue'
-import TabelaMemoria from '@/components/TabelaMemoria.vue'
+import MemoriaCpu from '@/components/memoria/MemoriaCpu.vue'
 import { VISUAIS, useVisual } from '@/painel/visual'
+import { useVistaMemoria } from '@/painel/vistaMemoria'
 import { useSimuladorStore } from '@/stores/simulador'
 
 const simulador = useSimuladorStore()
 const router = useRouter()
 const { t } = useI18n()
 const { visual, mudarVisual } = useVisual()
+const { vista: vistaMemoria } = useVistaMemoria()
 const dialogoCarregar = ref<InstanceType<typeof DialogoCarregar> | null>(null)
 
 function carregar() {
@@ -121,7 +123,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
         </button>
       </div>
     </div>
-    <div class="area">
+    <div class="area" :class="{ 'memoria-por-dentro': vistaMemoria === 'porDentro' }">
       <div
         class="painel-cpu"
         :class="{ ampliado: visual === 'classico' && !ajustarATela, novo: visual === 'novo' }"
@@ -130,7 +132,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
         <DiagramaCpu v-else />
         <AjudaContextual class="ajuda-diagrama" pagina="cpu" :assunto="t('diagrama.descricao')" />
       </div>
-      <TabelaMemoria class="memoria" />
+      <MemoriaCpu class="memoria" />
     </div>
     <p class="dica-uso">{{ t('simulador.dicaUso') }}</p>
     <p v-if="visual === 'classico'" class="dica-uso dica-celular">
@@ -200,6 +202,10 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   grid-template-columns: minmax(0, 688fr) minmax(190px, 200fr);
   border: 1px solid var(--borda);
 }
+/* A memória por dentro tem a largura da grade; o painel fica com o resto. */
+.area.memoria-por-dentro {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
 .painel-cpu {
   position: relative;
   background: var(--fundo-painel);
@@ -218,6 +224,11 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   max-height: 100%;
   height: 0;
   min-height: 100%;
+}
+.memoria-por-dentro .memoria {
+  height: auto;
+  max-height: none;
+  min-height: 0;
 }
 .dica-uso {
   margin: 8px 0 0;
@@ -257,11 +268,17 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   .painel-cpu.ampliado :deep(.diagrama-conteiner) {
     min-width: 640px;
   }
+  .area.memoria-por-dentro {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .memoria {
     border-left: none;
     border-top: 1px solid var(--borda);
-    height: 280px;
+    height: 320px;
     min-height: 0;
+  }
+  .memoria-por-dentro .memoria {
+    height: auto;
   }
   .dica-celular {
     display: block;

@@ -224,5 +224,35 @@
       "sigla": "WR",
       "nome": "Write: the memory stores the DB at the address in the MAR."
     }
+  },
+  "grade": {
+    "titulo": "Inside the memory (row × column)",
+    "ajuda": "The first digit of the address picks the row; the second, the column. The row and column of the MAR stay marked. Tap a cell to see its symbol; tap it again (or use Enter or a hex digit) to edit.",
+    "linhaColuna": "Row \\ column",
+    "celula": "Row {linha}, column {coluna}: {visivel}, hex value {digitos}",
+    "vista": "How to show the memory",
+    "vistas": {
+      "porDentro": "Inside",
+      "tabela": "Table"
+    },
+    "decLinha": "Row decoder 4 → 16",
+    "decColuna": "Column decoder 4 → 16",
+    "marcas": {
+      "mar": "MAR address",
+      "pc": "pointed to by PC",
+      "pilha": "stack"
+    },
+    "detalhe": "Address {endereco}: {valor} · {simbolo}",
+    "resumo": {
+      "mar": "MAR = {endereco}: row {linha}, column {coluna}.",
+      "leitura": "Read: M[{endereco}] = {valor} → MDR (row {linha}, column {coluna}).",
+      "escrita": "Write: MDR = {mdr} → M[{endereco}] (row {linha}, column {coluna})."
+    },
+    "legenda": {
+      "mar": "MAR (row × column)",
+      "pc": "PC",
+      "pilha": "stack",
+      "dado": "data"
+    }
   }
 }

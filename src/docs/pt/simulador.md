@@ -57,6 +57,20 @@ Durante a execução, cada pulso de clock realça os registradores que receberam
 
 ## Memória {#memoria}
 
+O seletor acima da memória escolhe como vê-la: **Por dentro** (o padrão) ou **Tabela**. A escolha fica guardada no navegador.
+
+### Por dentro (linha × coluna) {#memoria-por-dentro}
+
+Dentro do chip, os 256 bytes formam uma grade de 16 linhas por 16 colunas. O endereço no **MAR** escolhe uma posição: os 4 bits altos (A7–A4, o primeiro dígito hexadecimal) vão para o **decodificador de linha**, à esquerda, e os 4 baixos (A3–A0, o segundo dígito) para o **decodificador de coluna**, acima. Cada decodificador liga uma das suas 16 saídas, e o cruzamento é a posição acessada. O endereço `3A`, por exemplo, fica na linha 3, coluna A.
+
+A linha e a coluna do MAR ficam marcadas em verde, a cor do barramento de endereços, o tempo todo. Num pulso de leitura (M[MAR] → MDR), a célula do cruzamento acende em ciano, a cor do barramento de dados; num pulso de escrita (MDR → M[MAR]), acende em amarelo, a cor dos sinais de controle. A faixa embaixo da grade diz o que está acontecendo, como `Leitura: M[16] = 05 → MDR (linha 1, coluna 6)`.
+
+A grade também mostra o que a tabela mostra: a célula apontada pelo **PC** tem um canto marcado, a **pilha** tem outra cor de fundo e os bytes que são **dados** (`DB`) aparecem em itálico. Toque numa célula para ver o endereço, o valor e o símbolo dela; toque de novo para editar.
+
+Leitores de tela encontram a grade como uma tabela em que só a célula escolhida é anunciada ("Linha 3, coluna A: 05, …"); as setas mudam a célula, e um resumo diz a linha e a coluna do MAR e o acesso em andamento.
+
+### Tabela {#memoria-tabela}
+
 A tabela mostra os 256 endereços:
 
 - **Endereço**: de `00` a `FF`;
@@ -68,6 +82,8 @@ A linha destacada acompanha a execução: em geral é o endereço da instrução
 As posições ocupadas pela [pilha](#pilha) aparecem com outra cor de fundo, e a coluna **Símbolo** mostra a palavra "pilha" onde não há instrução.
 
 ### Editar a memória {#editar-memoria}
+
+Na vista **Por dentro**, toque duas vezes numa célula (ou escolha a célula e aperte **Enter**, ou digite um dígito hexadecimal). As regras são as mesmas da tabela, descritas a seguir.
 
 Toque numa célula da coluna **Memória**, digite o valor em hexadecimal (`00` a `FF`) e aperte **Enter**: o valor é gravado e a edição passa para a linha de baixo, para você digitar o programa em sequência. **Esc** cancela a edição.
 
