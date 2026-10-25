@@ -46,7 +46,7 @@ Ao usar o simulador, o aluno deve conseguir explicar:
   como alternativa. A linha e a coluna acompanham o MAR; os pulsos de leitura
   e escrita mostram o acesso.
 - **Guia de primeiro acesso** com balões e ajuda "?" que abre o mesmo balão.
-- **Experimentos "e se…?"** ([ADR 0007](adr/README.md), a escrever): estouro na
+- **Experimentos "e se…?"** ([ADR 0007](adr/0007-experimentos-guiados.md)): estouro na
   soma, comparação com e sem sinal, pilha que alcança o programa, código
   inválido, laço sem fim, programa que se modifica com `STO`, salto para o meio
   dos dados.

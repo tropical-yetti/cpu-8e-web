@@ -8,6 +8,11 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-25 — Proposta da ADR 0007
+
+- ADR 0007 (#27): experimentos "e se…?" guiados, descritos como dados, com o
+  balão do guia, e sair do experimento devolvendo o simulador como estava.
+
 ## [2.0.0] — 2026-10-25
 
 Primeira versão da série 2.x: a mesma CPU da 1.1, com uma tela nova. O
