@@ -2,10 +2,12 @@
 <script setup lang="ts">
 import { I18nT, useI18n } from 'vue-i18n'
 import { IDIOMAS, trocarIdioma, type Idioma } from '@/i18n'
-import { AUTOR_ORIGINAL, URL_CODIGO_FONTE } from '@/config'
+import { AUTOR_ORIGINAL, URL_CODIGO_FONTE, urlDoCommit } from '@/config'
+import LegendaSiglas from '@/components/painel/LegendaSiglas.vue'
 
 const { t, locale } = useI18n()
 const VERSAO = __VERSAO__
+const COMMIT = __COMMIT__
 
 const NOMES_IDIOMAS: Record<Idioma, string> = { 'pt-BR': 'Português', en: 'English' }
 
@@ -39,6 +41,8 @@ function aoTrocarIdioma(evento: Event) {
     <RouterView />
   </main>
 
+  <LegendaSiglas />
+
   <!-- Avisos legais exigidos pela GPL-3.0 (seção 5d) -->
   <footer class="rodape">
     <I18nT keypath="rodape.copyright" tag="span" scope="global">
@@ -48,7 +52,14 @@ function aoTrocarIdioma(evento: Event) {
         }}</a>
       </template>
     </I18nT>
-    <span>{{ t('rodape.versao', { versao: VERSAO }) }}</span>
+    <span>
+      {{ t('rodape.versao', { versao: VERSAO }) }}
+      <template v-if="COMMIT">
+        (<a :href="urlDoCommit(COMMIT)" target="_blank" rel="noopener" :title="t('rodape.commit')"
+          ><code>{{ COMMIT }}</code></a
+        >)
+      </template>
+    </span>
     <span>
       <RouterLink to="/sobre">{{ t('rodape.licenca') }}</RouterLink>
       ·

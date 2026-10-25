@@ -13,7 +13,7 @@
   },
   "simulador": {
     "programa": "Programa:",
-    "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Mantenha um registrador pressionado para ver o valor em binário; toque numa célula da memória para editá-la.",
+    "dicaUso": "Para começar, toque em Carregar e escolha teste.bin. Depois use Executar: no modo passo a passo, cada toque avança um pulso de clock. Toque num registrador para trocar a base (hexadecimal, decimal ou binário); toque numa célula da memória para editá-la.",
     "dicaCelular": "No celular em pé, deslize o diagrama para os lados ou gire o aparelho.",
     "ajustar": "Ajustar à tela",
     "ampliar": "Ampliar diagrama"
@@ -23,6 +23,10 @@
     "historia": "O CPU-8E Web é uma versão para navegador do simulador CPU-8E, criado no IESB – Instituto de Educação Superior de Brasília para o ensino de arquitetura de computadores.",
     "autoresOriginais": "Simulador original",
     "derivada": "Esta versão",
+    "acessibilidadeTitulo": "Acessibilidade",
+    "acessibilidade": "O site é feito para funcionar só com o teclado e com leitor de tela, e segue as diretrizes WCAG 2.2, nível AA. Uma tabela, só para leitores de tela, traz o estado de todos os registradores, e a cada parada o leitor anuncia o que mudou no último pulso de clock.",
+    "acessibilidadeTestes": "Até agora, os testes são automáticos: o axe, nos temas claro e escuro, e um teste de uso só com o teclado. Ninguém que usa leitor de tela no dia a dia testou o site ainda. Se você usa, sua ajuda é muito bem-vinda: {issue}.",
+    "acessibilidadeIssue": "conte como foi na issue #12",
     "licencaTitulo": "Licença",
     "licenca": "Este programa é software livre: você pode redistribuí-lo e/ou modificá-lo sob os termos da Licença Pública Geral GNU, conforme publicada pela Free Software Foundation, versão 3 da licença ou (a seu critério) qualquer versão posterior.",
     "garantia": "Este programa é distribuído na esperança de que seja útil, mas SEM NENHUMA GARANTIA; sem mesmo a garantia implícita de COMERCIALIZAÇÃO ou de ADEQUAÇÃO A UM PROPÓSITO ESPECÍFICO.",
@@ -34,7 +38,8 @@
     "copyright": "© 2009–2010 {autor} e colaboradores (CPU-8E) · © 2026 colaboradores do CPU-8E Web",
     "licenca": "Licença GPL-3.0-or-later, sem garantia",
     "codigoFonte": "Código-fonte",
-    "versao": "Versão {versao}"
+    "versao": "Versão {versao}",
+    "commit": "Commit de onde este site foi gerado"
   },
   "diagrama": {
     "descricao": "Diagrama da CPU-8E com registradores, ULA, barramentos e unidade de controle",
@@ -112,12 +117,202 @@
       "imediato": "Imediato",
       "direto": "Direto"
     },
-    "ajuda": "Ajuda sobre {assunto}"
+    "sigla": "Sigla",
+    "significado": "O que é"
   },
   "acessivel": {
     "titulo": "Estado da CPU",
     "pulso": "{fase}: {mudancas}",
     "fimInstrucao": "Fim da instrução {di}. {acc}",
     "parada": "CPU parada. {di}"
+  },
+  "painel": {
+    "cpu": "CPU-8E",
+    "visual": "Visual do painel",
+    "visuais": {
+      "novo": "Novo",
+      "classico": "Clássico"
+    },
+    "memoria": "Memória",
+    "saida": "Saída",
+    "saidaDaUla": "Saída da ULA",
+    "registrador": "{nome}: {hex}, {dec} em decimal, {bin} em binário. Pressione para trocar a base mostrada."
+  },
+  "siglas": {
+    "pc": {
+      "sigla": "PC",
+      "nome": "Program Counter (contador de programa): o endereço da próxima instrução."
+    },
+    "sp": {
+      "sigla": "SP",
+      "nome": "Stack Pointer (ponteiro de pilha): o topo da pilha, onde o CAL guarda o endereço de retorno."
+    },
+    "mar": {
+      "sigla": "MAR",
+      "nome": "Memory Address Register: registrador de endereço da memória."
+    },
+    "mdr": {
+      "sigla": "MDR",
+      "nome": "Memory Data Register: registrador de dados da memória, com o byte lido ou a gravar."
+    },
+    "ir": {
+      "sigla": "IR",
+      "nome": "Instruction Register (registrador de instrução): o código da instrução em execução."
+    },
+    "acc": {
+      "sigla": "ACC",
+      "nome": "Acumulador: recebe o resultado das operações da ULA."
+    },
+    "a": {
+      "sigla": "A",
+      "nome": "Registrador temporário com o 1º operando da ULA: em geral, uma cópia do ACC."
+    },
+    "b": {
+      "sigla": "B",
+      "nome": "Registrador temporário com o 2º operando da ULA."
+    },
+    "ula": {
+      "sigla": "ULA",
+      "nome": "Unidade lógica e aritmética: combina as entradas A e B (soma, subtração, operações lógicas, deslocamentos) e põe o resultado na saída."
+    },
+    "status": {
+      "sigla": "Status Register",
+      "nome": "Registrador de status: guarda as flags Z, N e C do último resultado da ULA, que a UC usa para decidir os desvios."
+    },
+    "z": {
+      "sigla": "Z",
+      "nome": "Flag zero: o último resultado da ULA foi zero."
+    },
+    "n": {
+      "sigla": "N",
+      "nome": "Flag negativo: o bit 7 do último resultado da ULA é 1."
+    },
+    "c": {
+      "sigla": "C",
+      "nome": "Flag carry (vai-um): o bit que sobra de uma soma ou de um deslocamento. Em SUB e CMP, C = 1 quer dizer que não houve empréstimo."
+    },
+    "uc": {
+      "sigla": "UC",
+      "nome": "Unidade de controle: a cada pulso de clock, dá os sinais que movem os dados."
+    },
+    "di": {
+      "sigla": "DI",
+      "nome": "Decodificador de instruções: traduz o código do IR na instrução."
+    },
+    "clk": {
+      "sigla": "CLK",
+      "nome": "Clock: o ritmo da unidade de controle. De 10 (mais lento) a 100 (sem espera)."
+    },
+    "bi": {
+      "sigla": "BI",
+      "nome": "Barramento interno: liga os registradores e a ULA dentro da CPU."
+    },
+    "be": {
+      "sigla": "BE",
+      "nome": "Barramento de endereços: leva o endereço do MAR até a memória."
+    },
+    "bd": {
+      "sigla": "BD",
+      "nome": "Barramento de dados: leva o dado entre a memória e o MDR, nos dois sentidos."
+    },
+    "rd": {
+      "sigla": "RD",
+      "nome": "Read (leitura): a memória põe no BD o byte do endereço no MAR."
+    },
+    "wr": {
+      "sigla": "WR",
+      "nome": "Write (escrita): a memória grava o BD no endereço do MAR."
+    }
+  },
+  "grade": {
+    "titulo": "Memória por dentro (linha × coluna)",
+    "ajuda": "O primeiro dígito do endereço escolhe a linha; o segundo, a coluna. A linha e a coluna do MAR ficam marcadas. Toque numa célula para ver o símbolo; toque de novo (ou use Enter ou um dígito hexadecimal) para editar.",
+    "linhaColuna": "Linha \\ coluna",
+    "celula": "Linha {linha}, coluna {coluna}: {visivel}, valor hexadecimal {digitos}",
+    "vista": "Como mostrar a memória",
+    "vistas": {
+      "porDentro": "Por dentro",
+      "tabela": "Tabela"
+    },
+    "decLinha": "Decodificador de linha 4 → 16",
+    "decColuna": "Decodificador de coluna 4 → 16",
+    "marcas": {
+      "mar": "endereço do MAR",
+      "pc": "apontada pelo PC",
+      "pilha": "pilha"
+    },
+    "detalhe": "Endereço {endereco}: {valor} · {simbolo}",
+    "resumo": {
+      "mar": "MAR = {endereco}: linha {linha}, coluna {coluna}.",
+      "leitura": "Leitura: M[{endereco}] = {valor} → MDR (linha {linha}, coluna {coluna}).",
+      "escrita": "Escrita: MDR = {mdr} → M[{endereco}] (linha {linha}, coluna {coluna})."
+    },
+    "legenda": {
+      "mar": "MAR (linha × coluna)",
+      "pc": "PC",
+      "pilha": "pilha",
+      "dado": "dado"
+    }
+  },
+  "guia": {
+    "rever": "Ver o guia",
+    "contador": "{n} de {total}",
+    "experimente": "Experimente:",
+    "proximo": "Próximo",
+    "voltar": "Voltar",
+    "pular": "Pular o guia",
+    "concluir": "Começar",
+    "fechar": "Fechar",
+    "entendi": "Entendi",
+    "ajuda": "Ajuda",
+    "ajudaDe": "Ajuda: {parte}",
+    "passos": {
+      "boasVindas": {
+        "titulo": "Uma CPU de 8 bits, aberta",
+        "texto": "Aqui você vê a CPU-8E executar um programa pulso a pulso do clock: o que cada registrador recebe, por onde o dado passa e como a memória é acessada. Este guia mostra cada parte da tela em um minuto."
+      },
+      "barra": {
+        "titulo": "Comandos",
+        "texto": "Carregar abre um programa de exemplo ou um arquivo .bin; Gravar baixa a memória num arquivo. Executar roda o programa, Pausar interrompe e Reset volta ao começo, sem apagar a memória. Ajuda abre a documentação.",
+        "experimente": "toque em Carregar e escolha teste.bin."
+      },
+      "modo": {
+        "titulo": "Modo de execução",
+        "texto": "Passo a passo para em cada pulso de clock; Instrução por instrução, no fim de cada instrução; Execução contínua roda até o HLT.",
+        "experimente": "deixe em Passo a passo e toque em Executar algumas vezes: cada toque avança um pulso."
+      },
+      "fase": {
+        "titulo": "Fase do ciclo",
+        "texto": "Toda instrução passa pelas fases de busca (o código vem da memória para o IR), operando (o segundo byte, quando há) e execução. A lâmpada acesa mostra a fase atual."
+      },
+      "status": {
+        "titulo": "Status",
+        "texto": "O semáforo mostra o estado da execução: vermelho é parada, amarelo é pausa (esperando você) e verde é executando."
+      },
+      "painel": {
+        "titulo": "O painel da CPU",
+        "texto": "O barramento interno (BI) liga os registradores. A cada pulso, os registradores que recebem um valor ficam realçados e os fios por onde o dado passa acendem, com uma seta para onde ele vai. À direita saem os fios para a memória: BE, BD, RD e WR.",
+        "experimente": "toque num registrador para trocar a base do valor: hexadecimal, decimal e binário. Passe o mouse (ou toque) numa sigla para ver o nome."
+      },
+      "ula": {
+        "titulo": "A ULA",
+        "texto": "A unidade lógica e aritmética combina as entradas A e B e põe o resultado na saída. O Status Register guarda as flags Z, N e C do resultado, que a unidade de controle usa para decidir os desvios."
+      },
+      "memoria": {
+        "titulo": "A memória por dentro",
+        "texto": "Os 256 bytes formam uma grade de 16 × 16: o primeiro dígito do endereço é a linha, o segundo é a coluna. A linha e a coluna do MAR ficam marcadas; numa leitura ou escrita, a célula acessada acende.",
+        "experimente": "toque numa célula para ver a instrução que ela guarda; toque de novo para editar. O seletor Tabela mostra a mesma memória como lista."
+      },
+      "visual": {
+        "titulo": "Visual clássico",
+        "texto": "Prefere o desenho do simulador original? O seletor Clássico troca o painel pelo formulário de sempre, com as mesmas posições e cores. A escolha fica guardada."
+      },
+      "fim": {
+        "titulo": "Pronto",
+        "texto": "Para rever este guia, use o botão “Ver o guia”. Cada parte também tem um botão “?” que explica só aquela parte, e a Documentação traz cada assunto em detalhe. Um bom próximo passo é escrever um programa seu."
+      }
+    },
+    "lerMais": "Ler mais na documentação",
+    "irPara": "Ir para a parte em destaque (F6; F6 de novo volta aqui)"
   }
 }

@@ -77,6 +77,22 @@ describe('passo a passo', () => {
   })
 })
 
+describe('escrita na memória', () => {
+  it('o valor gravado aparece já no pulso do WR (ADR 0006)', async () => {
+    // LOD 2A; STO [3A]; HLT
+    const c = novoComPrograma(new Uint8Array([0x91, 0x2a, 0xd0, 0x3a, 0x00]))
+    let versao = c.painel.versaoMemoria
+    for (let i = 0; i < 20 && !c.painel.barramentos.includes('shWR1'); i++) {
+      versao = c.painel.versaoMemoria
+      void c.executar()
+      await esperarAssentar()
+    }
+    expect(c.painel.barramentos).toContain('shWR1')
+    expect(c.cpu.memoria[0x3a]).toBe(0x2a)
+    expect(c.painel.versaoMemoria).toBeGreaterThan(versao)
+  })
+})
+
 describe('ciclo a ciclo', () => {
   it('executa uma instrução por vez', async () => {
     const c = novoComPrograma()

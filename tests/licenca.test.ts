@@ -13,7 +13,7 @@ import { describe, expect, it } from 'vitest'
 
 const RAIZ = fileURLToPath(new URL('..', import.meta.url))
 const PASTAS = ['src', 'tools', 'tests']
-const IGNORAR = /\.(png|bin|gz|jsonl|lfm)$|\/gabaritos\/|layout-original\.json$|\/locales\//
+const IGNORAR = /\.(png|bin|gz|lfm)$|layout-original\.json$|sem-guia\.json$|\/locales\//
 
 function arquivos(pasta: string): string[] {
   return readdirSync(pasta).flatMap((nome) => {
@@ -45,8 +45,6 @@ const DERIVADOS = [
   'src/docs/en/simulador.md',
   'src/docs/pt/cpu.md',
   'src/docs/en/cpu.md',
-  'tools/referencia/cpu8e_ref.pas',
-  'tools/referencia/ula_tabela.pas',
 ]
 
 describe('licença', () => {

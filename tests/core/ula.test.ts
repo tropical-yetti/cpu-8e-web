@@ -9,7 +9,11 @@ import { gunzipSync } from 'node:zlib'
 import { describe, expect, it } from 'vitest'
 import { calcularIntermediario, operarUla, type OperacaoUla } from '../../src/core'
 
-/** Mesma ordem usada em tools/referencia/ula_tabela.pas. */
+/**
+ * Ordem das operações na tabela gravada em tests/fixtures/ula-original.bin.gz,
+ * gerada na série 1.x pelo código Pascal original (tag v1.1.0). A tabela
+ * continua como teste de regressão (ADR 0003).
+ */
 const OPERACOES: OperacaoUla[] = [
   'NOT',
   'LOD',

@@ -18,10 +18,6 @@ jobs:
           node-version: 22
           cache: npm
 
-      # O Free Pascal é usado para comparar o núcleo com o simulador original.
-      - name: Instalar Free Pascal
-        run: sudo apt-get update && sudo apt-get install -y fp-compiler
-
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint
@@ -30,6 +26,15 @@ jobs:
       - name: Verificar licenças das dependências
         run: npm run licencas
       - run: npm run build
+
+      # Prévia: o site inteiro num único index.html, para abrir no navegador
+      # sem servidor. Fica nos "Artifacts" da execução, em cada pull request.
+      - run: npm run build:previa
+      - uses: actions/upload-artifact@v4
+        with:
+          name: previa-cpu-8e-web
+          path: dist-previa/index.html
+          retention-days: 14
 
   # Roda dentro da imagem oficial do Playwright, que já traz os navegadores e
   # as bibliotecas de sistema: nada de baixar ~180 pacotes a cada execução.

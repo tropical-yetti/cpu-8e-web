@@ -16,8 +16,9 @@
  * A v1.0 reproduzia inclusive os defeitos conhecidos; a v1.1 corrige alguns
  * deles, marcados com "CORRIGIDO NA v1.1" e explicados no próprio trecho. O
  * que continua igual ao original de propósito está marcado com "FIEL AO
- * ORIGINAL". A mesma correção entra em tools/referencia/cpu8e_ref.pas
- * ({$IFDEF CORRIGIDO}), e os testes comparam os dois pulso a pulso.
+ * ORIGINAL". Até a 1.1, os testes comparavam este núcleo pulso a pulso com o
+ * código Pascal original (tag v1.1.0); a partir da 2.0, cada instrução é
+ * conferida pelo estado antes e depois (ADR 0003, tests/core/instrucoes.test.ts).
  *
  * Derivado de CPU8E_Control.pas, CPU-8E v2.2.3
  * Copyright 2009/10 Joel Guilherme da Silva Filho (http://lattes.cnpq.br/7746085908957322) e colaboradores (veja NOTICE.md)

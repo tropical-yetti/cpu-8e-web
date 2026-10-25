@@ -10,11 +10,15 @@ import { useRoute } from 'vue-router'
 import BlocoPrograma from '@/components/docs/BlocoPrograma.vue'
 import TabelaInstrucoes from '@/components/docs/TabelaInstrucoes.vue'
 import DiagramaCpu from '@/components/DiagramaCpu.vue'
+import PainelCpu from '@/components/painel/PainelCpu.vue'
+import TabelaSiglas from '@/components/docs/TabelaSiglas.vue'
+import { useVisual } from '@/painel/visual'
 import { converter } from '@/docs/markdown'
 import { PAGINAS, ehPagina, textoDaPagina, tituloDaPagina, type Pagina } from '@/docs/paginas'
 
 const { t, locale } = useI18n()
 const route = useRoute()
+const { visual } = useVisual()
 
 const pagina = computed<Pagina>(() =>
   ehPagina(route.params.pagina) ? route.params.pagina : 'primeiros-passos',
@@ -64,7 +68,11 @@ watch(
           :nome="`${pagina}-${i}`"
         />
         <TabelaInstrucoes v-else-if="bloco.nome === 'tabela-instrucoes'" />
-        <div v-else class="diagrama-doc"><DiagramaCpu /></div>
+        <TabelaSiglas v-else-if="bloco.nome === 'siglas'" />
+        <div v-else class="diagrama-doc">
+          <PainelCpu v-if="visual === 'novo'" />
+          <DiagramaCpu v-else />
+        </div>
       </template>
 
       <nav class="paginacao" :aria-label="t('docs.paginacao')">

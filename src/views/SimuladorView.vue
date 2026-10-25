@@ -11,18 +11,26 @@
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import AjudaContextual from '@/components/AjudaContextual.vue'
 import BarraFerramentas from '@/components/BarraFerramentas.vue'
 import CaixaMensagem from '@/components/CaixaMensagem.vue'
 import DiagramaCpu from '@/components/DiagramaCpu.vue'
 import DialogoCarregar from '@/components/DialogoCarregar.vue'
 import EstadoAcessivel from '@/components/EstadoAcessivel.vue'
-import TabelaMemoria from '@/components/TabelaMemoria.vue'
+import PainelCpu from '@/components/painel/PainelCpu.vue'
+import MemoriaCpu from '@/components/memoria/MemoriaCpu.vue'
+import BalaoGuia from '@/guia/BalaoGuia.vue'
+import BotaoAjuda from '@/guia/BotaoAjuda.vue'
+import { guiaJaVisto, useGuia } from '@/guia/guia'
+import { VISUAIS, useVisual } from '@/painel/visual'
+import { useVistaMemoria } from '@/painel/vistaMemoria'
 import { useSimuladorStore } from '@/stores/simulador'
 
 const simulador = useSimuladorStore()
 const router = useRouter()
 const { t } = useI18n()
+const { visual, mudarVisual } = useVisual()
+const { vista: vistaMemoria } = useVistaMemoria()
+const guia = useGuia()
 const dialogoCarregar = ref<InstanceType<typeof DialogoCarregar> | null>(null)
 
 function carregar() {
@@ -70,7 +78,7 @@ function aoTeclar(evento: KeyboardEvent) {
   if (habilitado) void executar()
 }
 
-// No celular em pé: diagrama ampliado (com rolagem lateral) ou ajustado à tela.
+// Visual clássico, no celular em pé: diagrama ampliado (com rolagem lateral) ou ajustado à tela.
 const CHAVE_AJUSTE = 'cpu8e.ajustarDiagrama'
 function lerAjuste(): boolean {
   try {
@@ -88,26 +96,63 @@ watch(ajustarATela, (ajustar) => {
   }
 })
 
-onMounted(() => window.addEventListener('keydown', aoTeclar))
+onMounted(() => {
+  window.addEventListener('keydown', aoTeclar)
+  // No primeiro acesso, o guia abre sozinho.
+  if (!guiaJaVisto()) guia.iniciar()
+})
 onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
 </script>
 
 <template>
   <section class="simulador" :aria-label="t('nav.simulador')">
     <h1 class="visualmente-oculto">{{ t('nav.simulador') }}</h1>
-    <p v-if="simulador.painel.nomePrograma" class="programa">
-      {{ t('simulador.programa') }} <strong>{{ simulador.painel.nomePrograma }}</strong>
-    </p>
     <BarraFerramentas @carregar="carregar" @gravar="gravar" @ajuda="ajuda" />
-    <div class="area">
-      <div class="painel-cpu" :class="{ ampliado: !ajustarATela }">
-        <DiagramaCpu />
-        <AjudaContextual class="ajuda-diagrama" pagina="cpu" :assunto="t('diagrama.descricao')" />
+    <!-- O nome do programa fica na mesma linha do seletor de visual, que existe
+         sempre: carregar um arquivo não empurra o painel para baixo. -->
+    <div class="opcoes-painel">
+      <p
+        class="programa"
+        :title="simulador.painel.nomePrograma ?? undefined"
+        :aria-hidden="simulador.painel.nomePrograma ? undefined : 'true'"
+      >
+        <template v-if="simulador.painel.nomePrograma">
+          <span class="rotulo-programa">{{ `${t('simulador.programa')} ` }}</span
+          ><strong>{{ simulador.painel.nomePrograma }}</strong>
+        </template>
+      </p>
+      <div class="visuais" role="radiogroup" :aria-label="t('painel.visual')" data-guia="visual">
+        <button
+          v-for="opcao in VISUAIS"
+          :key="opcao"
+          type="button"
+          role="radio"
+          :aria-checked="visual === opcao"
+          @click="mudarVisual(opcao)"
+        >
+          {{ t(`painel.visuais.${opcao}`) }}
+        </button>
       </div>
-      <TabelaMemoria class="memoria" />
     </div>
-    <p class="dica-uso">{{ t('simulador.dicaUso') }}</p>
-    <p class="dica-uso dica-celular">
+    <div class="area" :class="{ 'memoria-por-dentro': vistaMemoria === 'porDentro' }">
+      <div
+        class="painel-cpu"
+        data-guia="painel"
+        :class="{ ampliado: visual === 'classico' && !ajustarATela, novo: visual === 'novo' }"
+      >
+        <PainelCpu v-if="visual === 'novo'" />
+        <DiagramaCpu v-else />
+        <BotaoAjuda class="ajuda-diagrama" passo="painel" />
+      </div>
+      <MemoriaCpu class="memoria" />
+    </div>
+    <p class="dica-uso">
+      <button type="button" class="botao-guia" data-guia="rever-guia" @click="guia.iniciar()">
+        {{ t('guia.rever') }}
+      </button>
+      {{ t('simulador.dicaUso') }}
+    </p>
+    <p v-if="visual === 'classico'" class="dica-uso dica-celular">
       {{ t('simulador.dicaCelular') }}
       <button
         type="button"
@@ -120,6 +165,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     </p>
     <DialogoCarregar ref="dialogoCarregar" @escolhido="simulador.carregar" />
     <CaixaMensagem />
+    <BalaoGuia />
     <EstadoAcessivel />
   </section>
 </template>
@@ -130,14 +176,53 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   flex-direction: column;
 }
 .programa {
-  margin: 0 0 8px;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
   font-size: 0.9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: var(--texto-suave);
+}
+.opcoes-painel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+.visuais {
+  display: inline-flex;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.visuais button {
+  min-height: 32px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  background: var(--fundo-tabela);
+  border: 0;
+  cursor: pointer;
+}
+.visuais button + button {
+  border-left: 1px solid var(--borda);
+}
+.visuais button[aria-checked='true'] {
+  color: var(--texto);
+  font-weight: 600;
+  background: var(--fundo-hover);
 }
 .area {
   display: grid;
   grid-template-columns: minmax(0, 688fr) minmax(190px, 200fr);
   border: 1px solid var(--borda);
+}
+/* A memória por dentro tem a largura da grade; o painel fica com o resto. */
+.area.memoria-por-dentro {
+  grid-template-columns: minmax(0, 1fr) auto;
 }
 .painel-cpu {
   position: relative;
@@ -158,6 +243,11 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   height: 0;
   min-height: 100%;
 }
+.memoria-por-dentro .memoria {
+  height: auto;
+  max-height: none;
+  min-height: 0;
+}
 .dica-uso {
   margin: 8px 0 0;
   font-size: 0.85rem;
@@ -165,6 +255,18 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
 }
 .dica-celular {
   display: none;
+}
+.botao-guia {
+  margin-right: 6px;
+  min-height: 32px;
+  padding: 4px 10px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--texto);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  background: var(--fundo-barra);
+  cursor: pointer;
 }
 .botao-ajuste {
   margin-left: 4px;
@@ -177,6 +279,17 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   color: var(--texto);
   cursor: pointer;
 }
+/* Em telas estreitas, só o nome do arquivo: "Programa:" fica para leitores de tela. */
+@media (max-width: 400px) {
+  .rotulo-programa {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
 @media (max-width: 720px) {
   .area {
     grid-template-columns: 1fr;
@@ -185,11 +298,17 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
   .painel-cpu.ampliado :deep(.diagrama-conteiner) {
     min-width: 640px;
   }
+  .area.memoria-por-dentro {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .memoria {
     border-left: none;
     border-top: 1px solid var(--borda);
-    height: 280px;
+    height: 320px;
     min-height: 0;
+  }
+  .memoria-por-dentro .memoria {
+    height: auto;
   }
   .dica-celular {
     display: block;

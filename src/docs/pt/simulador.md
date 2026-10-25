@@ -1,5 +1,11 @@
 # Usando o simulador
 
+## Guia e ajuda {#guia}
+
+Na primeira visita, um guia de dez balões apresenta a tela: os comandos, o modo, a fase, o status, o painel, a ULA, a memória e o visual clássico. Cada balão aponta para uma parte, diz o que dá para fazer ali e sugere algo para experimentar. O balão não bloqueia a página: você pode fazer o que ele sugere e continuar. **Esc** fecha o guia, e **F6** leva o foco do balão para a parte em destaque e de volta.
+
+O botão **Ver o guia**, embaixo do painel, abre o guia de novo. Os botões **?** ao lado de cada parte abrem só o balão daquela parte, com um link para a seção da documentação.
+
 ## Barra de ferramentas {#barra}
 
 | Botão        | Atalho | O que faz                                                                                                                                                                                                  |
@@ -35,7 +41,7 @@ O semáforo de **Status** mostra o estado da execução:
 
 ## Clock {#clock}
 
-O seletor **Clock**, embaixo do diagrama, define o tempo entre dois pulsos. O valor vai de 10 (mais lento) a 100 (sem espera). O tempo segue a fórmula do simulador original: `510 − 5,144 × clock` milissegundos, sem casas decimais.
+O seletor **Clock**, na unidade de controle (UC) do painel, define o tempo entre dois pulsos. O valor vai de 10 (mais lento) a 100 (sem espera). O tempo segue a fórmula do simulador original: `510 − 5,144 × clock` milissegundos, sem casas decimais.
 
 | Clock        | 10  | 20  | 30  | 40  | 50  | 60  | 70  | 80  | 90  | 100 |
 | ------------ | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -43,15 +49,33 @@ O seletor **Clock**, embaixo do diagrama, define o tempo entre dois pulsos. O va
 
 O padrão é 50. No modo passo a passo, esse tempo também passa depois de cada toque em Executar, antes de o realce apagar.
 
-## Diagrama {#diagrama}
+## Painel {#diagrama}
 
-Durante a execução, cada pulso de clock pinta de vermelho o texto dos registradores que receberam um valor e os trechos de barramento por onde o dado passou. Passe o mouse sobre uma parte do diagrama, ou toque nela no celular, para ver uma dica sobre ela.
+O painel mostra a CPU com o barramento interno (**BI**) no meio. À esquerda ficam o PC, o SP, o ACC e o bloco da **ULA**: as entradas A e B, ligadas à **Saída** para mostrar que o resultado combina as duas, e o **Status Register**, com as flags; à direita, o MAR, o MDR, o IR e a unidade de controle (UC), com o decodificador (DI) e o clock. Do lado da memória saem o barramento de endereços (**BE**), o de dados (**BD**) e os sinais **RD** e **WR**.
 
-**Valor em binário:** mantenha pressionado o ACC, A, B, IR, MAR, MDR, PC, SP ou a saída da ULA para ver o valor em binário, como `ACC=00000101`. Ao soltar, a indicação some. Pelo teclado, use **Tab** até o registrador e aperte **Enter**.
+Durante a execução, cada pulso de clock realça os registradores que receberam um valor e acende os fios por onde o dado passou, com uma seta para onde ele vai. As cores são as do painel original: BI azul, BE verde, BD ciano e sinais de controle amarelos. Passe o mouse sobre uma sigla, foque nela pelo teclado ou toque nela no celular para ver o que ela quer dizer; a lista completa está em [Siglas](#/documentacao/siglas).
+
+**Bases:** os registradores mostram o valor em hexadecimal, com o prefixo `0x` (por exemplo, `0x05`). Toque no ACC, A, B, IR, MAR, MDR, PC, SP ou na saída da ULA para ver o mesmo valor em decimal (`5`); toque de novo para ver em binário, com o prefixo `0b` (`0b00000101`); mais um toque volta ao hexadecimal. Cada registrador guarda a sua base. Pelo teclado, use **Tab** até o registrador e aperte **Enter**. Leitores de tela ouvem o valor nas três bases.
+
+**Visual clássico:** o seletor **Visual do painel**, acima do painel, troca para o desenho do simulador original, com as mesmas posições, cores e dicas. Nele, os registradores que mudaram ficam com o texto em vermelho, e o valor em binário aparece enquanto o registrador fica pressionado. A escolha fica guardada no navegador.
 
 **Acessibilidade:** leitores de tela encontram uma tabela com o estado de todos os registradores e ouvem, a cada parada, o que mudou no último pulso de clock (por exemplo, "Busca: MAR:00").
 
 ## Memória {#memoria}
+
+O seletor acima da memória escolhe como vê-la: **Por dentro** (o padrão) ou **Tabela**. A escolha fica guardada no navegador.
+
+### Por dentro (linha × coluna) {#memoria-por-dentro}
+
+Dentro do chip, os 256 bytes formam uma grade de 16 linhas por 16 colunas. O endereço no **MAR** escolhe uma posição: os 4 bits altos (A7–A4, o primeiro dígito hexadecimal) vão para o **decodificador de linha**, à esquerda, e os 4 baixos (A3–A0, o segundo dígito) para o **decodificador de coluna**, acima. Cada decodificador liga uma das suas 16 saídas, e o cruzamento é a posição acessada. O endereço `3A`, por exemplo, fica na linha 3, coluna A.
+
+A linha e a coluna do MAR ficam marcadas em verde, a cor do barramento de endereços, o tempo todo. Num pulso de leitura (M[MAR] → MDR), a célula do cruzamento acende em ciano, a cor do barramento de dados; num pulso de escrita (MDR → M[MAR]), acende em amarelo, a cor dos sinais de controle. A faixa embaixo da grade diz o que está acontecendo, como `Leitura: M[16] = 05 → MDR (linha 1, coluna 6)`.
+
+A grade também mostra o que a tabela mostra: a célula apontada pelo **PC** tem um canto marcado, a **pilha** tem outra cor de fundo e os bytes que são **dados** (`DB`) aparecem em itálico. Toque numa célula para ver o endereço, o valor e o símbolo dela; toque de novo para editar.
+
+Leitores de tela encontram a grade como uma tabela em que só a célula escolhida é anunciada ("Linha 3, coluna A: 05, …"); as setas mudam a célula, e um resumo diz a linha e a coluna do MAR e o acesso em andamento.
+
+### Tabela {#memoria-tabela}
 
 A tabela mostra os 256 endereços:
 
@@ -64,6 +88,8 @@ A linha destacada acompanha a execução: em geral é o endereço da instrução
 As posições ocupadas pela [pilha](#pilha) aparecem com outra cor de fundo, e a coluna **Símbolo** mostra a palavra "pilha" onde não há instrução.
 
 ### Editar a memória {#editar-memoria}
+
+Na vista **Por dentro**, toque duas vezes numa célula (ou escolha a célula e aperte **Enter**, ou digite um dígito hexadecimal). As regras são as mesmas da tabela, descritas a seguir.
 
 Toque numa célula da coluna **Memória**, digite o valor em hexadecimal (`00` a `FF`) e aperte **Enter**: o valor é gravado e a edição passa para a linha de baixo, para você digitar o programa em sequência. **Esc** cancela a edição.
 
@@ -78,7 +104,7 @@ A coluna **Símbolo** é atualizada depois de cada edição e de cada carregamen
 
 ### Pilha {#pilha}
 
-A pilha começa em `FF` e desce a cada `CAL` (veja [Sub-rotinas e pilha](#/documentacao/instrucoes)). As posições acima do SP, que guardam endereços de retorno, ficam destacadas na tabela. Se um `CAL` gravar o endereço de retorno dentro do programa, a execução pausa com uma mensagem: a pilha chegou ao código. Apertar **Executar** continua mesmo assim, como numa CPU real, que não tem essa proteção.
+A pilha começa em `FF` e desce a cada `CAL` (veja [Sub-rotinas e pilha](#/documentacao/instrucoes)). As posições acima do SP, que guardam endereços de retorno, ficam destacadas na grade e na tabela. Se um `CAL` gravar o endereço de retorno dentro do programa, a execução pausa com uma mensagem: a pilha chegou ao código. Apertar **Executar** continua mesmo assim, como numa CPU real, que não tem essa proteção.
 
 ## Idioma {#idioma}
 

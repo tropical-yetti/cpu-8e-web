@@ -8,6 +8,193 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+## [2.0.0] — 2026-10-25
+
+Primeira versão da série 2.x: a mesma CPU da 1.1, com uma tela nova. O
+painel novo, no estilo do MEM-8E Web, é o padrão, e o desenho original
+continua como visual clássico (ADR 0005); a memória é vista por dentro, como
+a grade de 16 × 16 com os decodificadores de linha e de coluna (ADR 0006); um
+guia de primeiro acesso e os botões "?" apresentam cada parte da tela. Os
+registradores mostram o valor em hexadecimal, decimal ou binário. Por trás,
+o projeto passou a registrar as decisões em ADRs e a validar cada instrução
+pelo estado antes e depois dela, no lugar da comparação pulso a pulso com o
+código Pascal, que ficou na tag `v1.1.0`.
+
+### 2026-10-25 — Revisão final da 2.0.0 (#23)
+
+- README: captura nova (painel novo e memória por dentro), "O que dá para
+  fazer" com a memória por dentro, as bases, o guia e o visual clássico, e o
+  leitor de tela simulado em "Acessibilidade".
+- Imagem de compartilhamento (`og.png`) refeita com a tela da 2.0.
+- Diferenças do original: a introdução não diz mais que os testes comparam
+  com o código Pascal (isso foi até a 1.1), e a nova seção "Novidades da
+  série 2.x" lista o que mudou na tela, com a CPU igual à da 1.1.
+- NOTICE.md: resumo das modificações até a série 2.x.
+- Ajustes de texto em Simulador (pilha na grade e na tabela) e em Primeiros
+  passos ("painel", e não "diagrama").
+
+### 2026-10-25 — Leitor de tela simulado
+
+- Testes com o leitor de tela virtual do Guidepup (#12), como no MEM-8E Web:
+  ler a página inteira passa por uma célula só da grade; os registradores
+  dizem o nome e o valor nas três bases; o visual clássico é lido pela
+  descrição; cada seta na grade anuncia só a célula nova; o resumo da grade
+  e o anúncio de cada pulso; a árvore de acessibilidade do painel e da
+  memória.
+- Correções que esses testes acharam: o visual clássico lia as dicas de cada
+  parte do desenho (agora ocultas; o SVG é lido pela descrição); sem
+  programa carregado, um parágrafo vazio era anunciado antes do painel.
+- Grade da memória: o primeiro toque na célula 00 abria a edição, porque
+  ela começa com o foco do teclado. Agora o primeiro toque em qualquer
+  célula só escolhe, e o segundo edita.
+
+### 2026-10-25 — Guia de primeiro acesso e ajuda "?"
+
+- Na primeira visita, um guia de dez balões apresenta a tela: comandos,
+  modo, fase, status, painel, ULA, memória e visual clássico. Cada balão
+  destaca a sua parte, explica, sugere algo para experimentar e leva à
+  documentação. Não é modal; Esc fecha, F6 alterna o foco entre o balão e a
+  parte em destaque. Visto uma vez, fica guardado no navegador.
+- Botão **Ver o guia**, embaixo do painel, para rever o guia.
+- Memória por dentro: no celular, o decodificador de linha volta a mostrar a
+  entrada (A7–A4 e o valor), na vertical, ao lado do nome.
+- Os botões "?" (Modo, Fase, Status, painel e memória) abrem o balão da sua
+  parte, no lugar do link direto para a documentação; o balão tem o link
+  "Ler mais na documentação". O "?" da memória aparece nas duas vistas.
+- O guia e o balão são copiados do MEM-8E Web, com os passos do CPU-8E Web.
+- Documentação: seção "Guia e ajuda" em Simulador e menção em Primeiros
+  passos.
+- Testes: todo passo aponta para uma parte que existe e tem texto nos dois
+  idiomas; os links "Ler mais" levam a seções que existem; ponta a ponta do
+  guia (primeira visita, Esc, "?", Ver o guia, axe nos dois temas).
+
+### 2026-10-25 — Memória por dentro (ADR 0006)
+
+- A memória ganha a vista **Por dentro (linha × coluna)**, a nova vista
+  padrão (#17): os 256 bytes numa grade 16 × 16, com o decodificador de linha
+  (A7–A4) à esquerda e o de coluna (A3–A0) acima. A tabela de antes continua
+  no seletor **Por dentro | Tabela**, e a escolha fica guardada no navegador.
+- A linha e a coluna do MAR ficam marcadas o tempo todo, em verde (a cor do
+  BE). Num pulso de leitura, a célula acessada acende em ciano (BD); num de
+  escrita, em amarelo (controle). Uma faixa embaixo da grade diz o acesso em
+  andamento.
+- A grade marca a célula do PC, a pilha e os bytes que são dados; a célula
+  escolhida mostra o endereço, o valor e o símbolo. Um toque escolhe, outro
+  toque (dois cliques, Enter ou um dígito hexadecimal) edita, com a mesma
+  validação da tabela; Enter segue para o endereço seguinte.
+- Leitor de tela: só a célula escolhida é anunciada, e um resumo diz a linha
+  e a coluna do MAR e o acesso.
+- A grade e os decodificadores são copiados e adaptados do MEM-8E Web, sem o
+  sinal CS (os decodificadores da CPU-8E estão sempre habilitados).
+- Numa escrita, o valor novo aparece já no pulso do WR, nas duas vistas (antes,
+  só no pulso seguinte).
+- Documentação: seção "Por dentro" em Simulador, Primeiros passos e A CPU-8E.
+- Painel: o fio IR → UC agora vai da borda do IR até a borda da UC; antes,
+  parava no meio do caminho.
+
+### 2026-10-23 — Painel novo e visual clássico (ADR 0005)
+
+- Painel novo, no estilo do MEM-8E Web, como padrão (#16): registradores em
+  caixas, o barramento interno no meio, fios coloridos por barramento (BI
+  azul, BE verde, BD ciano, controle amarelo) com seta para onde o dado vai,
+  e a borda da memória. Cresce com a tela e cabe em 320 px sem rolar de lado.
+- O desenho do formulário original continua como **Visual: Clássico**. A
+  escolha fica guardada no navegador e vale também para a documentação.
+- Siglas com legenda ao apontar, focar ou tocar, e a página "Siglas" na
+  documentação, geradas da mesma tabela. A legenda é copiada do MEM-8E Web.
+- Bloco da ULA com rótulo próprio e borda mais forte: as entradas A e B
+  ligadas à **Saída** (o antigo campo ULA), para mostrar que o resultado
+  combina as duas, e o **Status Register** com as flags Z, N e C. As ligações
+  acendem no pulso em que a ULA calcula.
+- Borda verde no bloco da ULA (do verde do painel original, mais forte para o
+  contraste) e fundo amarelo claro na UC, as duas unidades no mesmo padrão.
+- As pontas das setas terminam na borda do fio e não ficam mais escondidas
+  atrás das caixas (entrada dos registradores, IR → UC, flags → UC).
+- O nome do programa carregado aparece na linha do seletor de visual, entre a
+  barra de ferramentas e o painel: carregar um arquivo não empurra mais o
+  painel (nem o rodapé) para baixo.
+- No painel novo, os valores aparecem com o prefixo `0x`. Tocar num
+  registrador troca a base: hexadecimal, decimal, binário (`0b…`) e de volta;
+  cada registrador guarda a sua. Leitores de tela ouvem as três bases.
+- Legenda do A mais precisa: "em geral, uma cópia do ACC" (no `LOD` e nos
+  deslocamentos ele recebe outros valores).
+- Testes: as três bases; cada caminho de dados acende os fios certos; toda sigla tem nome
+  nos dois idiomas e é a mesma do visual clássico; ponta a ponta nos dois
+  visuais; axe também no visual clássico e na página "Siglas".
+
+### 2026-10-23 — ADRs 0005 e 0006
+
+- ADR 0005 (#16): painel novo, no estilo do MEM-8E Web, como padrão, e o
+  desenho original como "visual clássico".
+- ADR 0006 (#17): memória por dentro (linha × coluna) como vista padrão,
+  acompanhando o MAR, com a tabela como alternativa.
+
+### 2026-10-23 — Validação por instrução e estado
+
+- Novos testes por instrução (ADR 0003, #7): para os 35 códigos válidos, o
+  estado antes e depois de uma única instrução (memória inteira, ACC, PC, SP,
+  flags e saída da ULA), com os casos de borda: estouro de 8 bits e com sinal,
+  empréstimo, zero, negativo, contador `00` e maior que 8, desvios tomados e
+  não tomados, pilha que alcança o programa e código inválido.
+- Testes próprios para as flags Z, N e C: cada instrução da ULA aparece com
+  casos que ligam e que desligam cada flag (o teste começa com a flag no valor
+  oposto, para provar que ela foi escrita), e as instruções que não passam
+  pela ULA (HLT, NOP, desvios, CAL, RET e STO) mantêm as três flags, ligadas
+  ou desligadas.
+- Novo programa de teste "todas as instruções": passa pelas 23 instruções e
+  pelos estouros, chama uma sub-rotina e grava os resultados de `80` a `8F`.
+- Saíram a referência em Pascal (`tools/referencia/`), os gabaritos, o teste
+  com programas aleatórios e o Free Pascal do CI; tudo continua no histórico e
+  na tag `v1.1.0`. A tabela completa da ULA continua como teste de regressão.
+- Saiu o ícone `Halt.png`, que ficou sem uso quando o botão Parar foi
+  removido na 1.1.
+
+### 2026-10-23 — Ordem da série 2.x
+
+- A 2.0.0 passa a ser o primeiro lançamento da série 2.x: reúne o processo,
+  os testes por instrução, o painel novo, a memória por dentro como vista
+  padrão e o guia de primeiro acesso. A 2.1.0 traz os experimentos, o roteiro
+  de aula e a revisão da documentação; o montador fica para a 2.2.0
+  (`docs/PLANO.md`).
+- Uma versão só ganha número quando traz algo novo para quem usa o site; até
+  lá, as mudanças ficam aqui, em "Não lançado" (CONTRIBUTING).
+
+### 2026-10-23 — Rodapé, página Sobre e traduções
+
+- O rodapé mostra, ao lado da versão, o commit de onde o site foi gerado, com
+  link para ele no GitHub.
+- A página Sobre ganhou a seção "Acessibilidade", que explica como o site é
+  testado e pede ajuda a quem usa leitor de tela (#12).
+- Novo teste: português e inglês têm as mesmas chaves de tradução, e nenhuma
+  mensagem está vazia.
+- O CI gera em cada pull request uma prévia do site num único `index.html`,
+  disponível nos artefatos da execução.
+
+### 2026-10-23 — Plano e CONTRIBUTING
+
+- O plano do projeto passa a morar no repositório, em `docs/PLANO.md`, com os
+  objetivos de aprendizagem, o que a série 2.x traz e os marcos versão a
+  versão. Ele muda por pull request, junto com o trabalho.
+- O `CONTRIBUTING.md` ganhou as seções de ramos e pull requests, versões e
+  lançamentos (ADR 0002), decisões de arquitetura (ADR 0001) e validação
+  (ADR 0003), com a lista de verificações antes de um pull request e as metas
+  de cobertura. A seção "Fidelidade ao original" deu lugar à validação por
+  instrução e estado.
+- O README voltou a ter as seções que tinha perdido na preparação da 1.0.0
+  (o que dá para fazer, desenvolvimento e licença) e ganhou uma de
+  acessibilidade, que pede ajuda a quem usa leitor de tela na issue #12.
+
+### 2026-10-23 — Registros de decisões de arquitetura
+
+- Nova pasta `docs/adr/`, com modelo, índice e as ADRs 0001 a 0004, como
+  Proposta: registros de decisão com diagramas em Mermaid (#5), séries 1.x e
+  2.x, ramos e regra de lançamentos (#6), validação por instrução e estado
+  (#7) e código e estilo comuns com o MEM-8E Web (#8).
+- Modelo de issue **Decisão de arquitetura (ADR)**, para qualquer pessoa
+  propor uma decisão com a mesma estrutura.
+- As ADRs 0001 a 0004 foram aceitas, com a aprovação registrada nas issues
+  #5 a #8.
+
 ## [1.1.0] — 2026-10-23
 
 Correções dos defeitos do simulador original que a versão 1.0 reproduzia de

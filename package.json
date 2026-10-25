@@ -1,7 +1,7 @@
 {
   "name": "cpu-8e-web",
   "private": true,
-  "version": "1.1.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,6 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "licencas": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"MIT;ISC;BSD-2-Clause;BSD-3-Clause;Apache-2.0;0BSD;CC0-1.0;Unlicense;BlueOak-1.0.0;MPL-2.0;PSF-2.0\"",
-    "gabaritos": "node --experimental-strip-types tools/referencia/gerar-gabaritos.ts",
     "test:e2e": "playwright test",
     "layout": "node --experimental-strip-types tools/layout/extrair-layout.ts",
     "build:previa": "vite build --config vite.config.previa.ts",
@@ -30,6 +29,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
+    "@guidepup/virtual-screen-reader": "^0.33.0",
     "@intlify/unplugin-vue-i18n": "^11.2.5",
     "@playwright/test": "1.64.0",
     "@types/markdown-it": "^14.2.0",
