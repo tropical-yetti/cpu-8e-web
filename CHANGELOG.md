@@ -16,6 +16,8 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   documentação. Não é modal; Esc fecha, F6 alterna o foco entre o balão e a
   parte em destaque. Visto uma vez, fica guardado no navegador.
 - Botão **Ver o guia**, embaixo do painel, para rever o guia.
+- Memória por dentro: no celular, o decodificador de linha volta a mostrar a
+  entrada (A7–A4 e o valor), na vertical, ao lado do nome.
 - Os botões "?" (Modo, Fase, Status, painel e memória) abrem o balão da sua
   parte, no lugar do link direto para a documentação; o balão tem o link
   "Ler mais na documentação". O "?" da memória aparece nas duas vistas.

@@ -314,6 +314,13 @@ test('a memória por dentro acompanha o MAR e mostra a leitura', async ({ page }
   await expect(celula(page, '16')).toHaveClass(/cruzamento/)
   await expect(page.locator('thead th.ativa')).toHaveText('6')
   await expect(page.locator('tbody th.ativa')).toHaveText('1')
+  // A entrada do decodificador de linha aparece em qualquer tela (no celular, na vertical).
+  await expect(page.locator('.dec-linha').getByText(/A7–A4/).filter({ visible: true })).toHaveCount(
+    1,
+  )
+  await expect(page.locator('.dec-linha').getByText(/0001/).filter({ visible: true })).toHaveCount(
+    1,
+  )
   await expect(celula(page, '00')).not.toHaveClass(/cruzamento/)
 })
 

@@ -31,6 +31,12 @@ const { t } = useI18n()
           linha.toString(16).toUpperCase()
         }})</span
       >
+      <!-- No celular, o bloco é estreito: a mesma entrada numa linha só, na vertical. -->
+      <span class="entrada-vertical vertical"
+        >A7–A4 = {{ linha.toString(2).padStart(4, '0') }} ({{
+          linha.toString(16).toUpperCase()
+        }})</span
+      >
     </div>
     <div class="saidas">
       <TracoDecodificador v-for="i in 16" :key="i" :aceso="i - 1 === linha" direcao="horizontal" />
@@ -73,25 +79,33 @@ const { t } = useI18n()
   transform: rotate(180deg);
   white-space: nowrap;
 }
-.entrada {
+.entrada,
+.entrada-vertical {
   font-family: var(--mono);
+}
+.entrada-vertical {
+  display: none;
 }
 .saidas {
   display: grid;
   grid-template-rows: repeat(16, var(--cel-a));
 }
-/* Celular: o bloco fica estreito, só com o nome (A7–A4 aparece no resumo). */
+/* Celular: o bloco fica estreito; o nome e a entrada correm na vertical. */
 @media (max-width: 480px) {
   .decodificador {
     grid-template-columns: auto 8px;
   }
   .caixa {
     width: 1.6rem;
-    padding: 10px 0;
+    /* Folga para os textos não tocarem as bordas inclinadas do trapézio. */
+    padding: 22px 0;
     font-size: 0.62rem;
   }
   .entrada {
     display: none;
+  }
+  .entrada-vertical {
+    display: inline;
   }
 }
 </style>
