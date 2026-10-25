@@ -153,6 +153,16 @@ test('as pontas das setas não ficam escondidas atrás das caixas', async ({ pag
   await pontaVisivel('.fio-ir-uc', 'baixo')
 })
 
+test('o fio IR → UC vai da borda do IR até a borda da UC', async ({ page }) => {
+  await page.goto('./')
+  const painel = page.locator('[data-visual="novo"]')
+  const ir = (await registrador(page, 'IR', '00').boundingBox())!
+  const fio = (await painel.locator('.fio-ir-uc').boundingBox())!
+  const uc = (await painel.locator('.uc').boundingBox())!
+  expect(Math.abs(fio.y - (ir.y + ir.height))).toBeLessThanOrEqual(2)
+  expect(Math.abs(fio.y + fio.height - uc.y)).toBeLessThanOrEqual(2)
+})
+
 test('no visual clássico, o passo a passo mostra os textos do original', async ({ page }) => {
   await carregarTeste(page)
   await usarVisual(page, 'Clássico')

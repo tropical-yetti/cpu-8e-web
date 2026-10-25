@@ -514,15 +514,21 @@ function aoMudarClock(evento: Event) {
 }
 
 /* IR → UC */
-.fio-ir-uc {
-  /* Da borda de baixo do IR (linha 4) até a borda de cima da UC (linha 6). */
-  grid-row: 5;
+/*
+ * Da borda de baixo do IR até a borda de cima da UC: ocupa as linhas 4 e 5,
+ * começa logo abaixo da caixa do IR (3em − 2,75em de caixa, metade de cada
+ * lado) e desce pelo espaço entre as linhas 5 e 6. O seletor é mais
+ * específico que o ".fio.vertical" do FioCpu, que fixaria a altura em 100%.
+ */
+.painel .fio-ir-uc.vertical {
+  grid-row: 4 / 6;
   grid-column: dir;
   justify-self: start;
-  align-self: start;
+  align-self: stretch;
+  height: auto;
   margin-left: calc((var(--caixa-uc) - 0.5em) / 2 - 2px);
-  margin-top: -0.625em;
-  height: calc(100% + 1.125em);
+  margin-top: calc(3em - 0.125em);
+  margin-bottom: -0.5em;
 }
 
 /* Unidade de controle */

@@ -29,6 +29,8 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 - Numa escrita, o valor novo aparece já no pulso do WR, nas duas vistas (antes,
   só no pulso seguinte).
 - Documentação: seção "Por dentro" em Simulador, Primeiros passos e A CPU-8E.
+- Painel: o fio IR → UC agora vai da borda do IR até a borda da UC; antes,
+  parava no meio do caminho.
 
 ### 2026-10-23 — Painel novo e visual clássico (ADR 0005)
 
