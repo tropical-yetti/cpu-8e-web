@@ -332,9 +332,9 @@ function aoMudarClock(evento: Event) {
   grid-column: esq;
   align-self: stretch;
   margin: -0.15em var(--recuo) -0.3em;
-  border: 2px dashed color-mix(in srgb, var(--texto-suave) 80%, var(--texto));
+  border: 2px solid var(--borda-ula);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--texto) 3%, transparent);
+  background: color-mix(in srgb, #c0dcc0 10%, transparent);
 }
 .nome-ula {
   grid-row: 5;
@@ -515,11 +515,14 @@ function aoMudarClock(evento: Event) {
 
 /* IR → UC */
 .fio-ir-uc {
+  /* Da borda de baixo do IR (linha 4) até a borda de cima da UC (linha 6). */
   grid-row: 5;
   grid-column: dir;
   justify-self: start;
+  align-self: start;
   margin-left: calc((var(--caixa-uc) - 0.5em) / 2 - 2px);
-  height: calc(100% + 1em);
+  margin-top: -0.625em;
+  height: calc(100% + 1.125em);
 }
 
 /* Unidade de controle */
@@ -535,7 +538,7 @@ function aoMudarClock(evento: Event) {
   padding: 0.35em;
   border: 2px solid color-mix(in srgb, var(--fio-controle) 55%, var(--borda));
   border-radius: 8px;
-  background: var(--fundo-tabela);
+  background: color-mix(in srgb, var(--fio-controle) 10%, transparent);
   z-index: 1;
 }
 .sigla-uc {
@@ -581,7 +584,7 @@ function aoMudarClock(evento: Event) {
 /* Para a memória */
 .externo {
   grid-column: ext;
-  padding: 0 2px 0 12px;
+  padding: 0 2px 0 4px;
 }
 .linha-be {
   grid-row: 2;

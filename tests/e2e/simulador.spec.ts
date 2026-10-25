@@ -93,6 +93,36 @@ test('passo a passo avança um pulso de clock por vez', async ({ page }) => {
   await expect(page.locator('.linha-be')).toHaveClass(/apagado/)
 })
 
+test('as pontas das setas não ficam escondidas atrás das caixas', async ({ page }) => {
+  await carregarTeste(page)
+  await page.getByRole('combobox', { name: 'Velocidade do clock' }).selectOption('100')
+  const executar = page.getByRole('button', { name: 'Executar', exact: true })
+  /** A ponta da seta fica dentro do fio, sem passar para a caixa vizinha. */
+  async function pontaVisivel(seletor: string, lado: 'direita' | 'esquerda' | 'baixo') {
+    const fio = page.locator(`[data-visual="novo"] ${seletor}`)
+    await expect(fio).toHaveClass(new RegExp(`para-${lado}`))
+    const sobra = await fio.evaluate((el, lado) => {
+      const f = el.getBoundingClientRect()
+      const linha = el.querySelector('.linha')!
+      const l = linha.getBoundingClientRect()
+      const seta = getComputedStyle(linha, lado === 'esquerda' ? '::before' : '::after')
+      if (lado === 'direita') return f.right - (l.right + parseFloat(seta.borderLeftWidth))
+      if (lado === 'esquerda') return l.left - parseFloat(seta.borderRightWidth) - f.left
+      return f.bottom - (l.bottom + parseFloat(seta.borderTopWidth))
+    }, lado)
+    expect(sobra, seletor).toBeGreaterThanOrEqual(-0.5)
+  }
+  await executar.click() // PC → MAR: sai do PC e entra no MAR
+  await pontaVisivel('.ponte-direita >> nth=0', 'direita')
+  await pontaVisivel('.ponte-esquerda >> nth=0', 'direita')
+  await executar.click() // memória → MDR: o BD chega à CPU
+  await pontaVisivel('.linha-bd', 'esquerda')
+  await executar.click() // MDR → IR
+  await expect(registrador(page, 'IR', 'D1')).toHaveClass(/realcado/)
+  await executar.click() // IR → UC
+  await pontaVisivel('.fio-ir-uc', 'baixo')
+})
+
 test('no visual clássico, o passo a passo mostra os textos do original', async ({ page }) => {
   await carregarTeste(page)
   await usarVisual(page, 'Clássico')

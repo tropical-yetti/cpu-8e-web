@@ -125,6 +125,8 @@ a {
   --fio-apagado: #b3bcc6;
   --chip: #24292f;
   --chip-texto: #f0f3f6;
+  /* Verde da ULA no painel original (#C0DCC0), mais forte para o contraste. */
+  --borda-ula: #8dbb8d;
   --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
 }
 
@@ -137,6 +139,7 @@ a {
     --fio-apagado: #4b535d;
     --chip: #2d333b;
     --chip-texto: #e6edf3;
+    --borda-ula: #6f9a6f;
   }
 }
 
@@ -148,4 +151,5 @@ a {
   --fio-apagado: #4b535d;
   --chip: #2d333b;
   --chip-texto: #e6edf3;
+  --borda-ula: #6f9a6f;
 }

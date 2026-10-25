@@ -119,31 +119,47 @@ const classes = computed(() => [
   height: auto;
 }
 
-/* Setas: um triângulo na ponta para onde o dado vai. */
+/*
+ * Setas: um triângulo na ponta para onde o dado vai. A linha encurta do lado
+ * da seta, e a seta ocupa esse espaço: a ponta termina na borda do fio, sem
+ * entrar na caixa vizinha (que ficaria por cima e a esconderia).
+ */
+.fio {
+  --seta: calc(var(--espessura) / 2 + 5px);
+}
+.para-direita .linha {
+  margin-right: var(--seta);
+}
+.para-esquerda .linha {
+  margin-left: var(--seta);
+}
+.para-baixo .linha {
+  margin-bottom: var(--seta);
+}
 .para-direita .linha::after,
 .para-esquerda .linha::before,
 .para-baixo .linha::after {
   content: '';
   position: absolute;
-  border: calc(var(--espessura) / 2 + 5px) solid transparent;
+  border: var(--seta) solid transparent;
 }
 .para-direita .linha::after {
   top: 50%;
-  right: -9px;
+  right: calc(-1 * var(--seta));
   transform: translateY(-50%);
   border-left-color: var(--cor);
   border-right-width: 0;
 }
 .para-esquerda .linha::before {
   top: 50%;
-  left: -9px;
+  left: calc(-1 * var(--seta));
   transform: translateY(-50%);
   border-right-color: var(--cor);
   border-left-width: 0;
 }
 .para-baixo .linha::after {
   left: 50%;
-  bottom: -9px;
+  bottom: calc(-1 * var(--seta));
   transform: translateX(-50%);
   border-top-color: var(--cor);
   border-bottom-width: 0;

@@ -22,6 +22,10 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
   ligadas à **Saída** (o antigo campo ULA), para mostrar que o resultado
   combina as duas, e o **Status Register** com as flags Z, N e C. As ligações
   acendem no pulso em que a ULA calcula.
+- Borda verde no bloco da ULA (do verde do painel original, mais forte para o
+  contraste) e fundo amarelo claro na UC, as duas unidades no mesmo padrão.
+- As pontas das setas terminam na borda do fio e não ficam mais escondidas
+  atrás das caixas (entrada dos registradores, IR → UC, flags → UC).
 - No painel novo, os valores aparecem com o prefixo `0x`. Tocar num
   registrador troca a base: hexadecimal, decimal, binário (`0b…`) e de volta;
   cada registrador guarda a sua. Leitores de tela ouvem as três bases.
