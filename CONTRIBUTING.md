@@ -93,7 +93,9 @@ npm run test:e2e   # abre o site num navegador de verdade
 Metas de cobertura (o CI falha abaixo delas): o núcleo (`src/core/`), com 95%
 das linhas e 90% dos desvios; o controlador (`src/simulador/`), com 90% e 85%.
 Os componentes são cobertos pelos testes de ponta a ponta, que também
-conferem a acessibilidade (axe), o teclado e o refluxo em telas estreitas.
+conferem a acessibilidade (axe), o teclado, o refluxo em telas estreitas e o
+que um leitor de tela simulado anunciaria (`tests/e2e/leitor-de-tela.spec.ts`,
+com o ajudante `tests/e2e/leitor-virtual.ts`).
 
 ## Licença e autoria
 
