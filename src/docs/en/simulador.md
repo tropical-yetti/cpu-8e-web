@@ -104,7 +104,7 @@ The **Symbol** column is updated after each edit and each load. To tell code fro
 
 ### Stack {#pilha}
 
-The stack starts at `FF` and grows down with each `CAL` (see [Subroutines and the stack](#/documentacao/instrucoes)). The locations above SP, which hold return addresses, are highlighted in the table. If a `CAL` writes its return address inside the program, execution pauses with a message: the stack has reached the code. Pressing **Go** continues anyway, as on a real CPU, which has no such protection.
+The stack starts at `FF` and grows down with each `CAL` (see [Subroutines and the stack](#/documentacao/instrucoes)). The locations above SP, which hold return addresses, are highlighted in the grid and in the table. If a `CAL` writes its return address inside the program, execution pauses with a message: the stack has reached the code. Pressing **Go** continues anyway, as on a real CPU, which has no such protection.
 
 ## Language {#idioma}
 

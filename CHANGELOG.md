@@ -8,6 +8,19 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-25 — Revisão final da 2.0.0 (#23)
+
+- README: captura nova (painel novo e memória por dentro), "O que dá para
+  fazer" com a memória por dentro, as bases, o guia e o visual clássico, e o
+  leitor de tela simulado em "Acessibilidade".
+- Imagem de compartilhamento (`og.png`) refeita com a tela da 2.0.
+- Diferenças do original: a introdução não diz mais que os testes comparam
+  com o código Pascal (isso foi até a 1.1), e a nova seção "Novidades da
+  série 2.x" lista o que mudou na tela, com a CPU igual à da 1.1.
+- NOTICE.md: resumo das modificações até a série 2.x.
+- Ajustes de texto em Simulador (pilha na grade e na tabela) e em Primeiros
+  passos ("painel", e não "diagrama").
+
 ### 2026-10-25 — Leitor de tela simulado
 
 - Testes com o leitor de tela virtual do Guidepup (#12), como no MEM-8E Web:

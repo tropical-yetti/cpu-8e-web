@@ -1,6 +1,8 @@
 # Diferenças do original
 
-A versão 1.0 reproduziu o simulador CPU-8E v2.2.3 (IESB, 2010) com **fidelidade total**: a mesma aritmética, a mesma sequência de micro-operações e os mesmos comportamentos dos botões, inclusive os defeitos conhecidos. A **versão 1.1** corrige esses defeitos. Todo o resto continua igual ao original, e isso é conferido por testes automáticos que comparam esta versão, pulso a pulso, com o código Pascal original, ao qual foram aplicadas as mesmas correções.
+A versão 1.0 reproduziu o simulador CPU-8E v2.2.3 (IESB, 2010) com **fidelidade total**: a mesma aritmética, a mesma sequência de micro-operações e os mesmos comportamentos dos botões, inclusive os defeitos conhecidos. A **versão 1.1** corrigiu esses defeitos; até ela, testes automáticos comparavam esta versão, pulso a pulso, com o código Pascal original, ao qual foram aplicadas as mesmas correções.
+
+A **série 2.x** muda a tela, não a CPU: as instruções, os pulsos de clock e as flags são os mesmos da 1.1. Desde a 2.0, cada instrução é conferida por testes que comparam a memória, os registradores e as flags antes e depois dela.
 
 ## Corrigido na versão 1.1 {#corrigido}
 
@@ -21,6 +23,14 @@ A versão 1.0 reproduziu o simulador CPU-8E v2.2.3 (IESB, 2010) com **fidelidade
 
 A tag `v1.0.0` do [repositório do projeto](https://github.com/tropical-yetti/cpu-8e-web) guarda a versão com o comportamento original.
 
+## Novidades da série 2.x {#serie-2}
+
+- **Painel novo**, com os fios coloridos por barramento e setas para onde o dado vai, as siglas explicadas por legendas e o bloco da ULA com as entradas ligadas à saída e o Status Register. O desenho original continua no visual **Clássico**.
+- **Memória por dentro**: a grade de 16 × 16 com os decodificadores de linha e de coluna, acompanhando o MAR. A tabela do original continua no seletor **Tabela**.
+- Os registradores mostram o valor em hexadecimal, decimal ou binário; no original, só em binário, enquanto o registrador ficava pressionado.
+- Um **guia de primeiro acesso** e botões **?** com balões que explicam cada parte da tela.
+- Numa escrita, o valor novo aparece na memória já no pulso do WR, e não só no pulso seguinte.
+
 ## Diferenças por causa da plataforma {#plataforma}
 
 Algumas coisas não têm como funcionar igual num navegador:
@@ -32,7 +42,6 @@ Algumas coisas não têm como funcionar igual num navegador:
 - Apertar **Executar** durante uma execução contínua não faz nada. No original, isso iniciava uma segunda execução dentro da primeira e embaralhava o estado da CPU.
 - A interface também está em inglês, com as dicas do painel traduzidas e as siglas do desenho em inglês (ALU, CU, ID, IB, DB, AB).
 - No visual clássico, no celular, o diagrama rola para os lados quando a tela é estreita.
-- Desde a 2.0, o painel padrão tem um visual novo, com siglas explicadas por legendas; o desenho original continua no visual **Clássico**.
 
 Se você encontrar outra diferença em relação ao original, ela é um erro desta versão; [avise no repositório do projeto](https://github.com/tropical-yetti/cpu-8e-web).
 

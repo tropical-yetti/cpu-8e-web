@@ -54,8 +54,11 @@ O texto integral da licença está em [LICENSE](LICENSE).
 
 Todas as modificações, com data, estão registradas em [CHANGELOG.md](CHANGELOG.md).
 Em resumo: o simulador foi reescrito em TypeScript e Vue 3 para rodar no
-navegador. A lógica da CPU segue o código Pascal original passo a passo,
-inclusive os seus defeitos conhecidos (fidelidade total na versão 1.0).
+navegador. A lógica da CPU segue o código Pascal original passo a passo: na
+versão 1.0, inclusive os seus defeitos conhecidos (fidelidade total); a
+versão 1.1 corrigiu esses defeitos. A série 2.x mantém a CPU da 1.1 e muda a
+interface: um painel novo (o desenho original continua como visual
+clássico), a memória vista por dentro e um guia de primeiro acesso.
 
 Cada arquivo derivado diretamente de um arquivo do original traz no
 cabeçalho o nome do arquivo de origem e o aviso de copyright correspondente.

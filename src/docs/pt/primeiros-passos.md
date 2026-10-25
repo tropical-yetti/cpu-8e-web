@@ -37,7 +37,7 @@ Troque o **Modo** para **Execução contínua** e escolha o clock **100** (o mai
 
 ## Próximos passos
 
-- [A CPU-8E](#/documentacao/cpu) explica cada parte do diagrama.
+- [A CPU-8E](#/documentacao/cpu) explica cada parte do painel.
 - [Ciclo de instrução](#/documentacao/ciclo) detalha o que acontece em cada pulso.
 - [Escrevendo programas](#/documentacao/programas) mostra como criar seus próprios programas.
 

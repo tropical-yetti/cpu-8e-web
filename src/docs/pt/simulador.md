@@ -104,7 +104,7 @@ A coluna **Símbolo** é atualizada depois de cada edição e de cada carregamen
 
 ### Pilha {#pilha}
 
-A pilha começa em `FF` e desce a cada `CAL` (veja [Sub-rotinas e pilha](#/documentacao/instrucoes)). As posições acima do SP, que guardam endereços de retorno, ficam destacadas na tabela. Se um `CAL` gravar o endereço de retorno dentro do programa, a execução pausa com uma mensagem: a pilha chegou ao código. Apertar **Executar** continua mesmo assim, como numa CPU real, que não tem essa proteção.
+A pilha começa em `FF` e desce a cada `CAL` (veja [Sub-rotinas e pilha](#/documentacao/instrucoes)). As posições acima do SP, que guardam endereços de retorno, ficam destacadas na grade e na tabela. Se um `CAL` gravar o endereço de retorno dentro do programa, a execução pausa com uma mensagem: a pilha chegou ao código. Apertar **Executar** continua mesmo assim, como numa CPU real, que não tem essa proteção.
 
 ## Idioma {#idioma}
 

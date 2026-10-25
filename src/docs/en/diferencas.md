@@ -1,6 +1,8 @@
 # Differences from the original
 
-Version 1.0 reproduced the CPU-8E simulator v2.2.3 (IESB, 2010) with **full fidelity**: the same arithmetic, the same sequence of micro-operations and the same button behavior, including the known defects. **Version 1.1** fixes those defects. Everything else still matches the original, and this is checked by automated tests that compare this version, pulse by pulse, with the original Pascal code with the same fixes applied.
+Version 1.0 reproduced the CPU-8E simulator v2.2.3 (IESB, 2010) with **full fidelity**: the same arithmetic, the same sequence of micro-operations and the same button behavior, including the known defects. **Version 1.1** fixed those defects; up to it, automated tests compared this version, pulse by pulse, with the original Pascal code with the same fixes applied.
+
+The **2.x series** changes the screen, not the CPU: the instructions, the clock pulses and the flags are the same as in 1.1. Since 2.0, each instruction is checked by tests that compare the memory, the registers and the flags before and after it.
 
 ## Fixed in version 1.1 {#corrigido}
 
@@ -21,6 +23,14 @@ Version 1.0 reproduced the CPU-8E simulator v2.2.3 (IESB, 2010) with **full fide
 
 The `v1.0.0` tag in the [project repository](https://github.com/tropical-yetti/cpu-8e-web) keeps the version with the original behavior.
 
+## What's new in the 2.x series {#serie-2}
+
+- **New panel**, with wires colored by bus and arrows showing where the data goes, abbreviations explained by captions and the ALU block with its inputs connected to the output and the Status Register. The original drawing is still there in the **Classic** look.
+- **Inside the memory**: the 16 × 16 grid with the row and column decoders, following the MAR. The original table is still there in the **Table** selector.
+- Registers show their value in hexadecimal, decimal or binary; in the original, only in binary, while the register was held down.
+- A **first-visit guide** and **?** buttons with balloons that explain each part of the screen.
+- On a write, the new value shows up in memory on the WR pulse itself, not only on the next pulse.
+
 ## Differences due to the platform {#plataforma}
 
 Some things cannot work the same way in a browser:
@@ -32,7 +42,6 @@ Some things cannot work the same way in a browser:
 - Pressing **Go** during a Full Run does nothing. In the original, it started a second run inside the first one and scrambled the CPU state.
 - The interface is also available in English, with the panel tips translated and the diagram abbreviations in English (ALU, CU, ID, IB, DB, AB).
 - In the classic look, on a phone, the diagram scrolls sideways when the screen is narrow.
-- Since 2.0, the default panel has a new look, with abbreviations explained by captions; the original drawing is still there in the **Classic** look.
 
 If you find any other difference from the original, it is a bug in this version; [report it in the project repository](https://github.com/tropical-yetti/cpu-8e-web).
 
