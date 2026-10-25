@@ -10,6 +10,12 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+// Com movimento reduzido, o balão vai direto à parte apontada, sem rolagem
+// suave: os testes que percorrem os dez passos ficam rápidos e estáveis
+// mesmo num CI carregado (no celular, a rolagem suave a cada passo estourava
+// o tempo do teste).
+test.use({ reducedMotion: 'reduce' })
+
 test.describe('primeiro acesso', () => {
   test.use({ storageState: { cookies: [], origins: [] } })
 
