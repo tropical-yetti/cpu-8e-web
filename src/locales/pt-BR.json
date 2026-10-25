@@ -224,5 +224,35 @@
       "sigla": "WR",
       "nome": "Write (escrita): a memória grava o BD no endereço do MAR."
     }
+  },
+  "grade": {
+    "titulo": "Memória por dentro (linha × coluna)",
+    "ajuda": "O primeiro dígito do endereço escolhe a linha; o segundo, a coluna. A linha e a coluna do MAR ficam marcadas. Toque numa célula para ver o símbolo; toque de novo (ou use Enter ou um dígito hexadecimal) para editar.",
+    "linhaColuna": "Linha \\ coluna",
+    "celula": "Linha {linha}, coluna {coluna}: {visivel}, valor hexadecimal {digitos}",
+    "vista": "Como mostrar a memória",
+    "vistas": {
+      "porDentro": "Por dentro",
+      "tabela": "Tabela"
+    },
+    "decLinha": "Decodificador de linha 4 → 16",
+    "decColuna": "Decodificador de coluna 4 → 16",
+    "marcas": {
+      "mar": "endereço do MAR",
+      "pc": "apontada pelo PC",
+      "pilha": "pilha"
+    },
+    "detalhe": "Endereço {endereco}: {valor} · {simbolo}",
+    "resumo": {
+      "mar": "MAR = {endereco}: linha {linha}, coluna {coluna}.",
+      "leitura": "Leitura: M[{endereco}] = {valor} → MDR (linha {linha}, coluna {coluna}).",
+      "escrita": "Escrita: MDR = {mdr} → M[{endereco}] (linha {linha}, coluna {coluna})."
+    },
+    "legenda": {
+      "mar": "MAR (linha × coluna)",
+      "pc": "PC",
+      "pilha": "pilha",
+      "dado": "dado"
+    }
   }
 }

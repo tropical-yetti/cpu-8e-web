@@ -14,6 +14,8 @@ São 256 bytes, endereços `00` a `FF`. A CPU nunca lê a memória diretamente: 
 - **BD** (barramento de dados) leva o dado entre a memória e o MDR.
 - **RD** e **WR** são os sinais de controle de leitura e escrita, enviados pela unidade de controle.
 
+Dentro da memória, o endereço é dividido em dois: o primeiro dígito hexadecimal escolhe uma de 16 linhas, e o segundo, uma de 16 colunas. A vista **Por dentro** do simulador mostra essa grade e os dois decodificadores ([Memória por dentro](#/documentacao/simulador#memoria-por-dentro)).
+
 ## Registradores {#registradores}
 
 | Registrador   | Nome                    | Para que serve                                                                          |

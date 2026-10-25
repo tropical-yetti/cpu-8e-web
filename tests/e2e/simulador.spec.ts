@@ -28,9 +28,30 @@ async function usarVisual(page: Page, visual: 'Novo' | 'Clássico') {
 }
 const status = (page: Page) => page.locator('img.semaforo')
 
+async function usarVistaMemoria(page: Page, vista: 'Por dentro' | 'Tabela') {
+  await page
+    .getByRole('radiogroup', { name: 'Como mostrar a memória' })
+    .getByRole('radio', { name: vista })
+    .click()
+}
+const celula = (page: Page, endereco: string) => page.locator(`td[data-endereco="${endereco}"]`)
+
+/** Edita a memória pela grade: foco na célula, um dígito abre o campo, Enter segue. */
+async function editarNaGrade(page: Page, endereco: string, valores: string[]) {
+  await celula(page, endereco).click()
+  for (const valor of valores) {
+    await page.keyboard.type(valor)
+    await page.keyboard.press('Enter')
+  }
+  await page.keyboard.press('Escape')
+}
+
 test('carrega teste.bin e mostra o disassembly', async ({ page }) => {
   await carregarTeste(page)
   await expect(page.getByText('Programa: teste.bin')).toBeVisible()
+  await expect(celula(page, '00')).toHaveText('D1')
+  await expect(page.locator('[data-detalhe]')).toHaveText('Endereço 00: D1 · LOD')
+  await usarVistaMemoria(page, 'Tabela')
   const linha0 = page.locator('tr[data-endereco="0"]')
   await expect(linha0).toContainText('D1')
   await expect(linha0).toContainText('LOD')
@@ -132,6 +153,16 @@ test('as pontas das setas não ficam escondidas atrás das caixas', async ({ pag
   await pontaVisivel('.fio-ir-uc', 'baixo')
 })
 
+test('o fio IR → UC vai da borda do IR até a borda da UC', async ({ page }) => {
+  await page.goto('./')
+  const painel = page.locator('[data-visual="novo"]')
+  const ir = (await registrador(page, 'IR', '00').boundingBox())!
+  const fio = (await painel.locator('.fio-ir-uc').boundingBox())!
+  const uc = (await painel.locator('.uc').boundingBox())!
+  expect(Math.abs(fio.y - (ir.y + ir.height))).toBeLessThanOrEqual(2)
+  expect(Math.abs(fio.y + fio.height - uc.y)).toBeLessThanOrEqual(2)
+})
+
 test('no visual clássico, o passo a passo mostra os textos do original', async ({ page }) => {
   await carregarTeste(page)
   await usarVisual(page, 'Clássico')
@@ -187,12 +218,7 @@ test('a ULA mostra A e B ligados à saída e o Status Register', async ({ page }
   await expect(page.getByRole('button', { name: /^Saída da ULA: 0x00,/ })).toBeVisible()
   await expect(painel.locator('.combinacao')).not.toHaveClass(/aceso/)
   // LOD 05: a ULA deixa passar A, e as ligações acendem no pulso dela.
-  await page.getByRole('button', { name: '00: editar o endereço 00' }).click()
-  await page.keyboard.type('91')
-  await page.keyboard.press('Enter')
-  await page.keyboard.type('05')
-  await page.keyboard.press('Enter')
-  await page.keyboard.press('Escape')
+  await editarNaGrade(page, '00', ['91', '05'])
   await page.getByRole('combobox', { name: 'Velocidade do clock' }).selectOption('100')
   const executar = page.getByRole('button', { name: 'Executar', exact: true })
   for (let i = 0; i < 12 && !(await painel.locator('.combinacao.aceso').count()); i++) {
@@ -233,6 +259,7 @@ test('execução contínua roda teste.bin até o HALT', async ({ page }) => {
 
 test('editar a memória atualiza o símbolo e avança para a linha seguinte', async ({ page }) => {
   await page.goto('./')
+  await usarVistaMemoria(page, 'Tabela')
   await page.getByRole('button', { name: '00: editar o endereço 00' }).click()
   await page.keyboard.type('91')
   await page.keyboard.press('Enter')
@@ -248,6 +275,7 @@ test('editar a memória com um valor inválido mostra o aviso e não grava (v1.1
   page,
 }) => {
   await page.goto('./')
+  await usarVistaMemoria(page, 'Tabela')
   await page.getByRole('button', { name: '00: editar o endereço 00' }).click()
   const campo = page.getByRole('textbox', { name: 'Editar o conteúdo do endereço 00' })
   await page.keyboard.type('ZZ')
@@ -259,6 +287,97 @@ test('editar a memória com um valor inválido mostra o aviso e não grava (v1.1
   await expect(page.getByRole('alert')).toHaveCount(0)
   await page.keyboard.press('Escape')
   await expect(page.locator('tr[data-endereco="0"]')).toContainText('A5')
+})
+
+test('a memória por dentro acompanha o MAR e mostra a leitura', async ({ page }) => {
+  await carregarTeste(page)
+  await page.getByRole('combobox', { name: 'Velocidade do clock' }).selectOption('100')
+  const executar = page.getByRole('button', { name: 'Executar', exact: true })
+  const acesso = page.locator('p.acesso')
+  await expect(
+    page.getByRole('grid', { name: 'Memória por dentro (linha × coluna)' }),
+  ).toBeVisible()
+
+  await executar.click() // PC → MAR
+  await expect(celula(page, '00')).toHaveClass(/cruzamento/)
+  await expect(acesso).toHaveText('MAR = 00: linha 0, coluna 0.')
+
+  await executar.click() // leitura: M[00] → MDR
+  await expect(celula(page, '00')).toHaveClass(/leitura/)
+  await expect(acesso).toHaveText('Leitura: M[00] = D1 → MDR (linha 0, coluna 0).')
+
+  // LOD [16]: o MAR passa a 16, linha 1, coluna 6.
+  for (let i = 0; i < 12 && !(await registrador(page, 'MAR', '16').count()); i++) {
+    await executar.click()
+    await page.waitForTimeout(80)
+  }
+  await expect(celula(page, '16')).toHaveClass(/cruzamento/)
+  await expect(page.locator('thead th.ativa')).toHaveText('6')
+  await expect(page.locator('tbody th.ativa')).toHaveText('1')
+  await expect(celula(page, '00')).not.toHaveClass(/cruzamento/)
+})
+
+test('a grade marca o PC, a pilha e os dados', async ({ page }) => {
+  await carregarTeste(page)
+  await expect(celula(page, '00')).toHaveClass(/\bpc\b/)
+  await expect(celula(page, '16')).toHaveClass(/dado/)
+  await expect(celula(page, 'FF')).not.toHaveClass(/pilha/)
+})
+
+test('na grade, um toque escolhe, outro edita, e Enter segue para o endereço seguinte', async ({
+  page,
+}) => {
+  await page.goto('./')
+  await celula(page, '10').click()
+  await expect(page.locator('[data-detalhe]')).toHaveText('Endereço 10: 00 · —')
+  await celula(page, '10').click()
+  const campo = page.getByRole('textbox', { name: 'Editar o conteúdo do endereço 10' })
+  await expect(campo).toBeFocused()
+  await page.keyboard.type('91')
+  await page.keyboard.press('Enter')
+  await expect(
+    page.getByRole('textbox', { name: 'Editar o conteúdo do endereço 11' }),
+  ).toBeFocused()
+  await page.keyboard.type('7')
+  await page.keyboard.press('Enter')
+  await page.keyboard.press('Escape')
+  await expect(celula(page, '10')).toHaveText('91')
+  await expect(celula(page, '11')).toHaveText('07')
+  await celula(page, '10').click()
+  await expect(page.locator('[data-detalhe]')).toHaveText('Endereço 10: 91 · DB 91')
+  // Esc descarta a edição.
+  await page.keyboard.press('Enter')
+  await page.keyboard.type('FF')
+  await page.keyboard.press('Escape')
+  await expect(celula(page, '10')).toHaveText('91')
+})
+
+test('o leitor de tela encontra só a célula escolhida da grade', async ({ page }) => {
+  await page.goto('./')
+  const grade = page.getByRole('grid', { name: 'Memória por dentro (linha × coluna)' })
+  await expect(grade.getByRole('gridcell')).toHaveCount(1)
+  await expect(grade.getByRole('gridcell')).toHaveAccessibleName(
+    'Linha 0, coluna 0: 00, valor hexadecimal 0 0, endereço do MAR, apontada pelo PC',
+  )
+  await celula(page, '00').focus()
+  await page.keyboard.press('ArrowRight')
+  await page.keyboard.press('ArrowDown')
+  await expect(grade.getByRole('gridcell')).toHaveAccessibleName(
+    'Linha 1, coluna 1: 00, valor hexadecimal 0 0',
+  )
+})
+
+test('a vista da memória escolhida fica guardada', async ({ page }) => {
+  await page.goto('./')
+  await expect(page.getByRole('radio', { name: 'Por dentro' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  )
+  await usarVistaMemoria(page, 'Tabela')
+  await page.reload()
+  await expect(page.getByRole('radio', { name: 'Tabela' })).toHaveAttribute('aria-checked', 'true')
+  await expect(page.locator('tr[data-endereco="0"]')).toBeVisible()
+  await expect(page.getByRole('grid')).toHaveCount(0)
 })
 
 test('troca o idioma para inglês e lembra a escolha', async ({ page }) => {

@@ -57,6 +57,20 @@ While running, each clock pulse highlights the registers that received a value a
 
 ## Memory {#memoria}
 
+The selector above the memory picks how to see it: **Inside** (the default) or **Table**. The choice is kept in the browser.
+
+### Inside (row × column) {#memoria-por-dentro}
+
+Inside the chip, the 256 bytes form a grid of 16 rows by 16 columns. The address in the **MAR** picks a location: the 4 high bits (A7–A4, the first hex digit) go to the **row decoder**, on the left, and the 4 low bits (A3–A0, the second digit) to the **column decoder**, above. Each decoder turns on one of its 16 outputs, and the crossing is the location accessed. Address `3A`, for example, is at row 3, column A.
+
+The row and column of the MAR stay marked in green, the color of the address bus, all the time. On a read pulse (M[MAR] → MDR), the cell at the crossing lights up in cyan, the color of the data bus; on a write pulse (MDR → M[MAR]), it lights up in yellow, the color of the control signals. The strip below the grid says what is happening, such as `Read: M[16] = 05 → MDR (row 1, column 6)`.
+
+The grid also shows what the table shows: the cell pointed to by the **PC** has a marked corner, the **stack** has a different background and bytes that are **data** (`DB`) are in italics. Tap a cell to see its address, value and symbol; tap it again to edit.
+
+Screen readers find the grid as a table in which only the chosen cell is announced ("Row 3, column A: 05, …"); the arrow keys change the cell, and a summary gives the row and column of the MAR and the access in progress.
+
+### Table {#memoria-tabela}
+
 The table shows all 256 addresses:
 
 - **Address**: from `00` to `FF`;
@@ -68,6 +82,8 @@ The highlighted row follows execution: usually it is the address of the current 
 Locations used by the [stack](#pilha) have a different background color, and the **Symbol** column shows the word "stack" where there is no instruction.
 
 ### Editing memory {#editar-memoria}
+
+In the **Inside** view, double-tap a cell (or choose the cell and press **Enter**, or type a hex digit). The rules are the same as in the table, described below.
 
 Tap a cell in the **Memory** column, type the value in hexadecimal (`00` to `FF`) and press **Enter**: the value is stored and editing moves to the next row, so you can type a program in sequence. **Esc** cancels the edit.
 

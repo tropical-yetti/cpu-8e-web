@@ -41,7 +41,7 @@ test('um exemplo da documentação carrega no simulador e dá o resultado anunci
     timeout: 15_000,
   })
   await expect(page.getByRole('button', { name: /^ACC: 0x0C,/ })).toBeVisible()
-  await expect(page.locator('tr[data-endereco="34"]')).toContainText('0C')
+  await expect(page.locator('td[data-endereco="22"]')).toHaveText('0C')
 })
 
 test('a ajuda contextual leva à seção certa', async ({ page }) => {

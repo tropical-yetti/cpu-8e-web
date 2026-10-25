@@ -14,6 +14,8 @@ There are 256 bytes, addresses `00` to `FF`. The CPU never reads memory directly
 - **DB** (data bus) carries data between memory and MDR.
 - **RD** and **WR** are the read and write control signals, sent by the control unit.
 
+Inside the memory, the address is split in two: the first hex digit picks one of 16 rows, and the second, one of 16 columns. The simulator's **Inside** view shows this grid and the two decoders ([Inside the memory](#/documentacao/simulador#memoria-por-dentro)).
+
 ## Registers {#registradores}
 
 | Register        | Name                    | What it is for                                                                          |

@@ -10,7 +10,7 @@ Esta página leva uns cinco minutos e mostra o caminho básico: carregar um prog
 2. Escolha **teste.bin**, um dos programas que acompanham o simulador original.
 3. Uma mensagem confirma quantos bytes foram lidos. Toque em **OK**.
 
-A tabela da direita (ou de baixo, no celular) mostra a memória: o **Endereço**, o conteúdo em hexadecimal (**Memória**) e a instrução correspondente (**Símbolo**). O programa começa no endereço `00` com `LOD [16]`.
+À direita (ou embaixo, no celular) fica a memória, vista **por dentro**: os 256 bytes numa grade de 16 linhas por 16 colunas, em que o primeiro dígito do endereço é a linha e o segundo é a coluna. O programa começa no endereço `00` com `LOD [16]`; toque numa célula para ver a instrução que ela guarda. O seletor **Tabela** mostra a mesma memória como lista, com o **Endereço**, o conteúdo e o **Símbolo**.
 
 ## 2. Execute passo a passo
 

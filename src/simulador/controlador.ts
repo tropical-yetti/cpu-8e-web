@@ -395,6 +395,10 @@ export class Controlador {
     }
     this.painel.realcados = evento.destaques.map((d) => d.item)
     this.painel.barramentos = [...evento.barramentos]
+    // Escrita na memória: o valor novo já aparece no pulso do WR, e não só
+    // depois dele (na grade da memória por dentro, a célula acesa mostra o
+    // valor gravado). ADR 0006.
+    if (evento.barramentos.includes('shWR1')) this.painel.versaoMemoria++
 
     const pausa = this.pausa('passo')
     const sono = pausa ? undefined : this.dormirClock()
