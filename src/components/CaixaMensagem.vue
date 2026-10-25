@@ -43,7 +43,9 @@ watch(
   <dialog ref="dialogo" class="caixa" @close="simulador.fecharMensagem()">
     <p>{{ texto }}</p>
     <form method="dialog">
-      <button type="submit" autofocus>OK</button>
+      <!-- O clique fecha a mensagem na hora; o evento "close" do <dialog> só
+           chega depois, e um atalho apertado nesse meio-tempo seria ignorado. -->
+      <button type="submit" autofocus @click="simulador.fecharMensagem()">OK</button>
     </form>
   </dialog>
 </template>

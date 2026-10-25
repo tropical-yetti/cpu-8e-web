@@ -8,6 +8,14 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-25 — Atalho logo depois de fechar uma mensagem
+
+- Fechar uma mensagem com OK agora libera o simulador na hora. Antes, a
+  mensagem só era dada como fechada quando o navegador entregava o evento
+  `close` do `<dialog>`, um instante depois; um atalho apertado nesse
+  meio-tempo (como Ctrl+G logo depois de carregar) era ignorado. Era a causa
+  da falha intermitente do teste de uso só com o teclado.
+
 ## [2.0.0] — 2026-10-25
 
 Primeira versão da série 2.x: a mesma CPU da 1.1, com uma tela nova. O
