@@ -1,5 +1,11 @@
 # Using the simulator
 
+## Guide and help {#guia}
+
+On your first visit, a ten-balloon guide introduces the screen: the commands, the mode, the phase, the status, the panel, the ALU, the memory and the classic look. Each balloon points at a part, says what you can do there and suggests something to try. The balloon does not block the page: you can do what it suggests and carry on. **Esc** closes the guide, and **F6** moves the focus from the balloon to the highlighted part and back.
+
+The **Show the guide** button, below the panel, opens the guide again. The **?** buttons next to each part open just that part's balloon, with a link to the documentation section.
+
 ## Toolbar {#barra}
 
 | Button    | Shortcut | What it does                                                                                                                                                                          |

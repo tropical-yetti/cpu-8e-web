@@ -7,7 +7,7 @@
 -->
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import AjudaContextual from '@/components/AjudaContextual.vue'
+import BotaoAjuda from '@/guia/BotaoAjuda.vue'
 import TabelaMemoria from '@/components/TabelaMemoria.vue'
 import { VISTAS_MEMORIA, useVistaMemoria } from '@/painel/vistaMemoria'
 import GradeMemoria from './GradeMemoria.vue'
@@ -17,7 +17,12 @@ const { vista, mudarVista } = useVistaMemoria()
 </script>
 
 <template>
-  <section class="memoria-cpu" :class="`vista-${vista}`" aria-labelledby="titulo-memoria">
+  <section
+    class="memoria-cpu"
+    :class="`vista-${vista}`"
+    aria-labelledby="titulo-memoria"
+    data-guia="memoria"
+  >
     <div class="cabeca">
       <h2 id="titulo-memoria">{{ t('memoria.titulo') }}</h2>
       <div class="vistas" role="radiogroup" :aria-label="t('grade.vista')">
@@ -32,12 +37,7 @@ const { vista, mudarVista } = useVistaMemoria()
           {{ t(`grade.vistas.${opcao}`) }}
         </button>
       </div>
-      <AjudaContextual
-        v-if="vista === 'porDentro'"
-        pagina="simulador"
-        secao="memoria"
-        :assunto="t('memoria.titulo')"
-      />
+      <BotaoAjuda passo="memoria" />
     </div>
     <GradeMemoria v-if="vista === 'porDentro'" />
     <TabelaMemoria v-else class="tabela" />

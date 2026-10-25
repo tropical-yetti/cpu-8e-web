@@ -130,7 +130,7 @@ function aoMudarClock(evento: Event) {
       <span class="nome-bi" aria-hidden="true" data-sigla="bi">{{ t('siglas.bi.sigla') }}</span>
 
       <!-- Bloco da ULA (atrás de A, B, saída e Status Register) -->
-      <div class="bloco-ula" aria-hidden="true"></div>
+      <div class="bloco-ula" aria-hidden="true" data-guia="ula"></div>
       <span class="nome-ula" aria-hidden="true" data-sigla="ula">{{ t('siglas.ula.sigla') }}</span>
       <!-- A e B → saída: o resultado combina as duas entradas -->
       <div class="combinacao" :class="{ aceso: realcados.has('ULA') }" aria-hidden="true">

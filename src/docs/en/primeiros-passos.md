@@ -4,6 +4,8 @@ The CPU-8E is an 8-bit CPU designed to teach how a processor works inside. The s
 
 This page takes about five minutes and walks through the basics: loading a program, running it slowly and checking the result.
 
+On your first visit, the simulator opens a **guide** with balloons pointing at each part of the screen. To see it again, use the **Show the guide** button below the panel; each part also has a **?** button that explains just that part ([Guide and help](#/documentacao/simulador#guia)).
+
 ## 1. Load a program
 
 1. On the **Simulator** page, press **Load**.

@@ -117,7 +117,6 @@
       "imediato": "Immediate",
       "direto": "Direct"
     },
-    "ajuda": "Help about {assunto}",
     "sigla": "Abbreviation",
     "significado": "What it is"
   },
@@ -254,5 +253,66 @@
       "pilha": "stack",
       "dado": "data"
     }
+  },
+  "guia": {
+    "rever": "Show the guide",
+    "contador": "{n} of {total}",
+    "experimente": "Try it:",
+    "proximo": "Next",
+    "voltar": "Back",
+    "pular": "Skip the guide",
+    "concluir": "Start",
+    "fechar": "Close",
+    "entendi": "Got it",
+    "ajuda": "Help",
+    "ajudaDe": "Help: {parte}",
+    "passos": {
+      "boasVindas": {
+        "titulo": "An 8-bit CPU, opened up",
+        "texto": "Here you watch the CPU-8E run a program one clock pulse at a time: what each register receives, where the data goes and how the memory is accessed. This guide shows each part of the screen in a minute."
+      },
+      "barra": {
+        "titulo": "Commands",
+        "texto": "Load opens an example program or a .bin file; Save downloads the memory to a file. Go runs the program, Pause stops it and Reset goes back to the start, without clearing the memory. Help opens the documentation.",
+        "experimente": "press Load and choose teste.bin."
+      },
+      "modo": {
+        "titulo": "Run mode",
+        "texto": "Single Step stops at each clock pulse; Single Cycle, at the end of each instruction; Full Run runs until HLT.",
+        "experimente": "leave it on Single Step and press Go a few times: each press advances one pulse."
+      },
+      "fase": {
+        "titulo": "Cycle phase",
+        "texto": "Every instruction goes through the fetch phase (the code comes from memory into the IR), the operand phase (the second byte, when there is one) and the execute phase. The lit lamp shows the current phase."
+      },
+      "status": {
+        "titulo": "Status",
+        "texto": "The light shows the execution state: red is stopped, yellow is paused (waiting for you) and green is running."
+      },
+      "painel": {
+        "titulo": "The CPU panel",
+        "texto": "The internal bus (IB) connects the registers. On each pulse, the registers that receive a value are highlighted and the wires the data goes through light up, with an arrow showing where it goes. On the right, the wires go to the memory: AB, DB, RD and WR.",
+        "experimente": "tap a register to change the base of its value: hexadecimal, decimal and binary. Hover (or tap) an abbreviation to see its name."
+      },
+      "ula": {
+        "titulo": "The ALU",
+        "texto": "The arithmetic logic unit combines inputs A and B and puts the result on the output. The Status Register keeps the Z, N and C flags of the result, which the control unit uses to decide jumps."
+      },
+      "memoria": {
+        "titulo": "Inside the memory",
+        "texto": "The 256 bytes form a 16 × 16 grid: the first digit of the address is the row, the second is the column. The row and column of the MAR stay marked; on a read or write, the cell accessed lights up.",
+        "experimente": "tap a cell to see the instruction it holds; tap it again to edit. The Table selector shows the same memory as a list."
+      },
+      "visual": {
+        "titulo": "Classic look",
+        "texto": "Prefer the original simulator's drawing? The Classic selector swaps the panel for the familiar form, with the same positions and colors. The choice is kept."
+      },
+      "fim": {
+        "titulo": "Done",
+        "texto": "To see this guide again, use the “Show the guide” button. Each part also has a “?” button that explains just that part, and the Documentation covers each subject in detail. A good next step is writing a program of your own."
+      }
+    },
+    "lerMais": "Read more in the documentation",
+    "irPara": "Go to the highlighted part (F6; F6 again comes back here)"
   }
 }

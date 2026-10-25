@@ -1,5 +1,11 @@
 # Usando o simulador
 
+## Guia e ajuda {#guia}
+
+Na primeira visita, um guia de dez balões apresenta a tela: os comandos, o modo, a fase, o status, o painel, a ULA, a memória e o visual clássico. Cada balão aponta para uma parte, diz o que dá para fazer ali e sugere algo para experimentar. O balão não bloqueia a página: você pode fazer o que ele sugere e continuar. **Esc** fecha o guia, e **F6** leva o foco do balão para a parte em destaque e de volta.
+
+O botão **Ver o guia**, embaixo do painel, abre o guia de novo. Os botões **?** ao lado de cada parte abrem só o balão daquela parte, com um link para a seção da documentação.
+
 ## Barra de ferramentas {#barra}
 
 | Botão        | Atalho | O que faz                                                                                                                                                                                                  |

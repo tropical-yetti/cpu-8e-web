@@ -11,7 +11,6 @@
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import AjudaContextual from '@/components/AjudaContextual.vue'
 import BarraFerramentas from '@/components/BarraFerramentas.vue'
 import CaixaMensagem from '@/components/CaixaMensagem.vue'
 import DiagramaCpu from '@/components/DiagramaCpu.vue'
@@ -19,6 +18,9 @@ import DialogoCarregar from '@/components/DialogoCarregar.vue'
 import EstadoAcessivel from '@/components/EstadoAcessivel.vue'
 import PainelCpu from '@/components/painel/PainelCpu.vue'
 import MemoriaCpu from '@/components/memoria/MemoriaCpu.vue'
+import BalaoGuia from '@/guia/BalaoGuia.vue'
+import BotaoAjuda from '@/guia/BotaoAjuda.vue'
+import { guiaJaVisto, useGuia } from '@/guia/guia'
 import { VISUAIS, useVisual } from '@/painel/visual'
 import { useVistaMemoria } from '@/painel/vistaMemoria'
 import { useSimuladorStore } from '@/stores/simulador'
@@ -28,6 +30,7 @@ const router = useRouter()
 const { t } = useI18n()
 const { visual, mudarVisual } = useVisual()
 const { vista: vistaMemoria } = useVistaMemoria()
+const guia = useGuia()
 const dialogoCarregar = ref<InstanceType<typeof DialogoCarregar> | null>(null)
 
 function carregar() {
@@ -93,7 +96,11 @@ watch(ajustarATela, (ajustar) => {
   }
 })
 
-onMounted(() => window.addEventListener('keydown', aoTeclar))
+onMounted(() => {
+  window.addEventListener('keydown', aoTeclar)
+  // No primeiro acesso, o guia abre sozinho.
+  if (!guiaJaVisto()) guia.iniciar()
+})
 onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
 </script>
 
@@ -110,7 +117,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
           ><strong>{{ simulador.painel.nomePrograma }}</strong>
         </template>
       </p>
-      <div class="visuais" role="radiogroup" :aria-label="t('painel.visual')">
+      <div class="visuais" role="radiogroup" :aria-label="t('painel.visual')" data-guia="visual">
         <button
           v-for="opcao in VISUAIS"
           :key="opcao"
@@ -126,15 +133,21 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     <div class="area" :class="{ 'memoria-por-dentro': vistaMemoria === 'porDentro' }">
       <div
         class="painel-cpu"
+        data-guia="painel"
         :class="{ ampliado: visual === 'classico' && !ajustarATela, novo: visual === 'novo' }"
       >
         <PainelCpu v-if="visual === 'novo'" />
         <DiagramaCpu v-else />
-        <AjudaContextual class="ajuda-diagrama" pagina="cpu" :assunto="t('diagrama.descricao')" />
+        <BotaoAjuda class="ajuda-diagrama" passo="painel" />
       </div>
       <MemoriaCpu class="memoria" />
     </div>
-    <p class="dica-uso">{{ t('simulador.dicaUso') }}</p>
+    <p class="dica-uso">
+      <button type="button" class="botao-guia" data-guia="rever-guia" @click="guia.iniciar()">
+        {{ t('guia.rever') }}
+      </button>
+      {{ t('simulador.dicaUso') }}
+    </p>
     <p v-if="visual === 'classico'" class="dica-uso dica-celular">
       {{ t('simulador.dicaCelular') }}
       <button
@@ -148,6 +161,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     </p>
     <DialogoCarregar ref="dialogoCarregar" @escolhido="simulador.carregar" />
     <CaixaMensagem />
+    <BalaoGuia />
     <EstadoAcessivel />
   </section>
 </template>
@@ -237,6 +251,18 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
 }
 .dica-celular {
   display: none;
+}
+.botao-guia {
+  margin-right: 6px;
+  min-height: 32px;
+  padding: 4px 10px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--texto);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  background: var(--fundo-barra);
+  cursor: pointer;
 }
 .botao-ajuste {
   margin-left: 4px;
