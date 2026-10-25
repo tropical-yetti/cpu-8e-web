@@ -19,9 +19,11 @@ que abre a memória e mostra o que acontece dentro dela.
 ## O que dá para fazer
 
 - **Carregar um programa** do seu aparelho ou um dos que acompanham o simulador original, e **gravá-lo** de volta.
-- **Executar pulso a pulso, instrução por instrução ou direto**, vendo os registradores e os barramentos acenderem a cada pulso de clock.
-- **Ver o ciclo de instrução** nas lâmpadas de fase (busca, operando, execução) e o valor de cada registrador em binário.
-- **Editar a memória** pela tabela, com o mouse ou o teclado, e ver o disassembly, os dados e a pilha.
+- **Executar pulso a pulso, instrução por instrução ou direto**, vendo os registradores se realçarem e os fios acenderem a cada pulso de clock, com uma seta para onde o dado vai.
+- **Ver o ciclo de instrução** nas lâmpadas de fase (busca, operando, execução) e o valor de cada registrador em hexadecimal, decimal ou binário.
+- **Abrir a memória por dentro**: a grade de 16 × 16, com os decodificadores de linha e de coluna acompanhando o MAR, e a célula acessada acesa a cada leitura e escrita. A tabela do original continua a um clique.
+- **Editar a memória**, com o mouse, o toque ou o teclado, e ver o disassembly, os dados e a pilha.
+- **Conhecer a tela com o guia** de primeiro acesso e os botões **?**, e trocar para o **visual clássico**, o desenho do simulador original.
 - **Ajustar a velocidade** do clock, do passo lento à execução sem espera.
 
 A [documentação](https://tropical-yetti.github.io/cpu-8e-web/#/documentacao),
@@ -42,8 +44,9 @@ estado de todos os registradores, e a cada parada o leitor anuncia o que mudou
 no último pulso de clock.
 
 Os testes de acessibilidade são automáticos e rodam em todo pull request: o
-[axe](https://github.com/dequelabs/axe-core), nos temas claro e escuro, e um
-teste de uso só com o teclado. Ninguém que usa leitor de tela no dia a dia
+[axe](https://github.com/dequelabs/axe-core), nos temas claro e escuro, um
+teste de uso só com o teclado e um leitor de tela simulado, que confere o que
+seria anunciado. Ninguém que usa leitor de tela no dia a dia
 testou o site ainda. Se você usa, conte como foi na
 [issue #12](https://github.com/tropical-yetti/cpu-8e-web/issues/12).
 

@@ -37,7 +37,7 @@ Change the **Mode** to **Full Run** and pick clock **100** (the fastest). Press 
 
 ## Next steps
 
-- [The CPU-8E](#/documentacao/cpu) explains each part of the diagram.
+- [The CPU-8E](#/documentacao/cpu) explains each part of the panel.
 - [Instruction cycle](#/documentacao/ciclo) details what happens on each pulse.
 - [Writing programs](#/documentacao/programas) shows how to create your own programs.
 
