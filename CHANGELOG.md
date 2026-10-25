@@ -8,6 +8,18 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+## [2.0.0] — 2026-10-25
+
+Primeira versão da série 2.x: a mesma CPU da 1.1, com uma tela nova. O
+painel novo, no estilo do MEM-8E Web, é o padrão, e o desenho original
+continua como visual clássico (ADR 0005); a memória é vista por dentro, como
+a grade de 16 × 16 com os decodificadores de linha e de coluna (ADR 0006); um
+guia de primeiro acesso e os botões "?" apresentam cada parte da tela. Os
+registradores mostram o valor em hexadecimal, decimal ou binário. Por trás,
+o projeto passou a registrar as decisões em ADRs e a validar cada instrução
+pelo estado antes e depois dela, no lugar da comparação pulso a pulso com o
+código Pascal, que ficou na tag `v1.1.0`.
+
 ### 2026-10-25 — Revisão final da 2.0.0 (#23)
 
 - README: captura nova (painel novo e memória por dentro), "O que dá para
