@@ -8,6 +8,24 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-25 — Guia de primeiro acesso e ajuda "?"
+
+- Na primeira visita, um guia de dez balões apresenta a tela: comandos,
+  modo, fase, status, painel, ULA, memória e visual clássico. Cada balão
+  destaca a sua parte, explica, sugere algo para experimentar e leva à
+  documentação. Não é modal; Esc fecha, F6 alterna o foco entre o balão e a
+  parte em destaque. Visto uma vez, fica guardado no navegador.
+- Botão **Ver o guia**, embaixo do painel, para rever o guia.
+- Os botões "?" (Modo, Fase, Status, painel e memória) abrem o balão da sua
+  parte, no lugar do link direto para a documentação; o balão tem o link
+  "Ler mais na documentação". O "?" da memória aparece nas duas vistas.
+- O guia e o balão são copiados do MEM-8E Web, com os passos do CPU-8E Web.
+- Documentação: seção "Guia e ajuda" em Simulador e menção em Primeiros
+  passos.
+- Testes: todo passo aponta para uma parte que existe e tem texto nos dois
+  idiomas; os links "Ler mais" levam a seções que existem; ponta a ponta do
+  guia (primeira visita, Esc, "?", Ver o guia, axe nos dois temas).
+
 ### 2026-10-25 — Memória por dentro (ADR 0006)
 
 - A memória ganha a vista **Por dentro (linha × coluna)**, a nova vista

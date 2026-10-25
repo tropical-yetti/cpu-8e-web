@@ -4,6 +4,8 @@ O CPU-8E é uma CPU de 8 bits criada para ensinar como um processador funciona p
 
 Esta página leva uns cinco minutos e mostra o caminho básico: carregar um programa, executá-lo devagar e ver o resultado.
 
+Na primeira visita, o simulador abre um **guia** com balões que apontam cada parte da tela. Para revê-lo, use o botão **Ver o guia**, embaixo do painel; cada parte também tem um botão **?** que explica só aquela parte ([Guia e ajuda](#/documentacao/simulador#guia)).
+
 ## 1. Carregue um programa
 
 1. Na página **Simulador**, toque em **Carregar**.

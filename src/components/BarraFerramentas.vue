@@ -11,7 +11,7 @@
 -->
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import AjudaContextual from '@/components/AjudaContextual.vue'
+import BotaoAjuda from '@/guia/BotaoAjuda.vue'
 import { useSimuladorStore } from '@/stores/simulador'
 import type { Fase } from '@/core'
 import type { Modo } from '@/simulador/controlador'
@@ -44,7 +44,7 @@ function aoMudarModo(evento: Event) {
 </script>
 
 <template>
-  <div class="barra" role="toolbar" :aria-label="t('barra.rotulo')">
+  <div class="barra" role="toolbar" :aria-label="t('barra.rotulo')" data-guia="barra">
     <div class="grupo">
       <button type="button" :title="t('barra.carregarDica')" @click="emit('carregar')">
         <img :src="iconeCarregar" alt="" />
@@ -90,17 +90,17 @@ function aoMudarModo(evento: Event) {
       </button>
     </div>
 
-    <div class="grupo campo-modo">
+    <div class="grupo campo-modo" data-guia="modo">
       <label class="grupo" :title="t('barra.modoDica')">
         <span class="rotulo">{{ t('barra.modo') }}</span>
         <select :value="simulador.painel.modo" @change="aoMudarModo">
           <option v-for="modo in MODOS" :key="modo" :value="modo">{{ t(`modos.${modo}`) }}</option>
         </select>
       </label>
-      <AjudaContextual pagina="simulador" secao="modos" :assunto="t('barra.modo')" />
+      <BotaoAjuda passo="modo" />
     </div>
 
-    <div class="grupo" role="group" :aria-label="t('barra.fase')">
+    <div class="grupo" role="group" :aria-label="t('barra.fase')" data-guia="fase">
       <span class="rotulo">{{ t('barra.fase') }}</span>
       <span
         v-for="{ fase, cor } in FASES"
@@ -112,10 +112,10 @@ function aoMudarModo(evento: Event) {
       >
         {{ t(`fases.${fase}`) }}
       </span>
-      <AjudaContextual pagina="ciclo" :assunto="t('barra.fase')" />
+      <BotaoAjuda passo="fase" />
     </div>
 
-    <div class="grupo">
+    <div class="grupo" data-guia="status">
       <span class="rotulo">{{ t('barra.status') }}</span>
       <img
         class="semaforo"
@@ -123,7 +123,7 @@ function aoMudarModo(evento: Event) {
         :alt="t(`status.${simulador.painel.status}`)"
         :title="t(`status.${simulador.painel.status}`)"
       />
-      <AjudaContextual pagina="simulador" secao="fase-status" :assunto="t('barra.status')" />
+      <BotaoAjuda passo="status" />
     </div>
   </div>
 </template>

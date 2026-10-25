@@ -13,7 +13,7 @@ import { describe, expect, it } from 'vitest'
 
 const RAIZ = fileURLToPath(new URL('..', import.meta.url))
 const PASTAS = ['src', 'tools', 'tests']
-const IGNORAR = /\.(png|bin|gz|lfm)$|layout-original\.json$|\/locales\//
+const IGNORAR = /\.(png|bin|gz|lfm)$|layout-original\.json$|sem-guia\.json$|\/locales\//
 
 function arquivos(pasta: string): string[] {
   return readdirSync(pasta).flatMap((nome) => {

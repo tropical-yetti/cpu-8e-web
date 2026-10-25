@@ -12,6 +12,7 @@ import { describe, expect, it } from 'vitest'
 import { carregarPrograma, criarCpu, executar, type Cpu } from '../../src/core'
 import { lerPrograma } from '../../src/docs/programas'
 import { PAGINAS } from '../../src/docs/paginas'
+import { PASSOS } from '../../src/guia/guia'
 
 const PASTA = fileURLToPath(new URL('../../src/docs/', import.meta.url))
 const IDIOMAS = ['pt', 'en']
@@ -91,24 +92,12 @@ describe('âncoras da documentação', () => {
       expect(ancoras('en', pagina), pagina).toEqual(ancoras('pt', pagina))
   })
 
-  it('existem para todos os links de ajuda contextual da interface', () => {
-    const componentes = [
-      'components/BarraFerramentas.vue',
-      'components/TabelaMemoria.vue',
-      'views/SimuladorView.vue',
-    ]
-    for (const arquivo of componentes) {
-      const fonte = readFileSync(
-        fileURLToPath(new URL(`../../src/${arquivo}`, import.meta.url)),
-        'utf8',
-      )
-      for (const [, pagina, secao] of fonte.matchAll(
-        /<AjudaContextual[^>]*pagina="([a-z-]+)"(?:[^>]*secao="([a-z-]+)")?/g,
-      )) {
-        expect(PAGINAS, arquivo).toContain(pagina)
-        if (secao)
-          expect(ancoras('pt', pagina!), `${arquivo} → ${pagina}#${secao}`).toContain(secao)
-      }
+  it('existem para os links "Ler mais" do guia e da ajuda "?"', () => {
+    for (const { id, doc } of PASSOS) {
+      if (!doc) continue
+      const [pagina, secao] = doc.split('#')
+      expect(PAGINAS, id).toContain(pagina)
+      if (secao) expect(ancoras('pt', pagina!), `${id} → ${doc}`).toContain(secao)
     }
   })
 

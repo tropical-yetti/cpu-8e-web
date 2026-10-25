@@ -117,7 +117,6 @@
       "imediato": "Imediato",
       "direto": "Direto"
     },
-    "ajuda": "Ajuda sobre {assunto}",
     "sigla": "Sigla",
     "significado": "O que é"
   },
@@ -254,5 +253,66 @@
       "pilha": "pilha",
       "dado": "dado"
     }
+  },
+  "guia": {
+    "rever": "Ver o guia",
+    "contador": "{n} de {total}",
+    "experimente": "Experimente:",
+    "proximo": "Próximo",
+    "voltar": "Voltar",
+    "pular": "Pular o guia",
+    "concluir": "Começar",
+    "fechar": "Fechar",
+    "entendi": "Entendi",
+    "ajuda": "Ajuda",
+    "ajudaDe": "Ajuda: {parte}",
+    "passos": {
+      "boasVindas": {
+        "titulo": "Uma CPU de 8 bits, aberta",
+        "texto": "Aqui você vê a CPU-8E executar um programa pulso a pulso do clock: o que cada registrador recebe, por onde o dado passa e como a memória é acessada. Este guia mostra cada parte da tela em um minuto."
+      },
+      "barra": {
+        "titulo": "Comandos",
+        "texto": "Carregar abre um programa de exemplo ou um arquivo .bin; Gravar baixa a memória num arquivo. Executar roda o programa, Pausar interrompe e Reset volta ao começo, sem apagar a memória. Ajuda abre a documentação.",
+        "experimente": "toque em Carregar e escolha teste.bin."
+      },
+      "modo": {
+        "titulo": "Modo de execução",
+        "texto": "Passo a passo para em cada pulso de clock; Instrução por instrução, no fim de cada instrução; Execução contínua roda até o HLT.",
+        "experimente": "deixe em Passo a passo e toque em Executar algumas vezes: cada toque avança um pulso."
+      },
+      "fase": {
+        "titulo": "Fase do ciclo",
+        "texto": "Toda instrução passa pelas fases de busca (o código vem da memória para o IR), operando (o segundo byte, quando há) e execução. A lâmpada acesa mostra a fase atual."
+      },
+      "status": {
+        "titulo": "Status",
+        "texto": "O semáforo mostra o estado da execução: vermelho é parada, amarelo é pausa (esperando você) e verde é executando."
+      },
+      "painel": {
+        "titulo": "O painel da CPU",
+        "texto": "O barramento interno (BI) liga os registradores. A cada pulso, os registradores que recebem um valor ficam realçados e os fios por onde o dado passa acendem, com uma seta para onde ele vai. À direita saem os fios para a memória: BE, BD, RD e WR.",
+        "experimente": "toque num registrador para trocar a base do valor: hexadecimal, decimal e binário. Passe o mouse (ou toque) numa sigla para ver o nome."
+      },
+      "ula": {
+        "titulo": "A ULA",
+        "texto": "A unidade lógica e aritmética combina as entradas A e B e põe o resultado na saída. O Status Register guarda as flags Z, N e C do resultado, que a unidade de controle usa para decidir os desvios."
+      },
+      "memoria": {
+        "titulo": "A memória por dentro",
+        "texto": "Os 256 bytes formam uma grade de 16 × 16: o primeiro dígito do endereço é a linha, o segundo é a coluna. A linha e a coluna do MAR ficam marcadas; numa leitura ou escrita, a célula acessada acende.",
+        "experimente": "toque numa célula para ver a instrução que ela guarda; toque de novo para editar. O seletor Tabela mostra a mesma memória como lista."
+      },
+      "visual": {
+        "titulo": "Visual clássico",
+        "texto": "Prefere o desenho do simulador original? O seletor Clássico troca o painel pelo formulário de sempre, com as mesmas posições e cores. A escolha fica guardada."
+      },
+      "fim": {
+        "titulo": "Pronto",
+        "texto": "Para rever este guia, use o botão “Ver o guia”. Cada parte também tem um botão “?” que explica só aquela parte, e a Documentação traz cada assunto em detalhe. Um bom próximo passo é escrever um programa seu."
+      }
+    },
+    "lerMais": "Ler mais na documentação",
+    "irPara": "Ir para a parte em destaque (F6; F6 de novo volta aqui)"
   }
 }

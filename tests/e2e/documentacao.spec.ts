@@ -46,7 +46,8 @@ test('um exemplo da documentação carrega no simulador e dá o resultado anunci
 
 test('a ajuda contextual leva à seção certa', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('link', { name: 'Ajuda sobre Modo:' }).click()
+  await page.getByRole('button', { name: 'Ajuda: Modo de execução' }).click()
+  await page.getByRole('dialog').getByRole('link', { name: 'Ler mais na documentação' }).click()
   await expect(page).toHaveURL(/documentacao\/simulador#modos$/)
   await expect(page.locator('#modos')).toBeInViewport()
 })

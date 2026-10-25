@@ -127,6 +127,8 @@ a {
   --chip-texto: #f0f3f6;
   /* Verde da ULA no painel original (#C0DCC0), mais forte para o contraste. */
   --borda-ula: #8dbb8d;
+  /* Texto sobre o destaque (botão principal do guia). */
+  --sobre-destaque: #ffffff;
   --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
 }
 
@@ -140,6 +142,7 @@ a {
     --chip: #2d333b;
     --chip-texto: #e6edf3;
     --borda-ula: #6f9a6f;
+    --sobre-destaque: #0d1117;
   }
 }
 
@@ -152,4 +155,5 @@ a {
   --chip: #2d333b;
   --chip-texto: #e6edf3;
   --borda-ula: #6f9a6f;
+  --sobre-destaque: #0d1117;
 }
