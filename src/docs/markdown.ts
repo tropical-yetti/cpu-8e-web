@@ -1,7 +1,7 @@
 /**
  * Conversão do Markdown da documentação em blocos para a página: trechos de
  * HTML, programas de exemplo e componentes especiais (tabela de instruções,
- * diagrama da CPU).
+ * diagrama da CPU, tabela de siglas).
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -11,7 +11,7 @@ import MarkdownIt from 'markdown-it'
 export type Bloco =
   | { tipo: 'html'; html: string }
   | { tipo: 'programa'; codigo: string }
-  | { tipo: 'componente'; nome: 'tabela-instrucoes' | 'diagrama' }
+  | { tipo: 'componente'; nome: 'tabela-instrucoes' | 'diagrama' | 'siglas' }
 
 /** "Ciclo de instrução" → "ciclo-de-instrucao" (usado como âncora dos títulos). */
 function ancora(texto: string): string {
@@ -53,6 +53,7 @@ md.renderer.rules.table_close = () => '</table></div>\n'
 const COMPONENTES = {
   '{{tabela-instrucoes}}': 'tabela-instrucoes',
   '{{diagrama}}': 'diagrama',
+  '{{siglas}}': 'siglas',
 } as const
 
 /** Divide o Markdown em blocos, separando programas e componentes especiais. */

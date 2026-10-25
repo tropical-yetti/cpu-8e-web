@@ -8,6 +8,36 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-23 — Painel novo e visual clássico (ADR 0005)
+
+- Painel novo, no estilo do MEM-8E Web, como padrão (#16): registradores em
+  caixas, o barramento interno no meio, fios coloridos por barramento (BI
+  azul, BE verde, BD ciano, controle amarelo) com seta para onde o dado vai,
+  e a borda da memória. Cresce com a tela e cabe em 320 px sem rolar de lado.
+- O desenho do formulário original continua como **Visual: Clássico**. A
+  escolha fica guardada no navegador e vale também para a documentação.
+- Siglas com legenda ao apontar, focar ou tocar, e a página "Siglas" na
+  documentação, geradas da mesma tabela. A legenda é copiada do MEM-8E Web.
+- Bloco da ULA com rótulo próprio e borda mais forte: as entradas A e B
+  ligadas à **Saída** (o antigo campo ULA), para mostrar que o resultado
+  combina as duas, e o **Status Register** com as flags Z, N e C. As ligações
+  acendem no pulso em que a ULA calcula.
+- Borda verde no bloco da ULA (do verde do painel original, mais forte para o
+  contraste) e fundo amarelo claro na UC, as duas unidades no mesmo padrão.
+- As pontas das setas terminam na borda do fio e não ficam mais escondidas
+  atrás das caixas (entrada dos registradores, IR → UC, flags → UC).
+- O nome do programa carregado aparece na linha do seletor de visual, entre a
+  barra de ferramentas e o painel: carregar um arquivo não empurra mais o
+  painel (nem o rodapé) para baixo.
+- No painel novo, os valores aparecem com o prefixo `0x`. Tocar num
+  registrador troca a base: hexadecimal, decimal, binário (`0b…`) e de volta;
+  cada registrador guarda a sua. Leitores de tela ouvem as três bases.
+- Legenda do A mais precisa: "em geral, uma cópia do ACC" (no `LOD` e nos
+  deslocamentos ele recebe outros valores).
+- Testes: as três bases; cada caminho de dados acende os fios certos; toda sigla tem nome
+  nos dois idiomas e é a mesma do visual clássico; ponta a ponta nos dois
+  visuais; axe também no visual clássico e na página "Siglas".
+
 ### 2026-10-23 — ADRs 0005 e 0006
 
 - ADR 0005 (#16): painel novo, no estilo do MEM-8E Web, como padrão, e o

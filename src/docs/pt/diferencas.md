@@ -31,7 +31,8 @@ Algumas coisas não têm como funcionar igual num navegador:
 - **Gravar** baixa o arquivo pelo navegador, em vez de abrir uma janela para escolher a pasta.
 - Apertar **Executar** durante uma execução contínua não faz nada. No original, isso iniciava uma segunda execução dentro da primeira e embaralhava o estado da CPU.
 - A interface também está em inglês, com as dicas do painel traduzidas e as siglas do desenho em inglês (ALU, CU, ID, IB, DB, AB).
-- No celular, o diagrama rola para os lados quando a tela é estreita.
+- No visual clássico, no celular, o diagrama rola para os lados quando a tela é estreita.
+- Desde a 2.0, o painel padrão tem um visual novo, com siglas explicadas por legendas; o desenho original continua no visual **Clássico**.
 
 Se você encontrar outra diferença em relação ao original, ela é um erro desta versão; [avise no repositório do projeto](https://github.com/tropical-yetti/cpu-8e-web).
 

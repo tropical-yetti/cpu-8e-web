@@ -16,8 +16,8 @@ The table on the right (or below, on a phone) shows the memory: the **Address**,
 
 The initial mode is **Single Step**. Each press of **Go** advances one clock pulse:
 
-- registers that changed get **red** text;
-- the bus segments the data went through turn **red**;
+- registers that changed are **highlighted**;
+- the wires the data went through **light up**, with an arrow showing where it goes;
 - the **Phase** lamp shows whether the CPU is fetching the instruction, fetching the operand or executing;
 - the **Status** light turns yellow while the CPU waits for you.
 
@@ -31,7 +31,7 @@ Change the **Mode** to **Full Run** and pick clock **100** (the fastest). Press 
 
 **Reset** clears the registers and sets PC back to `00`, keeping the program in memory. You can repeat the run as many times as you like, in any mode.
 
-> **Tip:** press and hold a register to see its value in binary, such as `ACC=11111111`.
+> **Tip:** tap a register to change the base of its value: from hexadecimal (`0xFF`) to decimal (`255`) and binary (`0b11111111`).
 
 ## Next steps
 

@@ -2,7 +2,7 @@
 
 The CPU-8E follows the von Neumann model: program and data share the same memory, and the CPU fetches one instruction at a time, decodes it and executes it. Everything is 8 bits wide: each register and each memory location holds a value from `00` to `FF` (0 to 255).
 
-This is the same panel as in the simulator. The names below follow the drawing. The original design is in Portuguese; in the English interface its abbreviations appear in English: ALU (ULA in Portuguese), ID (DI), CU (UC), IB (BI), AB (BE) and DB (BD).
+This is the same panel as in the simulator. The names below follow the drawing; hover over an abbreviation, or tap it, to see what it stands for. The full list is in [Abbreviations](#/documentacao/siglas). The original design is in Portuguese; in the English interface its abbreviations appear in English: ALU (ULA in Portuguese), ID (DI), CU (UC), IB (BI), AB (BE) and DB (BD).
 
 {{diagrama}}
 
@@ -30,7 +30,7 @@ There are 256 bytes, addresses `00` to `FF`. The CPU never reads memory directly
 
 ## ALU {#ula}
 
-The Arithmetic Logic Unit does the math: addition, subtraction, logic operations (AND, OR, XOR, NOT), shifts and rotations. It takes its operands in **A** and **B** and shows the result at the **ALU** output. Each operation updates three flags:
+The Arithmetic Logic Unit does the math: addition, subtraction, logic operations (AND, OR, XOR, NOT), shifts and rotations. It takes its operands in **A** and **B** and shows the result at the **Output** (the **ALU** field in the classic look). Each operation updates three flags:
 
 | Flag             | Set to 1 when…                                                               |
 | ---------------- | ---------------------------------------------------------------------------- |
@@ -40,7 +40,7 @@ The Arithmetic Logic Unit does the math: addition, subtraction, logic operations
 
 For subtraction (`SUB` and `CMP`), the ALU adds A to the two's complement of B. That is why **C = 1 when there is no borrow** (A ≥ B) and C = 0 when A < B. The jumps `JEQ`, `JGT`, `JGE` and `JCY` decide based on these flags.
 
-The flags appear twice on the panel: next to the ALU, where they are computed, and below the control unit (CU), which uses them to decide jumps.
+The flags are kept in the **Status Register** and go to the control unit (CU), which uses them to decide jumps. In the classic look, they appear twice: next to the ALU and below the CU.
 
 ## Control unit and decoder {#controle}
 

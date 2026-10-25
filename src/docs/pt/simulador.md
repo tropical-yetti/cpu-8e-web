@@ -35,7 +35,7 @@ O semáforo de **Status** mostra o estado da execução:
 
 ## Clock {#clock}
 
-O seletor **Clock**, embaixo do diagrama, define o tempo entre dois pulsos. O valor vai de 10 (mais lento) a 100 (sem espera). O tempo segue a fórmula do simulador original: `510 − 5,144 × clock` milissegundos, sem casas decimais.
+O seletor **Clock**, na unidade de controle (UC) do painel, define o tempo entre dois pulsos. O valor vai de 10 (mais lento) a 100 (sem espera). O tempo segue a fórmula do simulador original: `510 − 5,144 × clock` milissegundos, sem casas decimais.
 
 | Clock        | 10  | 20  | 30  | 40  | 50  | 60  | 70  | 80  | 90  | 100 |
 | ------------ | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -43,11 +43,15 @@ O seletor **Clock**, embaixo do diagrama, define o tempo entre dois pulsos. O va
 
 O padrão é 50. No modo passo a passo, esse tempo também passa depois de cada toque em Executar, antes de o realce apagar.
 
-## Diagrama {#diagrama}
+## Painel {#diagrama}
 
-Durante a execução, cada pulso de clock pinta de vermelho o texto dos registradores que receberam um valor e os trechos de barramento por onde o dado passou. Passe o mouse sobre uma parte do diagrama, ou toque nela no celular, para ver uma dica sobre ela.
+O painel mostra a CPU com o barramento interno (**BI**) no meio. À esquerda ficam o PC, o SP, o ACC e o bloco da **ULA**: as entradas A e B, ligadas à **Saída** para mostrar que o resultado combina as duas, e o **Status Register**, com as flags; à direita, o MAR, o MDR, o IR e a unidade de controle (UC), com o decodificador (DI) e o clock. Do lado da memória saem o barramento de endereços (**BE**), o de dados (**BD**) e os sinais **RD** e **WR**.
 
-**Valor em binário:** mantenha pressionado o ACC, A, B, IR, MAR, MDR, PC, SP ou a saída da ULA para ver o valor em binário, como `ACC=00000101`. Ao soltar, a indicação some. Pelo teclado, use **Tab** até o registrador e aperte **Enter**.
+Durante a execução, cada pulso de clock realça os registradores que receberam um valor e acende os fios por onde o dado passou, com uma seta para onde ele vai. As cores são as do painel original: BI azul, BE verde, BD ciano e sinais de controle amarelos. Passe o mouse sobre uma sigla, foque nela pelo teclado ou toque nela no celular para ver o que ela quer dizer; a lista completa está em [Siglas](#/documentacao/siglas).
+
+**Bases:** os registradores mostram o valor em hexadecimal, com o prefixo `0x` (por exemplo, `0x05`). Toque no ACC, A, B, IR, MAR, MDR, PC, SP ou na saída da ULA para ver o mesmo valor em decimal (`5`); toque de novo para ver em binário, com o prefixo `0b` (`0b00000101`); mais um toque volta ao hexadecimal. Cada registrador guarda a sua base. Pelo teclado, use **Tab** até o registrador e aperte **Enter**. Leitores de tela ouvem o valor nas três bases.
+
+**Visual clássico:** o seletor **Visual do painel**, acima do painel, troca para o desenho do simulador original, com as mesmas posições, cores e dicas. Nele, os registradores que mudaram ficam com o texto em vermelho, e o valor em binário aparece enquanto o registrador fica pressionado. A escolha fica guardada no navegador.
 
 **Acessibilidade:** leitores de tela encontram uma tabela com o estado de todos os registradores e ouvem, a cada parada, o que mudou no último pulso de clock (por exemplo, "Busca: MAR:00").
 

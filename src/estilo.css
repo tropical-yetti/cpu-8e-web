@@ -111,3 +111,45 @@ a {
   --texto-selecao: #ffffff;
   --fundo-pilha: #2b2210;
 }
+
+/*
+ * Fios do painel novo (ADR 0005), com as cores do painel original: BI azul,
+ * BE verde, BD ciano e controle amarelo. As mesmas do MEM-8E Web para BE, BD
+ * e controle. Apagado: fino e cinza.
+ */
+:root {
+  --fio-bi: #2f6fd6;
+  --fio-be: #17923a;
+  --fio-bd: #0a93b0;
+  --fio-controle: #c99700;
+  --fio-apagado: #b3bcc6;
+  --chip: #24292f;
+  --chip-texto: #f0f3f6;
+  /* Verde da ULA no painel original (#C0DCC0), mais forte para o contraste. */
+  --borda-ula: #8dbb8d;
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --fio-bi: #6ea8ff;
+    --fio-be: #3fc463;
+    --fio-bd: #2ccde8;
+    --fio-controle: #f0c419;
+    --fio-apagado: #4b535d;
+    --chip: #2d333b;
+    --chip-texto: #e6edf3;
+    --borda-ula: #6f9a6f;
+  }
+}
+
+:root[data-theme='dark'] {
+  --fio-bi: #6ea8ff;
+  --fio-be: #3fc463;
+  --fio-bd: #2ccde8;
+  --fio-controle: #f0c419;
+  --fio-apagado: #4b535d;
+  --chip: #2d333b;
+  --chip-texto: #e6edf3;
+  --borda-ula: #6f9a6f;
+}

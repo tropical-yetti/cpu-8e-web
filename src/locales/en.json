@@ -13,7 +13,7 @@
   },
   "simulador": {
     "programa": "Program:",
-    "dicaUso": "To start, press Load and choose teste.bin. Then use Go: in single step mode, each press advances one clock pulse. Press and hold a register to see its value in binary; tap a memory cell to edit it.",
+    "dicaUso": "To start, press Load and choose teste.bin. Then use Go: in single step mode, each press advances one clock pulse. Tap a register to change the base (hexadecimal, decimal or binary); tap a memory cell to edit it.",
     "dicaCelular": "On a phone held upright, swipe the diagram sideways or rotate the device.",
     "ajustar": "Fit to screen",
     "ampliar": "Enlarge diagram"
@@ -117,12 +117,112 @@
       "imediato": "Immediate",
       "direto": "Direct"
     },
-    "ajuda": "Help about {assunto}"
+    "ajuda": "Help about {assunto}",
+    "sigla": "Abbreviation",
+    "significado": "What it is"
   },
   "acessivel": {
     "titulo": "CPU state",
     "pulso": "{fase}: {mudancas}",
     "fimInstrucao": "End of instruction {di}. {acc}",
     "parada": "CPU halted. {di}"
+  },
+  "painel": {
+    "cpu": "CPU-8E",
+    "visual": "Panel look",
+    "visuais": {
+      "novo": "New",
+      "classico": "Classic"
+    },
+    "memoria": "Memory",
+    "saida": "Output",
+    "saidaDaUla": "ALU output",
+    "registrador": "{nome}: {hex}, {dec} in decimal, {bin} in binary. Press to change the base shown."
+  },
+  "siglas": {
+    "pc": {
+      "sigla": "PC",
+      "nome": "Program Counter: the address of the next instruction."
+    },
+    "sp": {
+      "sigla": "SP",
+      "nome": "Stack Pointer: the top of the stack, where CAL keeps the return address."
+    },
+    "mar": {
+      "sigla": "MAR",
+      "nome": "Memory Address Register."
+    },
+    "mdr": {
+      "sigla": "MDR",
+      "nome": "Memory Data Register: the byte read from or to be written to memory."
+    },
+    "ir": {
+      "sigla": "IR",
+      "nome": "Instruction Register: the code of the instruction being executed."
+    },
+    "acc": {
+      "sigla": "ACC",
+      "nome": "Accumulator: receives the result of the ALU operations."
+    },
+    "a": {
+      "sigla": "A",
+      "nome": "Temporary register with the 1st ALU operand: usually a copy of ACC."
+    },
+    "b": {
+      "sigla": "B",
+      "nome": "Temporary register with the 2nd ALU operand."
+    },
+    "ula": {
+      "sigla": "ALU",
+      "nome": "Arithmetic logic unit: combines inputs A and B (addition, subtraction, logic operations, shifts) and puts the result on the output."
+    },
+    "status": {
+      "sigla": "Status Register",
+      "nome": "Holds the Z, N and C flags of the last ALU result, which the CU uses to decide jumps."
+    },
+    "z": {
+      "sigla": "Z",
+      "nome": "Zero flag: the last ALU result was zero."
+    },
+    "n": {
+      "sigla": "N",
+      "nome": "Negative flag: bit 7 of the last ALU result is 1."
+    },
+    "c": {
+      "sigla": "C",
+      "nome": "Carry flag: the bit left over from an addition or a shift. In SUB and CMP, C = 1 means there was no borrow."
+    },
+    "uc": {
+      "sigla": "CU",
+      "nome": "Control unit: on each clock pulse, gives the signals that move the data."
+    },
+    "di": {
+      "sigla": "ID",
+      "nome": "Instruction decoder: turns the code in the IR into the instruction."
+    },
+    "clk": {
+      "sigla": "CLK",
+      "nome": "Clock: the pace of the control unit. From 10 (slowest) to 100 (no wait)."
+    },
+    "bi": {
+      "sigla": "IB",
+      "nome": "Internal bus: connects the registers and the ALU inside the CPU."
+    },
+    "be": {
+      "sigla": "AB",
+      "nome": "Address bus: carries the address from the MAR to the memory."
+    },
+    "bd": {
+      "sigla": "DB",
+      "nome": "Data bus: carries the data between the memory and the MDR, both ways."
+    },
+    "rd": {
+      "sigla": "RD",
+      "nome": "Read: the memory puts the byte at the address in the MAR on the DB."
+    },
+    "wr": {
+      "sigla": "WR",
+      "nome": "Write: the memory stores the DB at the address in the MAR."
+    }
   }
 }

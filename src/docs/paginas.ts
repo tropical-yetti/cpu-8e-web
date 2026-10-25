@@ -14,6 +14,7 @@ export const PAGINAS = [
   'simulador',
   'programas',
   'diferencas',
+  'siglas',
 ] as const
 
 export type Pagina = (typeof PAGINAS)[number]

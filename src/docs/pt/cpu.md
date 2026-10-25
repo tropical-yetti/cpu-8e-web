@@ -2,7 +2,7 @@
 
 A CPU-8E segue o modelo de von Neumann: programa e dados ficam na mesma memória, e a CPU busca uma instrução de cada vez, a decodifica e a executa. Tudo trabalha com 8 bits: cada registrador e cada posição de memória guarda um valor de `00` a `FF` (0 a 255).
 
-Este é o mesmo painel do simulador. Os nomes abaixo seguem o desenho.
+Este é o mesmo painel do simulador. Os nomes abaixo seguem o desenho; passe o mouse sobre uma sigla, ou toque nela, para ver o que ela quer dizer. A lista completa está em [Siglas](#/documentacao/siglas).
 
 {{diagrama}}
 
@@ -30,7 +30,7 @@ O **BI** (barramento interno) é a via que liga os registradores entre si e à U
 
 ## ULA {#ula}
 
-A Unidade Lógica e Aritmética faz as contas: soma, subtração, operações lógicas (AND, OR, XOR, NOT), deslocamentos e rotações. Ela recebe os operandos em **A** e **B** e mostra o resultado na saída **ULA**. A cada operação, atualiza três flags:
+A Unidade Lógica e Aritmética faz as contas: soma, subtração, operações lógicas (AND, OR, XOR, NOT), deslocamentos e rotações. Ela recebe os operandos em **A** e **B** e mostra o resultado na **Saída** (no visual clássico, o campo **ULA**). A cada operação, atualiza três flags:
 
 | Flag                    | Fica em 1 quando…                                                              |
 | ----------------------- | ------------------------------------------------------------------------------ |
@@ -40,7 +40,7 @@ A Unidade Lógica e Aritmética faz as contas: soma, subtração, operações l�
 
 Na subtração (`SUB` e `CMP`), a ULA soma A com o complemento de 2 de B. Por isso **C = 1 quando não há empréstimo** (A ≥ B) e C = 0 quando A < B. Os desvios `JEQ`, `JGT`, `JGE` e `JCY` decidem pelo valor dessas flags.
 
-As flags aparecem duas vezes no painel: perto da ULA, onde são calculadas, e embaixo da UC, que as usa para decidir os desvios.
+As flags ficam no **Status Register** e vão para a UC, que as usa para decidir os desvios. No visual clássico, elas aparecem duas vezes: perto da ULA e embaixo da UC.
 
 ## Unidade de controle e decodificador {#controle}
 
