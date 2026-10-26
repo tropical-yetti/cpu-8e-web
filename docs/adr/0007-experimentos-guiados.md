@@ -2,7 +2,7 @@
 
 - **Data:** 2026-10-25
 - **Proponente:** Ansone (redação com o Claude)
-- **Estado:** Proposta
+- **Estado:** Aceita (2026-10-26)
 - **Discussão:** [#27](https://github.com/tropical-yetti/cpu-8e-web/issues/27)
 
 ## Contexto e motivação
