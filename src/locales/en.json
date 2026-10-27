@@ -307,12 +307,114 @@
         "titulo": "Classic look",
         "texto": "Prefer the original simulator's drawing? The Classic selector swaps the panel for the familiar form, with the same positions and colors. The choice is kept."
       },
+      "experimentos": {
+        "titulo": "“What if…?” experiments",
+        "texto": "Seven short programs that go wrong on purpose: a sum that overflows, a signed and unsigned comparison, the stack reaching the program, an invalid code, an endless loop, a program that changes itself and a jump into the middle of an instruction. Each one asks what you expect, walks you through the steps, explains the result and tells why it matters for the security of today's computers. When you leave, everything goes back to how it was.",
+        "experimente": "open the list and choose “What if the sum goes past the limit?”."
+      },
       "fim": {
         "titulo": "Done",
-        "texto": "To see this guide again, use the “Show the guide” button. Each part also has a “?” button that explains just that part, and the Documentation covers each subject in detail. A good next step is writing a program of your own."
+        "texto": "To see this guide again, use the “Show the guide” button. Each part also has a “?” button that explains just that part, and the Documentation covers each subject in detail. A good next step is the “what if…?” experiments; after that, writing a program of your own."
       }
     },
     "lerMais": "Read more in the documentation",
     "irPara": "Go to the highlighted part (F6; F6 again comes back here)"
+  },
+  "experimentos": {
+    "abrir": "“What if…?” experiments",
+    "titulo": "“What if…?” experiments",
+    "intro": "Each experiment loads a short program that goes wrong on purpose. Think about what will happen, do what the step asks and see the result. At the end, a balloon tells why it matters for the security of today's computers. When you leave, the simulator goes back to how it was.",
+    "fechar": "Close",
+    "pergunta": "Think first",
+    "passo": "Step {n} of {total}",
+    "resultado": "What happened",
+    "importancia": "Why it matters",
+    "aguardando": "Do what the step asks: the balloon moves on by itself.",
+    "vamosVer": "Let's see",
+    "proximo": "Next",
+    "porQue": "Why does it matter?",
+    "recomecar": "Start over",
+    "repetir": "Repeat",
+    "concluir": "Leave",
+    "sair": "Leave and undo",
+    "itens": {
+      "estouro": {
+        "titulo": "What if the sum goes past the limit?",
+        "resumo": "Overflow: 7F + 01 and FF + 01 in an 8-bit register.",
+        "pergunta": "The program adds 7F + 01 and then FF + 01 (in decimal, 127 + 1 and 255 + 1). ACC has only 8 bits. What do you expect to see in ACC and in the Z, N and C flags after each sum?",
+        "passos": {
+          "primeiraSoma": "Press Go until the first sum (ADD 01) is done. The mode is Single Cycle: each press runs a whole instruction.",
+          "segundaSoma": "Keep going until the second sum is done."
+        },
+        "resultado": "7F + 01 gave 80, and the N flag lit up. Unsigned, 80 is 128, the right answer; signed (two's complement), 80 is −128: adding two positives gave a negative. FF + 01 gave 00: the result, 100, needs 9 bits, and the ninth bit went to the C flag; since ACC ended at 00, Z lit up. The CPU does not warn that it \"got it wrong\": the program decides whether the result makes sense, by looking at the flags.",
+        "importancia": "On a real computer, an overflow like this can become a security flaw. If a program works out how much space to reserve and the math overflows, it reserves too little memory and then writes past it, over other data. To protect against this, today's CPUs have a signed overflow flag (V on ARM, OF on x86), which the CPU-8E lacks, and languages and compilers check the math: in Rust, for example, an overflow stops the program during testing, and there are add functions that warn when the result does not fit."
+      },
+      "comparacao": {
+        "titulo": "What if the same number has two values?",
+        "resumo": "Signed and unsigned comparison: is FE greater or less than 02?",
+        "pergunta": "ACC holds FE, and the program compares it with 02 (CMP 02). Then JGT jumps if ACC is greater, and JCY jumps if it is greater or equal, unsigned. Which jumps do you think will happen?",
+        "passos": {
+          "comparar": "Press Go until CMP is done and look at the flags in the Status Register.",
+          "desvios": "Keep going until HLT and see in the memory where the program went: did JGT and JCY jump?"
+        },
+        "resultado": "CMP worked out FE − 02 = FC, without keeping the result: N lit up (bit 7 is 1) and C lit up (there was no borrow). JGT looks at N and did not jump: to it, FE is −2, less than 2. JCY looks at C and jumped: unsigned, FE is 254, greater than 2. Both are right; the question is which reading the program wanted. On the CPU-8E, JGT is also wrong when the subtraction overflows: compare 80 with 01, and it says −128 is greater than 1.",
+        "importancia": "Mixing signed and unsigned numbers is a classic cause of bugs. A program checks that a size is below the limit with a signed comparison, and −1 passes, because it is smaller. Then the copy uses the same value unsigned: −1 becomes a huge number, and the copy writes far past the reserved space. Today's CPUs have separate jumps for each reading (on x86, JL and JG signed, JB and JA unsigned), compilers warn when a program mixes the two, and languages use unsigned types for sizes."
+      },
+      "pilha": {
+        "titulo": "What if the stack never stops growing?",
+        "resumo": "A subroutine that calls itself, with no stopping condition.",
+        "pergunta": "The subroutine at 10 starts with CAL [10]: it calls itself, again and again. Each CAL keeps the return address on the stack, which starts at FF and grows down. The memory has only 256 bytes. What happens when the stack reaches the program, down below?",
+        "passos": {
+          "executar": "Press Go. The mode is Full Run, at the fastest clock: watch the stack go down in the memory.",
+          "mensagem": "The simulator paused with a message. Read it and press OK."
+        },
+        "resultado": "The stack went down from FF to 11 and wrote a return address over the program itself. The CPU-8E notices nothing: the simulator is the one warning you. If you press Go, it carries on, and the next CAL wipes out another piece of the code. In a real program, every recursive call needs a stopping condition.",
+        "importancia": "The stack keeps the return addresses: whoever can write over them decides where the program returns to. That is why stack overflows and text copied past the space reserved on the stack are among the oldest attacks. Today's systems protect themselves in layers: the operating system limits the stack size and leaves a guard page after it, which ends the program if touched; compilers put a sentinel value (a \"canary\") before the return address and check whether it changed; and recent CPUs keep a protected copy of the return addresses (shadow stack) and compare the two on return."
+      },
+      "invalido": {
+        "titulo": "What if the CPU finds a code that does not exist?",
+        "resumo": "A jump to a byte that is not an instruction.",
+        "pergunta": "The JMP jumps to address 06, which holds the byte AA. The CPU-8E has no instruction with code AA. What do you think it does?",
+        "passos": {
+          "executar": "Press Go until the CPU fetches the instruction at 06.",
+          "mensagem": "Read the message and press OK."
+        },
+        "resultado": "The CPU fetched AA, the decoder did not recognize the code (ID shows XXX) and the CPU stopped. The CPU-8E does the safest thing: it does not try to guess what the byte meant.",
+        "importancia": "A CPU that carried on after an invalid code would do something unpredictable, and unpredictable is what an attacker looks for. Today's CPUs raise an exception (on x86, \"invalid opcode\"): execution stops and control goes to the operating system, which ends the program and logs the error, instead of letting it continue in an unknown state. The CPU-8E has no operating system; it simply stops."
+      },
+      "lacoSemFim": {
+        "titulo": "What if the program never ends?",
+        "resumo": "A JMP that always goes back to the same place.",
+        "pergunta": "The program adds 1 to ACC and goes back to the add with JMP [02], forever. There is no HLT on the way. What happens to the CPU?",
+        "passos": {
+          "executar": "Press Go and watch ACC count.",
+          "parar": "Now get the CPU out of the loop: press Pause or Reset."
+        },
+        "resultado": "With no HLT on the way, the CPU never stops by itself: ACC counts up to FF, wraps back to 00 and keeps going. Only you could stop it, with Pause or Reset. Endless loops show up when the exit condition never becomes true, such as a counter that never reaches the expected value.",
+        "importancia": "On a machine with several programs, one that never gave the CPU back would freeze all the others: a denial of service, on purpose or by mistake. That is why the operating system does not wait for programs to give the CPU back: a timer interrupts each one at short intervals, and the system shares the time among them. In embedded devices, a watchdog restarts the system if it stops responding, and servers end requests that take too long."
+      },
+      "automodificacao": {
+        "titulo": "What if the program writes over itself?",
+        "resumo": "A STO that changes an instruction before it runs.",
+        "pergunta": "Read the program: LOD 07, STO [05], ADD 01, HLT. Read like that, ACC should end at 07 + 01 = 08. But the STO writes to address 05, which is the ADD operand. What do you think ACC will be at the end?",
+        "passos": {
+          "gravar": "Press Go until the STO is done and look at address 05 in the memory.",
+          "somar": "Keep going until HLT."
+        },
+        "resultado": "The STO wrote 07 to 05, and ADD 01 became ADD 07: ACC ended at 0E (7 + 7). To the CPU-8E, code and data are just bytes in the same memory, and it runs whatever is there at the time. The Symbol column still shows 01, because the disassembly was done before the program ran.",
+        "importancia": "If data can become code, an attacker can send instructions disguised as data (in a text, in a file) and then make the CPU run them: that is code injection. Today's systems keep the two apart: each page of memory can be writable or executable, never both at once (the W^X rule, with the CPUs' NX bit), and program code is read-only. The CPU-8E, like the first computers, makes no such separation."
+      },
+      "saltoDados": {
+        "titulo": "What if a jump lands in the middle of an instruction?",
+        "resumo": "A JMP to the second byte of a LOD: the operand becomes code.",
+        "pergunta": "The program is JMP [03], LOD 02, HLT. The LOD takes addresses 02 and 03, and the JMP jumps to 03, its middle, where the operand 02 is. What do you think ACC will be?",
+        "passos": {
+          "saltar": "Press Go once and see where PC went.",
+          "executar": "Keep going until HLT."
+        },
+        "resultado": "The CPU ran the byte 02 as an instruction: 02 is the NOT code, and ACC became FF, the inverse of 00. To the CPU, there is no \"middle of an instruction\": it runs the byte PC points to. Look at the memory: the disassembly follows the jumps and shows the 91 at 02 as data (DB 91) and the 02 at 03 as NOT.",
+        "importancia": "Attackers use exactly this: instead of injecting code, they look for pieces of instructions that already exist in the program (sometimes in the middle of others) and jump from one piece to the next, building what they want. To make this harder, today's systems move the code to a different place in memory on every run (ASLR), the W^X rule stops data from running, and recent CPUs check that each jump lands on an allowed target (control-flow integrity, such as Intel CET and ARM BTI)."
+      }
+    }
   }
 }

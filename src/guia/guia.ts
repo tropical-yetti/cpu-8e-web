@@ -26,6 +26,7 @@ export type IdPasso =
   | 'ula'
   | 'memoria'
   | 'visual'
+  | 'experimentos'
   | 'fim'
 
 export interface Passo {
@@ -46,6 +47,7 @@ export const PASSOS: readonly Passo[] = [
   { id: 'ula', alvo: 'ula', doc: 'cpu#ula' },
   { id: 'memoria', alvo: 'memoria', doc: 'simulador#memoria' },
   { id: 'visual', alvo: 'visual', doc: 'simulador#diagrama' },
+  { id: 'experimentos', alvo: 'experimentos', doc: 'simulador#experimentos' },
   { id: 'fim', alvo: 'rever-guia', doc: 'programas' },
 ]
 

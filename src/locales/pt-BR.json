@@ -307,12 +307,114 @@
         "titulo": "Visual clássico",
         "texto": "Prefere o desenho do simulador original? O seletor Clássico troca o painel pelo formulário de sempre, com as mesmas posições e cores. A escolha fica guardada."
       },
+      "experimentos": {
+        "titulo": "Experimentos “e se…?”",
+        "texto": "Sete programas curtos que dão errado de propósito: uma soma que estoura, uma comparação com e sem sinal, a pilha que alcança o programa, um código inválido, um laço sem fim, um programa que se modifica e um salto para o meio de uma instrução. Cada um pergunta o que você espera, conduz os passos, explica o resultado e conta por que aquilo importa para a segurança dos computadores de hoje. Ao sair, tudo volta a ser como estava.",
+        "experimente": "abra a lista e escolha “E se a soma passar do limite?”."
+      },
       "fim": {
         "titulo": "Pronto",
-        "texto": "Para rever este guia, use o botão “Ver o guia”. Cada parte também tem um botão “?” que explica só aquela parte, e a Documentação traz cada assunto em detalhe. Um bom próximo passo é escrever um programa seu."
+        "texto": "Para rever este guia, use o botão “Ver o guia”. Cada parte também tem um botão “?” que explica só aquela parte, e a Documentação traz cada assunto em detalhe. Um bom próximo passo são os experimentos “e se…?”; depois, escrever um programa seu."
       }
     },
     "lerMais": "Ler mais na documentação",
     "irPara": "Ir para a parte em destaque (F6; F6 de novo volta aqui)"
+  },
+  "experimentos": {
+    "abrir": "Experimentos “e se…?”",
+    "titulo": "Experimentos “e se…?”",
+    "intro": "Cada experimento carrega um programa curto que dá errado de propósito. Pense no que vai acontecer, faça o que o passo pede e veja o resultado. No fim, um balão conta por que aquilo importa para a segurança dos computadores de hoje. Ao sair, o simulador volta a ser como estava.",
+    "fechar": "Fechar",
+    "pergunta": "Pense antes",
+    "passo": "Passo {n} de {total}",
+    "resultado": "O que aconteceu",
+    "importancia": "Por que isso importa",
+    "aguardando": "Faça o que o passo pede: o balão avança sozinho.",
+    "vamosVer": "Vamos ver",
+    "proximo": "Próximo",
+    "porQue": "Por que isso importa?",
+    "recomecar": "Recomeçar",
+    "repetir": "Repetir",
+    "concluir": "Sair",
+    "sair": "Sair e desfazer",
+    "itens": {
+      "estouro": {
+        "titulo": "E se a soma passar do limite?",
+        "resumo": "Estouro: 7F + 01 e FF + 01 num registrador de 8 bits.",
+        "pergunta": "O programa soma 7F + 01 e depois FF + 01 (em decimal, 127 + 1 e 255 + 1). O ACC tem só 8 bits. O que você espera ver no ACC e nas flags Z, N e C depois de cada soma?",
+        "passos": {
+          "primeiraSoma": "Toque em Executar até a primeira soma (ADD 01) terminar. O modo está em Instrução por instrução: cada toque executa uma instrução inteira.",
+          "segundaSoma": "Continue até a segunda soma terminar."
+        },
+        "resultado": "7F + 01 deu 80, e a flag N acendeu. Sem sinal, 80 é 128, a conta certa; com sinal (complemento de 2), 80 é −128: somar dois positivos deu um negativo. FF + 01 deu 00: o resultado, 100, precisa de 9 bits, e o nono bit foi para a flag C; como o ACC ficou em 00, Z acendeu. A CPU não avisa que \"errou\": quem decide se o resultado faz sentido é o programa, olhando as flags.",
+        "importancia": "Num computador de verdade, um estouro desses pode virar uma falha de segurança. Se um programa calcula quanto espaço reservar e a conta estoura, ele reserva memória de menos e depois escreve além dela, por cima de outros dados. Para se proteger, as CPUs de hoje têm uma flag de estouro com sinal (V no ARM, OF no x86), que a CPU-8E não tem, e linguagens e compiladores conferem as contas: em Rust, por exemplo, um estouro interrompe o programa durante os testes, e há funções de soma que avisam quando o resultado não cabe."
+      },
+      "comparacao": {
+        "titulo": "E se o mesmo número tiver dois valores?",
+        "resumo": "Comparação com e sem sinal: FE é maior ou menor que 02?",
+        "pergunta": "O ACC tem FE, e o programa compara com 02 (CMP 02). Depois, JGT desvia se o ACC for maior, e JCY desvia se ele for maior ou igual sem sinal. Quais desvios você acha que vão acontecer?",
+        "passos": {
+          "comparar": "Toque em Executar até o CMP terminar e olhe as flags no Status Register.",
+          "desvios": "Continue até o HLT e veja na memória por onde o programa passou: o JGT e o JCY desviaram?"
+        },
+        "resultado": "O CMP calculou FE − 02 = FC, sem guardar o resultado: N acendeu (o bit 7 é 1) e C acendeu (não houve empréstimo). O JGT olha o N e não desviou: para ele, FE é −2, menor que 2. O JCY olha o C e desviou: sem sinal, FE é 254, maior que 2. Os dois estão certos; a pergunta é qual leitura o programa queria. Na CPU-8E, o JGT ainda erra quando a subtração estoura: compare 80 com 01, e ele diz que −128 é maior que 1.",
+        "importancia": "Misturar números com e sem sinal é uma causa clássica de falhas. Um programa confere se um tamanho é menor que o limite com uma comparação com sinal, e −1 passa, porque é menor. Depois, a cópia usa o mesmo valor sem sinal: −1 vira um número enorme, e a cópia escreve muito além do espaço reservado. As CPUs de hoje têm desvios separados para cada leitura (no x86, JL e JG com sinal, JB e JA sem sinal), os compiladores avisam quando um programa mistura as duas, e as linguagens usam tipos sem sinal para tamanhos."
+      },
+      "pilha": {
+        "titulo": "E se a pilha não parar de crescer?",
+        "resumo": "Uma sub-rotina que chama a si mesma, sem condição de parada.",
+        "pergunta": "A sub-rotina em 10 começa com CAL [10]: ela chama a si mesma, de novo e de novo. Cada CAL guarda o endereço de retorno na pilha, que começa em FF e desce. A memória tem só 256 bytes. O que acontece quando a pilha chegar ao programa, lá embaixo?",
+        "passos": {
+          "executar": "Toque em Executar. O modo está em Execução contínua, no clock mais rápido: acompanhe a pilha descendo na memória.",
+          "mensagem": "O simulador pausou com uma mensagem. Leia e toque em OK."
+        },
+        "resultado": "A pilha desceu de FF até 11 e gravou um endereço de retorno em cima do próprio programa. A CPU-8E não percebe nada: quem avisa é o simulador. Se você apertar Executar, ela continua, e o próximo CAL apaga mais um pedaço do código. Num programa de verdade, toda chamada recursiva precisa de uma condição de parada.",
+        "importancia": "A pilha guarda os endereços de retorno: quem consegue escrever por cima deles decide para onde o programa volta. Por isso, estouros de pilha e textos copiados além do espaço reservado nela estão entre os ataques mais antigos. Os sistemas de hoje se protegem em camadas: o sistema operacional limita o tamanho da pilha e deixa uma página de guarda depois dela, que encerra o programa se for tocada; os compiladores põem um valor-sentinela (um \"canário\") antes do endereço de retorno e conferem se ele mudou; e CPUs recentes guardam uma cópia protegida dos endereços de retorno (shadow stack) e comparam as duas na volta."
+      },
+      "invalido": {
+        "titulo": "E se a CPU encontrar um código que não existe?",
+        "resumo": "Um desvio para um byte que não é instrução.",
+        "pergunta": "O JMP desvia para o endereço 06, onde está o byte AA. A CPU-8E não tem nenhuma instrução com o código AA. O que você acha que ela faz?",
+        "passos": {
+          "executar": "Toque em Executar até a CPU buscar a instrução em 06.",
+          "mensagem": "Leia a mensagem e toque em OK."
+        },
+        "resultado": "A CPU buscou AA, o decodificador não reconheceu o código (o DI mostra XXX) e a CPU parou. A CPU-8E faz o mais seguro: não tenta adivinhar o que o byte queria dizer.",
+        "importancia": "Uma CPU que seguisse em frente depois de um código inválido faria algo imprevisível, e imprevisível é o que um atacante procura. As CPUs de hoje geram uma exceção (no x86, \"código de operação inválido\"): a execução para, e o controle passa ao sistema operacional, que encerra o programa e registra o erro, em vez de deixá-lo continuar num estado desconhecido. A CPU-8E não tem sistema operacional; ela simplesmente para."
+      },
+      "lacoSemFim": {
+        "titulo": "E se o programa nunca terminar?",
+        "resumo": "Um JMP que volta sempre para o mesmo lugar.",
+        "pergunta": "O programa soma 1 ao ACC e volta para a soma com JMP [02], para sempre. Não há HLT no caminho. O que acontece com a CPU?",
+        "passos": {
+          "executar": "Toque em Executar e veja o ACC contar.",
+          "parar": "Agora tire a CPU do laço: toque em Pausar ou em Reset."
+        },
+        "resultado": "Sem HLT no caminho, a CPU nunca para sozinha: o ACC conta até FF, volta para 00 e continua. Só você conseguiu interrompê-la, com Pausar ou Reset. Laços sem fim aparecem quando a condição de saída nunca fica verdadeira, como um contador que nunca chega ao valor esperado.",
+        "importancia": "Numa máquina com vários programas, um que nunca devolvesse a CPU travaria todos os outros: é uma negação de serviço, de propósito ou por engano. Por isso o sistema operacional não espera os programas devolverem a CPU: um temporizador interrompe cada um a intervalos curtos, e o sistema reparte o tempo entre eles. Em aparelhos embarcados, um \"cão de guarda\" (watchdog) reinicia o sistema se ele parar de responder, e servidores encerram pedidos que demoram demais."
+      },
+      "automodificacao": {
+        "titulo": "E se o programa gravar em cima de si mesmo?",
+        "resumo": "Um STO que muda uma instrução antes de ela ser executada.",
+        "pergunta": "Leia o programa: LOD 07, STO [05], ADD 01, HLT. Lendo assim, o ACC deveria terminar em 07 + 01 = 08. Mas o STO grava no endereço 05, que é o operando do ADD. Quanto você acha que o ACC vai valer no fim?",
+        "passos": {
+          "gravar": "Toque em Executar até o STO terminar e olhe o endereço 05 na memória.",
+          "somar": "Continue até o HLT."
+        },
+        "resultado": "O STO gravou 07 em 05, e o ADD 01 virou ADD 07: o ACC terminou em 0E (7 + 7). Para a CPU-8E, código e dados são só bytes na mesma memória, e ela executa o que estiver lá na hora. A coluna Símbolo ainda mostra 01, porque o disassembly foi feito antes de o programa rodar.",
+        "importancia": "Se dados podem virar código, um atacante pode mandar instruções disfarçadas de dados (num texto, num arquivo) e depois fazer a CPU executá-las: é a injeção de código. Os sistemas de hoje separam as duas coisas: cada página da memória pode ser gravável ou executável, nunca as duas ao mesmo tempo (a regra W^X, com o bit NX das CPUs), e o código dos programas fica só para leitura. A CPU-8E, como os primeiros computadores, não faz essa separação."
+      },
+      "saltoDados": {
+        "titulo": "E se o desvio cair no meio de uma instrução?",
+        "resumo": "Um JMP para o segundo byte do LOD: o operando vira código.",
+        "pergunta": "O programa é JMP [03], LOD 02, HLT. O LOD ocupa os endereços 02 e 03, e o JMP desvia para 03, o meio dele, onde está o operando 02. Quanto você acha que o ACC vai valer?",
+        "passos": {
+          "saltar": "Toque em Executar uma vez e veja para onde o PC foi.",
+          "executar": "Continue até o HLT."
+        },
+        "resultado": "A CPU executou o byte 02 como instrução: 02 é o código do NOT, e o ACC virou FF, o inverso de 00. Para a CPU, não existe \"meio de instrução\": ela executa o byte para onde o PC apontar. Repare na memória: o disassembly segue os desvios e mostra o 91 em 02 como dado (DB 91) e o 02 em 03 como NOT.",
+        "importancia": "Atacantes usam exatamente isso: em vez de injetar código, procuram pedaços de instruções que já existem no programa (às vezes no meio de outras) e desviam de um pedaço para outro, montando o que querem. Para dificultar, os sistemas de hoje mudam a posição do código na memória a cada execução (ASLR), a regra W^X impede executar dados, e CPUs recentes conferem se cada desvio cai num destino permitido (integridade do fluxo de controle, como o CET da Intel e o BTI do ARM)."
+      }
+    }
   }
 }

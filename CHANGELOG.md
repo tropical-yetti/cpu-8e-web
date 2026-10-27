@@ -8,6 +8,26 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
 ## [Não lançado]
 
+### 2026-10-26 — Experimentos "e se…?" (ADR 0007)
+
+- Sete experimentos guiados (#27): estouro na soma, comparação com e sem
+  sinal, pilha que alcança o programa, código inválido, laço sem fim,
+  programa que se modifica e salto para o meio de uma instrução. Cada um
+  carrega um programa curto e segue quatro momentos: pergunta, passos (o
+  balão avança sozinho quando o passo acontece), resultado e "por que isso
+  importa", com o risco de segurança daquele comportamento num computador
+  de verdade e as proteções das CPUs e dos sistemas operacionais de hoje.
+- Botão **Experimentos "e se…?"** ao lado de "Ver o guia", e um passo a mais
+  no guia. Sair do experimento devolve a memória, os registradores, o
+  programa, o modo e o clock como estavam (`fotografar` e `restaurar` no
+  controlador). O guia e os experimentos não ficam abertos ao mesmo tempo.
+- O balão e a lista são copiados do MEM-8E Web; o balão do guia não muda.
+- Documentação: seção "Experimentos" em Simulador.
+- Testes: cada programa, executado como o aluno faria, passa por todos os
+  passos e chega ao resultado do texto; sair restaura o estado exato; os
+  textos existem nos dois idiomas; ponta a ponta, axe e leitor de tela
+  simulado no balão e na lista.
+
 ### 2026-10-26 — ADR 0007
 
 - ADR 0007 (#27): experimentos "e se…?" guiados, descritos como dados, com o

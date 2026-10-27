@@ -119,6 +119,18 @@ test.describe('o que muda é anunciado', () => {
   })
 })
 
+test.describe('experimentos', () => {
+  test('cada momento do balão é anunciado com calma', async ({ page }) => {
+    await page.getByRole('button', { name: 'Experimentos “e se…?”' }).click()
+    await page.getByRole('button', { name: /E se a soma passar do limite/ }).click()
+    await ligarLeitor(page)
+    await page.getByRole('button', { name: 'Vamos ver' }).click()
+    await expect
+      .poll(() => frases(page))
+      .toContainEqual(expect.stringMatching(/^polite: Toque em Executar até a primeira soma/))
+  })
+})
+
 test.describe('árvore de acessibilidade', () => {
   test('o painel: registradores como botões, flags, decodificador e clock', async ({ page }) => {
     await expect(page.locator('[data-visual="novo"]')).toMatchAriaSnapshot(`

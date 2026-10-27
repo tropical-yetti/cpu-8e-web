@@ -2,9 +2,30 @@
 
 ## Guide and help {#guia}
 
-On your first visit, a ten-balloon guide introduces the screen: the commands, the mode, the phase, the status, the panel, the ALU, the memory and the classic look. Each balloon points at a part, says what you can do there and suggests something to try. The balloon does not block the page: you can do what it suggests and carry on. **Esc** closes the guide, and **F6** moves the focus from the balloon to the highlighted part and back.
+On your first visit, an eleven-balloon guide introduces the screen: the commands, the mode, the phase, the status, the panel, the ALU, the memory, the classic look and the experiments. Each balloon points at a part, says what you can do there and suggests something to try. The balloon does not block the page: you can do what it suggests and carry on. **Esc** closes the guide, and **F6** moves the focus from the balloon to the highlighted part and back.
 
 The **Show the guide** button, below the panel, opens the guide again. The **?** buttons next to each part open just that part's balloon, with a link to the documentation section.
+
+## "What if…?" experiments {#experimentos}
+
+The **"What if…?" experiments** button, below the panel, opens a list of seven situations that go wrong on purpose. Each one loads a short program and goes through four moments, in a balloon that does not hide the rest of the screen:
+
+1. **Think first:** the question, so you can bet on what will happen.
+2. **Steps:** what to do (usually, press Go), with the part of the screen highlighted. The balloon moves on by itself when the step happens.
+3. **What happened:** the explanation of the result.
+4. **Why it matters:** what security risk that behavior brings on a real computer, and how today's CPUs and operating systems protect against it. The CPU-8E has none of these protections.
+
+| Experiment                                            | What it shows                                                      |
+| ----------------------------------------------------- | ------------------------------------------------------------------ |
+| What if the sum goes past the limit?                  | 8-bit overflow: `7F + 01` and `FF + 01`, and the N, Z and C flags  |
+| What if the same number has two values?               | signed (`JGT`) and unsigned (`JCY`) comparison of `FE` with `02`   |
+| What if the stack never stops growing?                | a subroutine that calls itself until the stack reaches the program |
+| What if the CPU finds a code that does not exist?     | a jump to the byte `AA`, which is not an instruction               |
+| What if the program never ends?                       | a loop with no `HLT`, which only Pause or Reset can stop           |
+| What if the program writes over itself?               | a `STO` that changes the operand of an `ADD` before it runs        |
+| What if a jump lands in the middle of an instruction? | a `JMP` to the operand of a `LOD`, run as `NOT`                    |
+
+**Leave and undo** (or **Esc**) puts the simulator back exactly as it was before the experiment: the memory, the registers, the program, the mode and the clock. Opening the guide or a **?** button also leaves the experiment.
 
 ## Toolbar {#barra}
 
