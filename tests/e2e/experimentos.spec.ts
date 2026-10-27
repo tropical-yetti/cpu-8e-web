@@ -111,7 +111,10 @@ for (const tema of ['light', 'dark'] as const) {
           .analyze()
       ).violations
         .filter((v) => v.impact === 'serious' || v.impact === 'critical')
-        .map((v) => `${v.id}: ${v.help} ${v.nodes.map((n) => n.target.join(" ") + " " + (n.any[0]?.message ?? "")).join(" | ")}`)
+        .map(
+          (v) =>
+            `${v.id}: ${v.help} ${v.nodes.map((n) => n.target.join(' ') + ' ' + (n.any[0]?.message ?? '')).join(' | ')}`,
+        )
     expect(await graves()).toEqual([])
     await page.getByRole('button', { name: /E se a soma passar do limite/ }).click()
     await page.getByRole('button', { name: 'Vamos ver' }).click()
