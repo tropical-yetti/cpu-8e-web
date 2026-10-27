@@ -22,7 +22,7 @@ test.describe('primeiro acesso', () => {
   test('o guia abre sozinho e percorre todos os passos', async ({ page }) => {
     await page.goto('./')
     const balao = page.getByRole('dialog')
-    await expect(balao).toContainText('1 de 10')
+    await expect(balao).toContainText('1 de 11')
     await expect(page.getByRole('heading', { name: 'Uma CPU de 8 bits, aberta' })).toBeFocused()
 
     await page.getByRole('button', { name: 'Próximo' }).click()
@@ -36,8 +36,8 @@ test.describe('primeiro acesso', () => {
     await expect(page.getByRole('heading', { name: 'Comandos' })).toBeVisible()
 
     await page.getByRole('button', { name: 'Voltar' }).click()
-    await expect(balao).toContainText('1 de 10')
-    for (let i = 0; i < 9; i++) await page.getByRole('button', { name: 'Próximo' }).click()
+    await expect(balao).toContainText('1 de 11')
+    for (let i = 0; i < 10; i++) await page.getByRole('button', { name: 'Próximo' }).click()
     await expect(page.getByRole('heading', { name: 'Pronto' })).toBeVisible()
     await page.getByRole('button', { name: 'Começar' }).click()
     await expect(page.getByRole('heading', { name: 'Pronto' })).toBeHidden()
@@ -79,10 +79,10 @@ test('cada passo do guia aponta para uma parte visível da tela', async ({ page 
   await page.goto('./')
   await page.getByRole('button', { name: 'Ver o guia' }).click()
   const balao = page.getByRole('dialog')
-  for (let n = 1; n <= 10; n++) {
-    await expect(balao).toContainText(`${n} de 10`)
+  for (let n = 1; n <= 11; n++) {
+    await expect(balao).toContainText(`${n} de 11`)
     if (n > 1) await expect(page.locator('.recorte')).toBeVisible()
-    if (n < 10) await page.getByRole('button', { name: 'Próximo' }).click()
+    if (n < 11) await page.getByRole('button', { name: 'Próximo' }).click()
   }
 })
 
@@ -92,7 +92,7 @@ test('o botão "?" abre só o balão daquela parte, e o foco volta para ele', as
   await ajuda.click()
   const balao = page.getByRole('dialog')
   await expect(balao).toContainText('A memória por dentro')
-  await expect(balao).not.toContainText('de 10')
+  await expect(balao).not.toContainText('de 11')
   await page.getByRole('button', { name: 'Entendi' }).click()
   await expect(balao).toBeHidden()
   await expect(ajuda).toBeFocused()
@@ -101,7 +101,7 @@ test('o botão "?" abre só o balão daquela parte, e o foco volta para ele', as
 test('"Ver o guia" abre o guia completo de novo', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: 'Ver o guia' }).click()
-  await expect(page.getByRole('dialog')).toContainText('1 de 10')
+  await expect(page.getByRole('dialog')).toContainText('1 de 11')
   await page.getByRole('button', { name: 'Pular o guia' }).click()
   await expect(page.getByRole('dialog')).toBeHidden()
 })

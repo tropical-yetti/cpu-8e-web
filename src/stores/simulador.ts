@@ -9,7 +9,13 @@
 import { defineStore } from 'pinia'
 import { computed, markRaw, reactive } from 'vue'
 import { hex2, type Byte, type ItemPainel } from '@/core'
-import { Controlador, criarPainel, emBinario, type Modo } from '@/simulador/controlador'
+import {
+  Controlador,
+  criarPainel,
+  emBinario,
+  type Fotografia,
+  type Modo,
+} from '@/simulador/controlador'
 
 /** Registradores que mostram o valor em binário quando pressionados. */
 const VALOR_DO_REGISTRADOR: Partial<Record<ItemPainel, (c: Controlador) => Byte>> = {
@@ -65,5 +71,10 @@ export const useSimuladorStore = defineStore('simulador', () => {
     mudarModo: (modo: Modo) => controlador.mudarModo(modo),
     mudarClock: (valor: number) => controlador.mudarClock(valor),
     fecharMensagem: () => controlador.fecharMensagem(),
+    // Experimentos (ADR 0007)
+    fotografar: () => controlador.fotografar(),
+    preparar: (bytes: Uint8Array, nome: string, modo: Modo, clock: number) =>
+      controlador.preparar(bytes, nome, modo, clock),
+    restaurar: (foto: Fotografia) => controlador.restaurar(foto),
   }
 })

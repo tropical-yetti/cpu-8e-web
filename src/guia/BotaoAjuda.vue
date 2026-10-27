@@ -3,16 +3,23 @@
   aquela parte (ajuda contextual). O balão tem o link para a documentação.
 
   Copiado do MEM-8E Web (src/guia/BotaoAjuda.vue) em 2026-10-25 (ADR 0004).
-  Modificado: sem os experimentos (chegam na 2.1).
   SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { useExperimentos } from '@/experimentos/experimentos'
 import { useGuia, type IdPasso } from './guia'
 
 const props = defineProps<{ passo: IdPasso }>()
 const { t } = useI18n()
 const guia = useGuia()
+const experimentos = useExperimentos()
+
+/** A ajuda de uma parte fecha o experimento em andamento, se houver. */
+function abrir() {
+  experimentos.sair()
+  guia.ajuda(props.passo)
+}
 </script>
 
 <template>
@@ -21,7 +28,7 @@ const guia = useGuia()
     class="ajuda"
     :aria-label="t('guia.ajudaDe', { parte: t(`guia.passos.${props.passo}.titulo`) })"
     :title="t('guia.ajuda')"
-    @click="guia.ajuda(props.passo)"
+    @click="abrir"
   >
     ?
   </button>

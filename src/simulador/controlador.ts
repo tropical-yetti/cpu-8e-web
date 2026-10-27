@@ -143,6 +143,18 @@ export function criarPainel(): Painel {
   }
 }
 
+/**
+ * Uma cópia do estado do simulador, para os experimentos (ADR 0007): a CPU
+ * inteira (memória, registradores, flags, ciclo) e o que o painel mostra.
+ */
+export interface Fotografia {
+  cpu: Cpu
+  painel: Pick<
+    Painel,
+    'textos' | 'fase' | 'modo' | 'clock' | 'foco' | 'simbolos' | 'habilitados' | 'nomePrograma'
+  >
+}
+
 /** Interrompe a execução em andamento (o `Abort` do original). */
 class Interrupcao extends Error {}
 
@@ -246,6 +258,60 @@ export class Controlador {
       resetar: true,
     })
     this.mostrarMensagem({ chave: 'lidos', bytes: lidos })
+  }
+
+  // -------------------------------------------------------------------------
+  // Experimentos (ADR 0007): guardar, preparar e restaurar
+  // -------------------------------------------------------------------------
+
+  /** Copia o estado atual, para devolvê-lo depois com `restaurar`. */
+  fotografar(): Fotografia {
+    const { cpu, painel } = this
+    return {
+      cpu: copiarCpu(cpu),
+      painel: {
+        textos: { ...painel.textos },
+        fase: painel.fase,
+        modo: painel.modo,
+        clock: painel.clock,
+        foco: painel.foco,
+        simbolos: [...painel.simbolos],
+        habilitados: { ...painel.habilitados },
+        nomePrograma: painel.nomePrograma,
+      },
+    }
+  }
+
+  /**
+   * Carrega o programa de um experimento, como Carregar, mas sem a mensagem
+   * de bytes lidos. Uma execução em andamento é interrompida.
+   */
+  preparar(bytes: Uint8Array, nome: string, modo: Modo, clock: number): void {
+    this.carregar(bytes, nome)
+    this.fecharMensagem()
+    this.painel.modo = modo
+    this.painel.clock = clock
+  }
+
+  /**
+   * Devolve o estado guardado por `fotografar`. Uma execução em andamento é
+   * interrompida, como num Reset; a CPU volta exatamente como estava, e o
+   * próximo Executar continua de onde ela parou.
+   */
+  restaurar(foto: Fotografia): void {
+    this.definirComando('rst')
+    this.fecharMensagem()
+    Object.assign(this.cpu, copiarCpu(foto.cpu))
+    Object.assign(this.painel, {
+      ...foto.painel,
+      textos: { ...foto.painel.textos },
+      simbolos: [...foto.painel.simbolos],
+      habilitados: { ...foto.painel.habilitados },
+      realcados: [],
+      barramentos: [],
+      status: 'parada',
+    })
+    this.painel.versaoMemoria++
   }
 
   /** Bytes a gravar no arquivo (SaveFile); mostra a confirmação. */
@@ -515,4 +581,14 @@ export class Controlador {
 /** Valor de um registrador em binário, como mostra o original ao clicar nele. */
 export function emBinario(valor: Byte): string {
   return valor.toString(2).padStart(8, '0')
+}
+
+/** Uma cópia da CPU que não compartilha nada com a original. */
+function copiarCpu(cpu: Cpu): Cpu {
+  return {
+    ...cpu,
+    ula: { ...cpu.ula },
+    controle: { ...cpu.controle },
+    memoria: cpu.memoria.slice(),
+  }
 }

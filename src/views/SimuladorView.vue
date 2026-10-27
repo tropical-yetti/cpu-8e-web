@@ -18,6 +18,9 @@ import DialogoCarregar from '@/components/DialogoCarregar.vue'
 import EstadoAcessivel from '@/components/EstadoAcessivel.vue'
 import PainelCpu from '@/components/painel/PainelCpu.vue'
 import MemoriaCpu from '@/components/memoria/MemoriaCpu.vue'
+import BalaoExperimento from '@/experimentos/BalaoExperimento.vue'
+import ListaExperimentos from '@/experimentos/ListaExperimentos.vue'
+import { useExperimentos } from '@/experimentos/experimentos'
 import BalaoGuia from '@/guia/BalaoGuia.vue'
 import BotaoAjuda from '@/guia/BotaoAjuda.vue'
 import { guiaJaVisto, useGuia } from '@/guia/guia'
@@ -31,6 +34,13 @@ const { t } = useI18n()
 const { visual, mudarVisual } = useVisual()
 const { vista: vistaMemoria } = useVistaMemoria()
 const guia = useGuia()
+const experimentos = useExperimentos()
+
+/** Rever o guia fecha o experimento em andamento, se houver. */
+function reverGuia() {
+  experimentos.sair()
+  guia.iniciar()
+}
 const dialogoCarregar = ref<InstanceType<typeof DialogoCarregar> | null>(null)
 
 function carregar() {
@@ -147,9 +157,10 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
       <MemoriaCpu class="memoria" />
     </div>
     <p class="dica-uso">
-      <button type="button" class="botao-guia" data-guia="rever-guia" @click="guia.iniciar()">
+      <button type="button" class="botao-guia" data-guia="rever-guia" @click="reverGuia">
         {{ t('guia.rever') }}
       </button>
+      <ListaExperimentos />
       {{ t('simulador.dicaUso') }}
     </p>
     <p v-if="visual === 'classico'" class="dica-uso dica-celular">
@@ -166,6 +177,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', aoTeclar))
     <DialogoCarregar ref="dialogoCarregar" @escolhido="simulador.carregar" />
     <CaixaMensagem />
     <BalaoGuia />
+    <BalaoExperimento />
     <EstadoAcessivel />
   </section>
 </template>

@@ -2,9 +2,30 @@
 
 ## Guia e ajuda {#guia}
 
-Na primeira visita, um guia de dez balões apresenta a tela: os comandos, o modo, a fase, o status, o painel, a ULA, a memória e o visual clássico. Cada balão aponta para uma parte, diz o que dá para fazer ali e sugere algo para experimentar. O balão não bloqueia a página: você pode fazer o que ele sugere e continuar. **Esc** fecha o guia, e **F6** leva o foco do balão para a parte em destaque e de volta.
+Na primeira visita, um guia de onze balões apresenta a tela: os comandos, o modo, a fase, o status, o painel, a ULA, a memória, o visual clássico e os experimentos. Cada balão aponta para uma parte, diz o que dá para fazer ali e sugere algo para experimentar. O balão não bloqueia a página: você pode fazer o que ele sugere e continuar. **Esc** fecha o guia, e **F6** leva o foco do balão para a parte em destaque e de volta.
 
 O botão **Ver o guia**, embaixo do painel, abre o guia de novo. Os botões **?** ao lado de cada parte abrem só o balão daquela parte, com um link para a seção da documentação.
+
+## Experimentos "e se…?" {#experimentos}
+
+O botão **Experimentos "e se…?"**, embaixo do painel, abre uma lista de sete situações que dão errado de propósito. Cada uma carrega um programa curto e segue quatro momentos, num balão que não esconde o resto da tela:
+
+1. **Pense antes:** a pergunta, para você apostar no que vai acontecer.
+2. **Passos:** o que fazer (em geral, tocar em Executar), com a parte da tela em destaque. O balão avança sozinho quando o passo acontece.
+3. **O que aconteceu:** a explicação do resultado.
+4. **Por que isso importa:** que risco de segurança aquele comportamento traz num computador de verdade, e como as CPUs e os sistemas operacionais de hoje se protegem dele. A CPU-8E não tem nenhuma dessas proteções.
+
+| Experimento                                    | O que mostra                                                       |
+| ---------------------------------------------- | ------------------------------------------------------------------ |
+| E se a soma passar do limite?                  | estouro em 8 bits: `7F + 01` e `FF + 01`, e as flags N, Z e C      |
+| E se o mesmo número tiver dois valores?        | comparação com sinal (`JGT`) e sem sinal (`JCY`) de `FE` com `02`  |
+| E se a pilha não parar de crescer?             | uma sub-rotina que chama a si mesma até a pilha chegar ao programa |
+| E se a CPU encontrar um código que não existe? | um desvio para o byte `AA`, que não é instrução                    |
+| E se o programa nunca terminar?                | um laço sem `HLT`, que só Pausar ou Reset interrompem              |
+| E se o programa gravar em cima de si mesmo?    | um `STO` que troca o operando de um `ADD` antes de ele rodar       |
+| E se o desvio cair no meio de uma instrução?   | um `JMP` para o operando de um `LOD`, executado como `NOT`         |
+
+**Sair e desfazer** (ou **Esc**) devolve o simulador exatamente como estava antes do experimento: a memória, os registradores, o programa, o modo e o clock. Abrir o guia ou um botão **?** também sai do experimento.
 
 ## Barra de ferramentas {#barra}
 
