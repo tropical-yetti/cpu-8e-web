@@ -37,3 +37,4 @@ flowchart LR
 | [0004](0004-codigo-e-estilo-comuns.md)        | Código e estilo comuns com o MEM-8E Web                                | Aceita |
 | [0005](0005-painel-novo-e-visual-classico.md) | Painel novo como padrão e o desenho original como visual clássico      | Aceita |
 | [0006](0006-memoria-por-dentro.md)            | Memória por dentro (linha × coluna) como vista padrão                  | Aceita |
+| [0007](0007-experimentos-guiados.md)          | Experimentos "e se…?" guiados                                          | Aceita |
